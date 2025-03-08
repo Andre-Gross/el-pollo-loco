@@ -1,10 +1,14 @@
 class MovableObject {
     x = 120;
     y = 160;
-    img;
     height = 150;
     width = 50;
+
+    img;
     imgCache = [];
+    currentImage = 0;
+
+    speed;
 
 
     loadImage(path) {
@@ -19,6 +23,13 @@ class MovableObject {
             img.src = path;
             this.imgCache[path] = img;
         });
+    }
+
+
+    moveLeft() {
+        setInterval(() => {
+            this.x = this.x - this.speed
+        }, 1000 / maxFPS);
     }
 
 

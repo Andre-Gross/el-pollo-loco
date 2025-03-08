@@ -1,26 +1,43 @@
 class Chicken extends MovableObject {
-    standartImgHeight = 243;
-    
-
-    height = this.standartImgHeight / backgroundStandartHeight * canvasHeight * 0.5;
-    width = 248 * this.height / this.standartImgHeight;
-
-    differenceOfYToCharacter = 34 + this.standartImgHeight - this.height - (23 - 23 * this.height / this.standartImgHeight);
+    standartBackgroundImgHeight = 243;
+    height = this.standartBackgroundImgHeight / backgroundStandartHeight * canvasHeight * 0.5;
+    width = 248 * this.height / this.standartBackgroundImgHeight;
 
     x = 45;
+    differenceOfYToCharacter = 34 + this.standartBackgroundImgHeight - this.height - (23 - 23 * this.height / this.standartBackgroundImgHeight);
+
+    minSpeedPerSecond = 6;
+    maxAdditionalSpeedPerSecond = 18;
+
+    IMAGES_WALK = [
+        './assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
+        './assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
+        './assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
+        './assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
+    ];
+
 
     constructor() {
         super().loadImage('./assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png')
+        this.loadImages(this.IMAGES_WALK);
 
         this.x = 200 + Math.random() * 500;
         this.y = this.y + this.differenceOfYToCharacter;
+        this.speed = (this.minSpeedPerSecond + Math.random() * this.maxAdditionalSpeedPerSecond) / maxFPS;
 
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.x = this.x - 12 / 60
-        }, 1000 / 60);
+            this.x = this.x - this.speed
+        }, 1000 / maxFPS);
+
+        setInterval(() => {
+            let i = this.currentImage % this.IMAGES_WALK.length;
+            let path = this.IMAGES_WALK[i];
+            this.img = this.imgCache[path];
+            this.currentImage++
+        }, 600 / this.IMAGES_WALK.length)
     }
 }
