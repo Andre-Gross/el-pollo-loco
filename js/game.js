@@ -1,15 +1,15 @@
 let canvas;
 let world;
-let keyboard = new Keyboard;
+let keyboard = new Keyboard();
 
 let canvasHeight = 480;
-let backgroundStandartHeight = 1080;
+const backgroundStandartHeight = 1080;
 
 let maxFPS = 60;
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas);
+    world = new World(canvas, keyboard);
 
     console.log('My character is', world.character)
 }
@@ -18,30 +18,40 @@ function init() {
 document.addEventListener('keydown', (event) => {
     let key = event.key;
 
-    if (key === 'd' || key === 'ArrowRight') {
-        keyboard.LEFT = false;
-        keyboard.RIGHT = true;
-    } else if (key === 'a' || key === 'ArrowLeft') {
-        keyboard.RIGHT = false;
-        keyboard.LEFT = true;
-    } else if (key === 'w' || key === ' ' || key === 'ArrowUp') {
-        keyboard.UP = true;
+    if (key === 'd') {
+        keyboard.D = true;
+    } else if (key === 'ArrowRight') {
+        keyboard.ARROW_RIGHT = true;
+    } else if (key === 'a') {
+        keyboard.A = true;
+    } else if (key === 'ArrowLeft') {
+        keyboard.ARROW_LEFT = true;
+    } else if (key === 'w') {
+        keyboard.W = true;
+    } else if (key === ' ') {
+        keyboard.SPACE = true;
+    } else if (key === 'ArrowUp') {
+        keyboard.ARROW_UP = true;
     }
-
-    console.log(keyboard)
 })
 
 
 document.addEventListener('keyup', (event => {
     let key = event.key;
 
-    if (key === 'd' || key === 'ArrowRight') {
-        keyboard.RIGHT = false;
-    } else if (key === 'a' || key === 'ArrowLeft') {
-        keyboard.LEFT = false;
-    } else if (key === 'w' || key === ' ' || key === 'ArrowUp') {
-        keyboard.UP = false;
+    if (key === 'd') {
+        keyboard.D = false;
+    } else if (key === 'ArrowRight') {
+        keyboard.ARROW_RIGHT = false;
+    } else if (key === 'a') {
+        keyboard.A = false;
+    } else if (key === 'ArrowLeft') {
+        keyboard.ARROW_LEFT = false;
+    } else if (key === 'w') {
+        keyboard.W = false;
+    } else if (key === ' ') {
+        keyboard.SPACE = false;
+    } else if (key === 'ArrowUp') {
+        keyboard.ARROW_UP = false;
     }
-
-    console.log(keyboard)
 }))

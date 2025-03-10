@@ -1,5 +1,9 @@
 class Keyboard {
-    LEFT = false;
-    RIGHT = false;
-    UP = false;
+    ARROW_LEFT = false;
+    ARROW_RIGHT = false;
+    ARROW_UP = false;
+    A = false;
+    D = false;
+    W = false;
+    SPACE = false;
 }
