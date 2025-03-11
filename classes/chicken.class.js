@@ -1,10 +1,10 @@
 class Chicken extends MovableObject {
-    standartBackgroundImgHeight = 243;
-    height = this.standartBackgroundImgHeight / backgroundStandartHeight * canvasHeight * 0.5;
-    width = 248 * this.height / this.standartBackgroundImgHeight;
+    standartChickenImgHeigt = 243;
+    height = this.standartChickenImgHeigt / backgroundStandartHeight * canvasHeight * 0.5;
+    width = 248 * this.height / this.standartChickenImgHeigt;
 
     x = 45;
-    differenceOfYToCharacter = 34 + this.standartBackgroundImgHeight - this.height - (23 - 23 * this.height / this.standartBackgroundImgHeight);
+    differenceOfYToCharacter = 34 + this.standartChickenImgHeigt - this.height - (23 - 23 * this.height / this.standartChickenImgHeigt);
 
     minSpeedPerSecond = 6;
     maxAdditionalSpeedPerSecond = 18;
