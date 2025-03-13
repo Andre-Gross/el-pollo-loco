@@ -40,23 +40,20 @@ class Character extends MovableObject {
     animate() {
 
         setInterval(() => {
-            if (this.world.keyboard.ARROW_RIGHT) {
+            if (this.world.keyboard.ARROW_RIGHT && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
-            } else if (this.world.keyboard.ARROW_LEFT) {
+            } else if (this.world.keyboard.ARROW_LEFT && this.x > 0) {
                 this.x -= this.speed;
                 this.otherDirection = true;
             }
-            this.world.camera_x = -this.x;
+            this.world.camera_x = -this.x + 70;
         }, 1000 / maxFPS)
 
         setInterval(() => {
             if (this.world.keyboard.ARROW_RIGHT || this.world.keyboard.ARROW_LEFT) {
 
-                let i = this.currentImage % this.IMAGES_WALK.length;
-                let path = this.IMAGES_WALK[i];
-                this.img = this.imgCache[path];
-                this.currentImage++
+                this.playAnimation(this.IMAGES_WALK);
             }
         }, 1000 / this.IMAGES_WALK.length)
     }

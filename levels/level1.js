@@ -3,6 +3,7 @@ const level1 = new Level(
         new Chicken(),
         new Chicken(),
         new Chicken(),
+        new Endboss(),
     ],
     [
         new BackgroundObject('./assets/img/5_background/layers/air.png', -(3840 * canvasHeight / backgroundStandartHeight) + 1),
@@ -22,6 +23,6 @@ const level1 = new Level(
         new Cloud(-(3840 * canvasHeight / backgroundStandartHeight) + 1),
         new Cloud(),
         new Cloud((3840 * canvasHeight / backgroundStandartHeight) - 2),
-
-    ]
+    ],
+    ((3840 * canvasHeight / backgroundStandartHeight) - 2),
 )

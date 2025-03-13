@@ -2,10 +2,8 @@ class World {
     height = 480;
 
     character = new Character();
-    enemies = level1.enemies;
-    backgroundObjects = level1.backgroundObjects;
-    clouds = level1.clouds;
-    canvas
+    level = level1;
+    canvas;
     ctx;
     keyboard;
     camera_x = 0;
@@ -22,6 +20,9 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.level.enemies.forEach((enemy) => {
+            enemy.world = this;
+        })
     }
 
 
@@ -30,9 +31,9 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);
 
-        this.addObjectToMap(this.backgroundObjects);
-        this.addObjectToMap(this.clouds);
-        this.addObjectToMap(this.enemies);
+        this.addObjectToMap(this.level.backgroundObjects);
+        this.addObjectToMap(this.level.clouds);
+        this.addObjectToMap(this.level.enemies);
         this.addToMap(this.character)
 
         this.ctx.translate(-this.camera_x, 0);
