@@ -3,7 +3,7 @@ const level1 = new Level(
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new Endboss(),
+        // new Endboss(),
     ],
     [
         new BackgroundObject('./assets/img/5_background/layers/air.png', -(3840 * backgroundHeightFactor) + 1),

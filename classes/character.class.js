@@ -46,7 +46,20 @@ class Character extends MovableObject {
         './assets/img/2_character_pepe/3_jump/J-38.png',
         './assets/img/2_character_pepe/3_jump/J-39.png',
     ];
-
+    IMAGES_HURT = [
+        './assets/img/2_character_pepe/4_hurt/H-41.png',
+        './assets/img/2_character_pepe/4_hurt/H-42.png',
+        './assets/img/2_character_pepe/4_hurt/H-43.png',
+    ];
+    IMAGES_DEAD = [
+        './assets/img/2_character_pepe/5_dead/D-51.png',
+        './assets/img/2_character_pepe/5_dead/D-52.png',
+        './assets/img/2_character_pepe/5_dead/D-53.png',
+        './assets/img/2_character_pepe/5_dead/D-54.png',
+        './assets/img/2_character_pepe/5_dead/D-55.png',
+        './assets/img/2_character_pepe/5_dead/D-56.png',
+        './assets/img/2_character_pepe/5_dead/D-57.png',
+    ];
     world;
 
 
@@ -55,6 +68,8 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_JUMP);
+        this.loadImages(this.IMAGES_DEAD);
+        this.loadImages(this.IMAGES_HURT);
 
         this.x = 70;
         this.y = this.calculateY();
@@ -92,7 +107,11 @@ class Character extends MovableObject {
 
 
     setAnimation() {
-        if (this.isAboveGround()) {
+        if (this.isDead()) {
+            this.playAnimation(this.IMAGES_DEAD)
+        } else if (this.isHurt()) {
+            this.playAnimation(this.IMAGES_HURT)
+        } else if (this.isAboveGround()) {
             this.playAnimation(this.IMAGES_JUMP);
         } else {
             if (this.isPressedUp()) {

@@ -1,4 +1,4 @@
-class MovableObject {
+class MovableObject extends DrawableObject {
 
     standartImgHeight;
     standartImgWidth;
@@ -21,7 +21,6 @@ class MovableObject {
     x = 120;
     y;
 
-
     otherDirection = false;
     speedXPerSecond;
     speedXPerFrame;
@@ -30,6 +29,9 @@ class MovableObject {
 
     imgOffsetStandard = {};
     imgOffsetCanvas = {};
+
+    energy = 100;
+    lastHit = 0;
 
 
     applyGravity() {
@@ -49,21 +51,39 @@ class MovableObject {
     }
 
 
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-    }
-
-
     drawFrame(ctx) {
-        ctx.beginPath();
+        if (this instanceof (Character || Chicken || Endboss))
+            ctx.beginPath();
         ctx.lineWidth = '1.5';
         ctx.strokeStyle = 'blue';
         ctx.rect(
-            this.x + this.imgOffsetCanvas.left,
-            this.y + this.imgOffsetCanvas.top,
-            this.width - this.imgOffsetCanvas.right - this.imgOffsetCanvas.left,
-            this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top);
+            this.returnVisibleStartX(),
+            this.returnVisibleStartY(),
+            this.returnVisibleWidth() ,
+            this.returnVisibleHeight());
         ctx.stroke();
+    }
+
+
+    hit(damage = 10) {
+        this.energy -= damage;
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+
+    isDead() {
+        return this.energy == 0;
+    }
+
+
+    isHurt() {
+        let timepassed = new Date().getTime() - this.lastHit;
+        timepassed = timepassed / 1000;
+        return timepassed < 1;
     }
 
 
@@ -72,23 +92,16 @@ class MovableObject {
     }
 
 
+    isColliding(mo) {
+        return (this.returnVisibleStartX() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
+            this.returnVisibleStartY() < mo.returnVisibleStartY() + mo.returnVisibleHeight()  &&
+            this.returnVisibleStartX() + this.returnVisibleWidth() > mo.returnVisibleStartX() &&
+            this.returnVisibleStartY() + this.returnVisibleHeight() > mo.returnVisibleStartY())
+    }
+
+
     jump(speedY = 10) {
         this.speedY = speedY;
-    }
-
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-
-    loadImages(arr) {
-        arr.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imgCache[path] = img;
-        });
     }
 
 
@@ -119,5 +132,25 @@ class MovableObject {
             right: this.imgOffsetStandard.right * this.height / this.standartImgHeight,
             bottom: this.imgOffsetStandard.bottom * this.height / this.standartImgHeight
         };
+    }
+
+
+    returnVisibleStartX() {
+        return this.x + this.imgOffsetCanvas.left;
+    }
+
+
+    returnVisibleStartY() {
+        return this.y + this.imgOffsetCanvas.top;
+    }
+
+
+    returnVisibleWidth() {
+        return this.width - this.imgOffsetCanvas.right - this.imgOffsetCanvas.left;
+    }
+
+
+    returnVisibleHeight() {
+        return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
     }
 }
