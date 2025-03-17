@@ -1,13 +1,22 @@
 class Chicken extends MovableObject {
-    standartChickenImgHeigt = 243;
-    height = this.standartChickenImgHeigt / backgroundStandartHeight * canvasHeight * 0.5;
-    width = 248 * this.height / this.standartChickenImgHeigt;
+    standartImgHeight = 243;
+    standartImgWidth = 248;
+    height = this.standartImgHeight * backgroundHeightFactor * 0.5;
+    width = this.standartImgWidth * this.height / this.standartImgHeight;
 
     x = 45;
-    differenceOfYToCharacter = 34 + this.standartChickenImgHeigt - this.height - (23 - 23 * this.height / this.standartChickenImgHeigt);
+    differenceOfYToCharacter = 34 + this.standartImgHeight - this.height - (23 - 23 * this.height / this.standartImgHeight);
 
-    minSpeedPerSecond = 6;
-    maxAdditionalSpeedPerSecond = 18;
+    minSpeedXPerSecond = 6;
+    maxAdditionalSpeedXPerSecond = 18;
+
+    imgOffsetStandard = {
+        left: 7,
+        top: 15,
+        right: 6,
+        bottom: 23
+    };
+    imgOffsetCanvas = this.scaleImgOffset();
 
     IMAGES_WALK = [
         './assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -24,15 +33,15 @@ class Chicken extends MovableObject {
         this.loadImages(this.IMAGES_WALK);
 
         this.x = 200 + Math.random() * 500;
-        this.y = this.y + this.differenceOfYToCharacter;
-        this.speed = (this.minSpeedPerSecond + Math.random() * this.maxAdditionalSpeedPerSecond) / maxFPS;
+        this.y = this.calculateY();
+        this.speedX = (this.minSpeedXPerSecond + Math.random() * this.maxAdditionalSpeedXPerSecond) / maxFPS;
 
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.x = this.x - this.speed
+            this.x -= this.speedX;
         }, 1000 / maxFPS);
 
         setInterval(() => {

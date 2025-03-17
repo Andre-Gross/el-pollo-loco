@@ -1,6 +1,6 @@
 class Cloud extends BackgroundObject {
     height = canvasHeight;
-    width = (3840 * this.height / backgroundStandartHeight);
+    width = (3840 * this.height / backgroundImgOriginalHeight);
 
     speed = 6 / maxFPS;
 

@@ -18,11 +18,23 @@ class World {
     }
 
 
-    setWorld() {
-        this.character.world = this;
-        this.level.enemies.forEach((enemy) => {
-            enemy.world = this;
+    addObjectToMap(object) {
+        object.forEach(o => {
+            this.addToMap(o);
         })
+    }
+
+    addToMap(mo) {
+        if (mo.otherDirection) {
+            this.flipCtx(mo)
+        }
+
+        mo.draw(this.ctx);
+
+        if (mo.otherDirection) {
+            this.flipCtxBack(mo)
+        }
+        mo.drawFrame(this.ctx);
     }
 
 
@@ -45,17 +57,6 @@ class World {
         });
     }
 
-    addToMap(mo) {
-        if(mo.otherDirection) {
-            this.flipCtx(mo)
-        }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height)
-
-        if (mo.otherDirection) {
-            this.flipCtxBack(mo)
-        }
-    }
-
 
     flipCtx(mo) {
         this.ctx.save();
@@ -71,9 +72,10 @@ class World {
     }
 
 
-    addObjectToMap(object) {
-        object.forEach(o => {
-            this.addToMap(o);
+    setWorld() {
+        this.character.world = this;
+        this.level.enemies.forEach((enemy) => {
+            enemy.world = this;
         })
     }
 }

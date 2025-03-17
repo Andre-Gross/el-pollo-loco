@@ -4,7 +4,9 @@ let keyboard = new Keyboard();
 
 let canvasHeight = 480;
 let canvasWidth = 720;
-const backgroundStandartHeight = 1080;
+const backgroundImgOriginalHeight  = 1080;
+let backgroundHeightFactor = canvasHeight / backgroundImgOriginalHeight;
+
 
 let maxFPS = 60;
 
