@@ -4,9 +4,6 @@ class Character extends MovableObject {
     height = this.standartImgHeight * backgroundHeightFactor * 0.5;
     width = this.standartImgWidth * this.height / this.standartImgHeight;
 
-    speedXPerSecond = 480;
-    speedXPerFrame = this.speedXPerSecond / maxFPS;
-
     imgOffsetStandard = {
         left: 96,
         top: 464,
@@ -14,6 +11,9 @@ class Character extends MovableObject {
         bottom: 60
     };
     imgOffsetCanvas = this.scaleImgOffset();
+
+    speedXPerSecond = 480;
+    speedXPerFrame = this.speedXPerSecond / maxFPS;
 
     IMAGES_IDLE = [
         './assets/img/2_character_pepe/1_idle/idle/I-1.png',

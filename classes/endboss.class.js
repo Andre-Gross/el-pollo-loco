@@ -13,9 +13,9 @@ class Endboss extends MovableObject {
         top: 0,
         right: 0,
         bottom: 125
-      };
+    };
 
-    imOffsetCanvas = this.scaleImgOffset();
+    imgOffsetCanvas = this.scaleImgOffset();
 
     IMAGES_ALERT = [
         'assets/img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -31,7 +31,7 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_ALERT);
-        this.x = 2700 / backgroundImgOriginalHeight  * canvasHeight;
+        this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.y = this.calculateY();
 
         this.animate()

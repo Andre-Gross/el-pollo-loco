@@ -2,6 +2,11 @@ class World {
     height = 480;
 
     character = new Character();
+    statusBar = [
+        new HealthStatusbar(),
+        new CoinStatusbar(),
+        new BottleStatusbar()
+    ];
     level = level1;
     canvas;
     ctx;
@@ -62,6 +67,7 @@ class World {
         this.addToMap(this.character)
 
         this.ctx.translate(-this.camera_x, 0);
+        this.addObjectToMap(this.statusBar);
 
 
         let self = this;
@@ -87,6 +93,7 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        this.statusBar.character = this.character;
         this.level.enemies.forEach((enemy) => {
             enemy.world = this;
         })

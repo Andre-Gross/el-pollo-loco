@@ -1,25 +1,9 @@
 class MovableObject extends DrawableObject {
 
-    standartImgHeight;
-    standartImgWidth;
-    height = 150;
-    width = 50;
-
-    img;
-    imgCache = [];
     currentImage = 0;
     IMAGES_WALK;
 
-    imgOffset = {
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0
-    };
-
     groundLevel = canvasHeight * 426.66666667 / 480;
-    x = 120;
-    y;
 
     otherDirection = false;
     speedXPerSecond;
@@ -51,25 +35,12 @@ class MovableObject extends DrawableObject {
     }
 
 
-    drawFrame(ctx) {
-        if (this instanceof (Character || Chicken || Endboss))
-            ctx.beginPath();
-        ctx.lineWidth = '1.5';
-        ctx.strokeStyle = 'blue';
-        ctx.rect(
-            this.returnVisibleStartX(),
-            this.returnVisibleStartY(),
-            this.returnVisibleWidth() ,
-            this.returnVisibleHeight());
-        ctx.stroke();
-    }
-
-
     hit(damage = 10) {
         this.energy -= damage;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
+            world.statusBar[0].setPercentage(this.energy)
             this.lastHit = new Date().getTime();
         }
     }
@@ -122,16 +93,6 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imgCache[path];
         this.currentImage++
-    }
-
-
-    scaleImgOffset() {
-        return {
-            left: this.imgOffsetStandard.left * this.height / this.standartImgHeight,
-            top: this.imgOffsetStandard.top * this.height / this.standartImgHeight,
-            right: this.imgOffsetStandard.right * this.height / this.standartImgHeight,
-            bottom: this.imgOffsetStandard.bottom * this.height / this.standartImgHeight
-        };
     }
 
 

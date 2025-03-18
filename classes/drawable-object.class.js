@@ -2,12 +2,43 @@ class DrawableObject {
 
     standartImgHeight;
     standartImgWidth;
-    height = 150;
-    width = 50;
+
+    height;
+    width;
+
+    imgOffsetStandard = {
+        left: 0,
+        top: 0,
+        right: 0,
+        bottom: 0
+    };
+    imgOffsetCanvas = this.scaleImgOffset();
+
+    img;
+    imgCache = [];
+    currentImage = 0;
+
+    x;
+    y;
 
 
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    }
+
+
+    drawFrame(ctx) {
+        if (this instanceof (Character || Chicken || Endboss)) {
+            ctx.beginPath();
+            ctx.lineWidth = '1.5';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(
+                this.returnVisibleStartX(),
+                this.returnVisibleStartY(),
+                this.returnVisibleWidth(),
+                this.returnVisibleHeight());
+            ctx.stroke();
+        }
     }
 
 
@@ -23,5 +54,15 @@ class DrawableObject {
             img.src = path;
             this.imgCache[path] = img;
         });
+    }
+
+
+    scaleImgOffset() {
+        return {
+            left: this.imgOffsetStandard.left * this.height / this.standartImgHeight,
+            top: this.imgOffsetStandard.top * this.height / this.standartImgHeight,
+            right: this.imgOffsetStandard.right * this.height / this.standartImgHeight,
+            bottom: this.imgOffsetStandard.bottom * this.height / this.standartImgHeight
+        };
     }
 }
