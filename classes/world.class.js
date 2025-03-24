@@ -49,8 +49,14 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
                     this.character.hit();
-                    console.log(this.character.energy);
                 }
+                this.level.throwableObjects.forEach((bottle) => {
+                    if (this.character.isColliding(bottle) && !bottle.isCollected) {
+                        if (!bottle.isThrown()) {
+                            bottle.collecting();
+                        }
+                    }
+                })
             })
         }, 200)
     }
@@ -64,6 +70,7 @@ class World {
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.enemies);
+        this.addObjectToMap(this.level.throwableObjects);
         this.addToMap(this.character)
 
         this.ctx.translate(-this.camera_x, 0);
@@ -94,6 +101,9 @@ class World {
     setWorld() {
         this.character.world = this;
         this.statusBar.character = this.character;
+        this.level.throwableObjects.forEach((o) => {
+            o.world = this;
+        })
         this.level.enemies.forEach((enemy) => {
             enemy.world = this;
         })

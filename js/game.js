@@ -35,6 +35,8 @@ document.addEventListener('keydown', (event) => {
         keyboard.SPACE = true;
     } else if (key === 'ArrowUp') {
         keyboard.ARROW_UP = true;
+    } else if (key === 't') {
+        keyboard.T = true
     }
 })
 
@@ -56,5 +58,7 @@ document.addEventListener('keyup', (event => {
         keyboard.SPACE = false;
     } else if (key === 'ArrowUp') {
         keyboard.ARROW_UP = false;
+    } else if (key === 't') {
+        keyboard.T = false;
     }
 }))

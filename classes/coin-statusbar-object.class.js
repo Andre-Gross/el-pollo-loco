@@ -1,6 +1,6 @@
 class CoinStatusbar extends Statusbar {
 
-    // imgOffsetStandard = {
+    // imgOffsetOriginal = {
     //     left: 15,
     //     top: 39,
     //     right: 9,
@@ -22,8 +22,8 @@ class CoinStatusbar extends Statusbar {
     constructor() {
         super();
         this.loadImages(this.IMAGES);
-        this.height = this.standartImgHeight * backgroundHeightFactor * 0.7;
-        this.width = this.standartImgWidth * this.height / this.standartImgHeight;
+        this.height = this.originalImgHeight * backgroundHeightFactor * 0.7;
+        this.width = this.originalImgWidth * this.height / this.originalImgHeight;
         this.y += this.height - 5;
         this.setPercentage(0);
     }

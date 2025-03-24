@@ -1,14 +1,14 @@
 class Endboss extends MovableObject {
-    standartImgHeight = 1217;
-    standartImgWidth = 1045;
-    height = this.standartImgHeight * 0.4;
-    width = this.standartImgWidth * this.height / this.standartImgHeight;
+    originalImgHeight = 1217;
+    originalImgWidth = 1045;
+    height = this.originalImgHeight * 0.4;
+    width = this.originalImgWidth * this.height / this.originalImgHeight;
 
     x = 45;
     y;
-    differenceOfYToCharacter = - 840 + this.standartImgHeight - this.height - (125 - 125 * this.height / this.standartImgHeight);
+    differenceOfYToCharacter = - 840 + this.originalImgHeight - this.height - (125 - 125 * this.height / this.originalImgHeight);
 
-    imgOffsetStandard = {
+    imgOffsetOriginal = {
         left: 0,
         top: 0,
         right: 0,

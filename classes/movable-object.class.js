@@ -1,9 +1,8 @@
 class MovableObject extends DrawableObject {
-
     currentImage = 0;
     IMAGES_WALK;
 
-    groundLevel = canvasHeight * 426.66666667 / 480;
+    groundLevel = canvasHeight * 415 / 480;
 
     otherDirection = false;
     speedXPerSecond;
@@ -14,8 +13,10 @@ class MovableObject extends DrawableObject {
     imgOffsetStandard = {};
     imgOffsetCanvas = {};
 
-    energy = 100;
+    health = 100;
     lastHit = 0;
+
+    world;
 
 
     applyGravity() {
@@ -24,7 +25,7 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
             } else if (!this.isAboveGround() && this.speedY < 0) {
-                this.y = this.groundLevel - this.height;
+                this.y = this.calculateY();
             }
         }, 1000 / maxFPS);
     }
@@ -35,19 +36,26 @@ class MovableObject extends DrawableObject {
     }
 
 
+    handleStatusPercentage(id, amountOfItems, valuePerItem = 20) {
+        const statusbar = this.world.statusBar[id];
+        const percentage = amountOfItems * valuePerItem;
+        statusbar.setPercentage(percentage);
+    }
+
+
     hit(damage = 10) {
-        this.energy -= damage;
-        if (this.energy < 0) {
-            this.energy = 0;
+        this.health -= damage;
+        if (this.health < 0) {
+            this.health = 0;
         } else {
-            world.statusBar[0].setPercentage(this.energy)
+            world.statusBar[0].setPercentage(this.health)
             this.lastHit = new Date().getTime();
         }
     }
 
 
     isDead() {
-        return this.energy == 0;
+        return this.health == 0;
     }
 
 
@@ -59,7 +67,7 @@ class MovableObject extends DrawableObject {
 
 
     isAboveGround() {
-        return this.y + this.height < this.groundLevel;
+        return this.y + this.height - this.imgOffsetCanvas.bottom < this.groundLevel;
     }
 
 
@@ -103,6 +111,16 @@ class MovableObject extends DrawableObject {
 
     returnVisibleStartY() {
         return this.y + this.imgOffsetCanvas.top;
+    }
+
+
+    returnVisibleMiddleXOfObject() {
+        return (2 * this.returnVisibleStartX() + this.returnVisibleWidth()) / 2
+    }
+
+
+    returnVisibleMiddleYOfObject() {
+        return (2 * this.returnVisibleStartY() + this.returnVisibleHeight()) / 2
     }
 
 

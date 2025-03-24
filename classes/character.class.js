@@ -1,10 +1,12 @@
 class Character extends MovableObject {
-    standartImgHeight = 1200;
-    standartImgWidth = 610;
-    height = this.standartImgHeight * backgroundHeightFactor * 0.5;
-    width = this.standartImgWidth * this.height / this.standartImgHeight;
+    collectedBottles = 0;
 
-    imgOffsetStandard = {
+    originalImgHeight = 1200;
+    originalImgWidth = 610;
+    height = this.originalImgHeight * backgroundHeightFactor * 0.5;
+    width = this.originalImgWidth * this.height / this.originalImgHeight;
+
+    imgOffsetOriginal = {
         left: 96,
         top: 464,
         right: 97,
@@ -76,11 +78,11 @@ class Character extends MovableObject {
         this.applyGravity();
 
         this.animate();
+        this.checkThrow();
     }
 
 
     animate() {
-
         setInterval(() => {
             this.setPosition();
         }, 1000 / maxFPS);
@@ -91,6 +93,29 @@ class Character extends MovableObject {
     }
 
 
+    checkThrow() {
+        setInterval(() => {
+            if (this.isPressedThrow() && this.collectedBottles > 0) {
+                const throwableObjects = this.world.level.throwableObjects
+                for (let i = 0; i < throwableObjects.length; i++) {
+                    const bottle = throwableObjects[i];
+                    if (bottle.isCollected) {
+                        bottle.throw(i)
+                        bottle.isCollected = false;
+                        this.collectedBottles--;
+                        this.handleStatusPercentage(2, this.collectedBottles);
+                        break
+                    }
+                }
+                this.world.keyboard.T = false;
+
+
+            }
+        }, 1000 / maxFPS);
+
+    }
+
+
     isPressedLeft() {
         return (this.world.keyboard.ARROW_LEFT || this.world.keyboard.A);
     }
@@ -98,6 +123,11 @@ class Character extends MovableObject {
 
     isPressedRight() {
         return (this.world.keyboard.ARROW_RIGHT || this.world.keyboard.D);
+    }
+
+
+    isPressedThrow() {
+        return (this.world.keyboard.T)
     }
 
 

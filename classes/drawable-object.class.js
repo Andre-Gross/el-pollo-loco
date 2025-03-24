@@ -1,12 +1,12 @@
 class DrawableObject {
 
-    standartImgHeight;
-    standartImgWidth;
+    originalImgHeight;
+    originalImgWidth;
 
     height;
     width;
 
-    imgOffsetStandard = {
+    imgOffsetOriginal = {
         left: 0,
         top: 0,
         right: 0,
@@ -28,7 +28,7 @@ class DrawableObject {
 
 
     drawFrame(ctx) {
-        if (this instanceof (Character || Chicken || Endboss)) {
+        if (this.isObjectWithFrame()) {
             ctx.beginPath();
             ctx.lineWidth = '1.5';
             ctx.strokeStyle = 'blue';
@@ -39,6 +39,11 @@ class DrawableObject {
                 this.returnVisibleHeight());
             ctx.stroke();
         }
+    }
+
+
+    isObjectWithFrame() {
+        return this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject
     }
 
 
@@ -59,10 +64,10 @@ class DrawableObject {
 
     scaleImgOffset() {
         return {
-            left: this.imgOffsetStandard.left * this.height / this.standartImgHeight,
-            top: this.imgOffsetStandard.top * this.height / this.standartImgHeight,
-            right: this.imgOffsetStandard.right * this.height / this.standartImgHeight,
-            bottom: this.imgOffsetStandard.bottom * this.height / this.standartImgHeight
+            left: this.imgOffsetOriginal.left * this.height / this.originalImgHeight,
+            top: this.imgOffsetOriginal.top * this.height / this.originalImgHeight,
+            right: this.imgOffsetOriginal.right * this.height / this.originalImgHeight,
+            bottom: this.imgOffsetOriginal.bottom * this.height / this.originalImgHeight
         };
     }
 }

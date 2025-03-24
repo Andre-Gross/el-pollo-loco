@@ -24,5 +24,12 @@ const level1 = new Level(
         new Cloud(),
         new Cloud((3840 * backgroundHeightFactor) - 2),
     ],
-    ((3840 * backgroundHeightFactor) - 2),
+    ((3840 * backgroundHeightFactor) + 1),
+    [
+        new ThrowableObject(),
+        new ThrowableObject(),
+        new ThrowableObject(),
+        new ThrowableObject(),
+        new ThrowableObject(),
+    ],
 )

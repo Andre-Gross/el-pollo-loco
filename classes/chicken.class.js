@@ -1,16 +1,16 @@
 class Chicken extends MovableObject {
-    standartImgHeight = 243;
-    standartImgWidth = 248;
-    height = this.standartImgHeight * backgroundHeightFactor * 0.5;
-    width = this.standartImgWidth * this.height / this.standartImgHeight;
+    originalImgHeight = 243;
+    originalImgWidth = 248;
+    height = this.originalImgHeight * backgroundHeightFactor * 0.5;
+    width = this.originalImgWidth * this.height / this.originalImgHeight;
 
     x = 45;
-    differenceOfYToCharacter = 34 + this.standartImgHeight - this.height - (23 - 23 * this.height / this.standartImgHeight);
+    differenceOfYToCharacter = 34 + this.originalImgHeight - this.height - (23 - 23 * this.height / this.originalImgHeight);
 
     minSpeedXPerSecond = 6;
     maxAdditionalSpeedXPerSecond = 18;
 
-    imgOffsetStandard = {
+    imgOffsetOriginal = {
         left: 7,
         top: 15,
         right: 6,
@@ -34,14 +34,14 @@ class Chicken extends MovableObject {
 
         this.x = 200 + Math.random() * 500;
         this.y = this.calculateY();
-        this.speedX = (this.minSpeedXPerSecond + Math.random() * this.maxAdditionalSpeedXPerSecond) / maxFPS;
+        this.speedXPerFrame = (this.minSpeedXPerSecond + Math.random() * this.maxAdditionalSpeedXPerSecond) / maxFPS;
 
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.x -= this.speedX;
+            this.x -= this.speedXPerFrame;
         }, 1000 / maxFPS);
 
         setInterval(() => {

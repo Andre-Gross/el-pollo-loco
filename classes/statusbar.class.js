@@ -1,9 +1,9 @@
 class Statusbar extends DrawableObject {
-    standartImgHeight = 158;
-    standartImgWidth = 595;
+    originalImgHeight = 158;
+    originalImgWidth = 595;
 
-    height = this.standartImgHeight * backgroundHeightFactor;
-    width = this.standartImgWidth * this.height / this.standartImgHeight;
+    height = this.originalImgHeight * backgroundHeightFactor;
+    width = this.originalImgWidth * this.height / this.originalImgHeight;
 
     x = 10;
     y = 0;
