@@ -1,22 +1,19 @@
 class MovableObject extends DrawableObject {
-    currentImage = 0;
-    IMAGES_WALK;
+
+    health = 100;
+    lastHit = 0;
 
     groundLevel = canvasHeight * 415 / 480;
 
-    otherDirection = false;
     speedXPerSecond;
     speedXPerFrame;
     speedY = 0;
     acceleration = 0.35;
 
-    imgOffsetStandard = {};
-    imgOffsetCanvas = {};
+    otherDirection = false;
+    currentImage = 0;
 
-    health = 100;
-    lastHit = 0;
-
-    world;
+    IMAGES_WALK;
 
 
     applyGravity() {
@@ -36,8 +33,24 @@ class MovableObject extends DrawableObject {
     }
 
 
+    calculateSpeedPerFrame(speedPerSecond) {
+        return speedPerSecond / maxFPS;
+    }
+
+
+    drawFrame(ctx) {
+        if (this.isObjectWithFrame()) {
+            ctx.beginPath();
+            ctx.lineWidth = '1.5';
+            ctx.strokeStyle = 'blue';
+            ctx.rect(...this.returnRectDatas());
+            ctx.stroke();
+        }
+    }
+
+
     handleStatusPercentage(id, amountOfItems, valuePerItem = 20) {
-        const statusbar = this.world.statusBar[id];
+        const statusbar = this.world.statusBars[id];
         const percentage = amountOfItems * valuePerItem;
         statusbar.setPercentage(percentage);
     }
@@ -48,9 +61,23 @@ class MovableObject extends DrawableObject {
         if (this.health < 0) {
             this.health = 0;
         } else {
-            world.statusBar[0].setPercentage(this.health)
             this.lastHit = new Date().getTime();
         }
+    }
+
+
+    isAboveGround() {
+        return this.y + this.height - this.imgOffsetCanvas.bottom < this.groundLevel;
+    }
+
+
+    isColliding(mo) {
+        return (
+            this.returnVisibleStartX() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
+            this.returnVisibleStartY() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
+            this.returnVisibleStartX() + this.returnVisibleWidth() > mo.returnVisibleStartX() &&
+            this.returnVisibleStartY() + this.returnVisibleHeight() > mo.returnVisibleStartY()
+        )
     }
 
 
@@ -63,19 +90,6 @@ class MovableObject extends DrawableObject {
         let timepassed = new Date().getTime() - this.lastHit;
         timepassed = timepassed / 1000;
         return timepassed < 1;
-    }
-
-
-    isAboveGround() {
-        return this.y + this.height - this.imgOffsetCanvas.bottom < this.groundLevel;
-    }
-
-
-    isColliding(mo) {
-        return (this.returnVisibleStartX() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
-            this.returnVisibleStartY() < mo.returnVisibleStartY() + mo.returnVisibleHeight()  &&
-            this.returnVisibleStartX() + this.returnVisibleWidth() > mo.returnVisibleStartX() &&
-            this.returnVisibleStartY() + this.returnVisibleHeight() > mo.returnVisibleStartY())
     }
 
 
@@ -101,6 +115,16 @@ class MovableObject extends DrawableObject {
         let path = images[i];
         this.img = this.imgCache[path];
         this.currentImage++
+    }
+
+
+    returnRectDatas() {
+        return [
+            this.returnVisibleStartX(),
+            this.returnVisibleStartY(),
+            this.returnVisibleWidth(),
+            this.returnVisibleHeight()
+        ];
     }
 
 

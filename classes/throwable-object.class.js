@@ -75,7 +75,7 @@ class ThrowableObject extends MovableObject {
 
 
     collecting() {
-        const bottleStatusbar = this.world.statusBar[2];
+        const bottleStatusbar = this.world.statusBars[2];
         const character = this.world.character;
         this.isCollected = true;
         this.height = 0;

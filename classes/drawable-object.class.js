@@ -2,9 +2,10 @@ class DrawableObject {
 
     originalImgHeight;
     originalImgWidth;
+    sizeFactor = 1;
 
-    height;
-    width;
+    height
+    width
 
     imgOffsetOriginal = {
         left: 0,
@@ -12,7 +13,7 @@ class DrawableObject {
         right: 0,
         bottom: 0
     };
-    imgOffsetCanvas = this.scaleImgOffset();
+    imgOffsetCanvas = {}
 
     img;
     imgCache = [];
@@ -22,23 +23,18 @@ class DrawableObject {
     y;
 
 
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
+    calculateHeight() {
+        return this.originalImgHeight * backgroundHeightFactor * this.sizeFactor
     }
 
 
-    drawFrame(ctx) {
-        if (this.isObjectWithFrame()) {
-            ctx.beginPath();
-            ctx.lineWidth = '1.5';
-            ctx.strokeStyle = 'blue';
-            ctx.rect(
-                this.returnVisibleStartX(),
-                this.returnVisibleStartY(),
-                this.returnVisibleWidth(),
-                this.returnVisibleHeight());
-            ctx.stroke();
-        }
+    calculateWidth() {
+        return this.originalImgWidth * this.height / this.originalImgHeight
+    }
+
+
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }
 
 

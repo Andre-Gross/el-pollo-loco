@@ -2,7 +2,7 @@ class World {
     height = 480;
 
     character = new Character();
-    statusBar = [
+    statusBars = [
         new HealthStatusbar(),
         new CoinStatusbar(),
         new BottleStatusbar()
@@ -40,7 +40,9 @@ class World {
         if (mo.otherDirection) {
             this.flipCtxBack(mo)
         }
-        mo.drawFrame(this.ctx);
+        if (mo.isObjectWithFrame()) {
+            mo.drawFrame(this.ctx);
+        }
     }
 
 
@@ -48,7 +50,7 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.character.isColliding(enemy)) {
-                    this.character.hit();
+                    this.character.getHit();
                 }
                 this.level.throwableObjects.forEach((bottle) => {
                     if (this.character.isColliding(bottle) && !bottle.isCollected) {
@@ -74,7 +76,7 @@ class World {
         this.addToMap(this.character)
 
         this.ctx.translate(-this.camera_x, 0);
-        this.addObjectToMap(this.statusBar);
+        this.addObjectToMap(this.statusBars);
 
 
         let self = this;
@@ -100,7 +102,9 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.statusBar.character = this.character;
+        this.statusBars.forEach((statusBar) => {
+            statusBar.world = this
+        });
         this.level.throwableObjects.forEach((o) => {
             o.world = this;
         })

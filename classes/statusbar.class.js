@@ -1,32 +1,25 @@
 class Statusbar extends DrawableObject {
+    percentage;
+
     originalImgHeight = 158;
     originalImgWidth = 595;
+    sizeFactor = 0.7;
 
-    height = this.originalImgHeight * backgroundHeightFactor;
-    width = this.originalImgWidth * this.height / this.originalImgHeight;
+    height = this.calculateHeight();
+    width = this.calculateWidth();
 
+    position;
     x = 10;
     y = 0;
 
-    // imgOffsetStandard = {
-    //     left: 15,
-    //     top: 53,
-    //     right: 9,
-    //     bottom: 22
-    // };
-    // imgOffsetCanvas = this.scaleImgOffset();
 
-    percentage;
-
-    character = {
-        x : 0
-    };
+    calculatePercentage(currentValue, maxValue) {
+        return currentValue / maxValue * 100;
+    }
 
 
-    setPercentage(percentage) {
-        this.percentage = percentage;
-        let imagePath = this.IMAGES[this.resolveImageIndex()];
-        this.img = this.imgCache[imagePath];
+    calculateY(position) {
+        return this.y + position * (this.height - 5)
     }
 
 
@@ -44,5 +37,12 @@ class Statusbar extends DrawableObject {
         } else {
             return 0;
         }
+    }
+
+
+    setPercentage(percentage) {
+        this.percentage = percentage;
+        let imagePath = this.IMAGES[this.resolveImageIndex()];
+        this.img = this.imgCache[imagePath];
     }
 }

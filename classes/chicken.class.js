@@ -1,14 +1,10 @@
 class Chicken extends MovableObject {
     originalImgHeight = 243;
     originalImgWidth = 248;
-    height = this.originalImgHeight * backgroundHeightFactor * 0.5;
-    width = this.originalImgWidth * this.height / this.originalImgHeight;
-
-    x = 45;
-    differenceOfYToCharacter = 34 + this.originalImgHeight - this.height - (23 - 23 * this.height / this.originalImgHeight);
-
-    minSpeedXPerSecond = 6;
-    maxAdditionalSpeedXPerSecond = 18;
+    sizeFactor = 0.5;
+    
+    height = this.calculateHeight();
+    width = this.calculateWidth();
 
     imgOffsetOriginal = {
         left: 7,
@@ -18,6 +14,14 @@ class Chicken extends MovableObject {
     };
     imgOffsetCanvas = this.scaleImgOffset();
 
+    x = this.calculateX();
+    y = this.calculateY();
+
+    minSpeedXPerSecond = 6;
+    maxAdditionalSpeedXPerSecond = 18;
+    
+    speedXPerFrame = this.calculateSpeedPerFrame();
+
     IMAGES_WALK = [
         './assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
         './assets/img/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
@@ -25,16 +29,10 @@ class Chicken extends MovableObject {
         './assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
     ];
 
-    world;
-
 
     constructor() {
         super().loadImage('./assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png')
         this.loadImages(this.IMAGES_WALK);
-
-        this.x = 200 + Math.random() * 500;
-        this.y = this.calculateY();
-        this.speedXPerFrame = (this.minSpeedXPerSecond + Math.random() * this.maxAdditionalSpeedXPerSecond) / maxFPS;
 
         this.animate();
     }
@@ -47,5 +45,15 @@ class Chicken extends MovableObject {
         setInterval(() => {
             this.playAnimation(this.IMAGES_WALK);
         }, 600 / this.IMAGES_WALK.length)
+    }
+
+
+    calculateX() {
+        return 200 + Math.random() * 500;
+    }
+
+
+    calculateSpeedPerFrame() {
+        return (this.minSpeedXPerSecond + Math.random() * this.maxAdditionalSpeedXPerSecond) / maxFPS;
     }
 }

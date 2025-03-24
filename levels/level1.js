@@ -20,11 +20,10 @@ const level1 = new Level(
         new BackgroundObject('./assets/img/5_background/layers/1_first_layer/full.png', (3840 * backgroundHeightFactor) - 2),
     ],
     [
-        new Cloud(-(3840 * backgroundHeightFactor) + 1),
+        new Cloud(-(3840 + 1)),
         new Cloud(),
-        new Cloud((3840 * backgroundHeightFactor) - 2),
+        new Cloud(3840- 2),
     ],
-    ((3840 * backgroundHeightFactor) + 1),
     [
         new ThrowableObject(),
         new ThrowableObject(),
@@ -32,4 +31,5 @@ const level1 = new Level(
         new ThrowableObject(),
         new ThrowableObject(),
     ],
+    ((3840 * backgroundHeightFactor) + 1),
 )

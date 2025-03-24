@@ -3,8 +3,10 @@ class Character extends MovableObject {
 
     originalImgHeight = 1200;
     originalImgWidth = 610;
-    height = this.originalImgHeight * backgroundHeightFactor * 0.5;
-    width = this.originalImgWidth * this.height / this.originalImgHeight;
+    sizeFactor = 0.5;
+
+    height = this.calculateHeight();
+    width = this.calculateWidth();
 
     imgOffsetOriginal = {
         left: 96,
@@ -13,9 +15,12 @@ class Character extends MovableObject {
         bottom: 60
     };
     imgOffsetCanvas = this.scaleImgOffset();
+ 
+    x = 70;
+    y = this.calculateY();
 
     speedXPerSecond = 480;
-    speedXPerFrame = this.speedXPerSecond / maxFPS;
+    speedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
 
     IMAGES_IDLE = [
         './assets/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -62,7 +67,6 @@ class Character extends MovableObject {
         './assets/img/2_character_pepe/5_dead/D-56.png',
         './assets/img/2_character_pepe/5_dead/D-57.png',
     ];
-    world;
 
 
     constructor() {
@@ -73,8 +77,6 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
 
-        this.x = 70;
-        this.y = this.calculateY();
         this.applyGravity();
 
         this.animate();
@@ -113,6 +115,12 @@ class Character extends MovableObject {
             }
         }, 1000 / maxFPS);
 
+    }
+
+
+    getHit() {
+        this.hit();
+        world.statusBars[0].setPercentage(this.health);
     }
 
 
