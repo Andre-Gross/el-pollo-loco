@@ -2,8 +2,10 @@ class ThrowableObject extends CollectableObjects {
     
     originalImgHeight = 400;
     originalImgWidth = 400;
-    height = this.originalImgHeight * backgroundHeightFactor * 0.4;
-    width = this.originalImgWidth * this.height / this.originalImgHeight;
+    sizeFactor = 0.4;
+
+    height = this.calculateHeight();
+    width = this.calculateWidth();
 
     x;
     y;
@@ -11,7 +13,6 @@ class ThrowableObject extends CollectableObjects {
     speedXPerSecond = 300;
     speedXPerFrame = this.speedXPerSecond / maxFPS;
     speedY = 5;
-
     acceleration = 0.1;
 
     imgOffsetOriginal = {};
@@ -31,7 +32,6 @@ class ThrowableObject extends CollectableObjects {
     };
 
     lastThrow = 0;
-    world;
 
     IMAGES_GROUND = [
         './assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
