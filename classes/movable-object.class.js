@@ -80,6 +80,13 @@ class MovableObject extends DrawableObject {
         )
     }
 
+    isJumpOn(mo) {
+        return (
+            this.returnVisibleEndY() - mo.returnVisibleStartY() <
+            (this.returnVisibleEndY() - mo.returnVisibleEndY()) * -1) &&
+            !this.isHurt()
+    }
+
 
     isDead() {
         return this.health == 0;
@@ -150,6 +157,16 @@ class MovableObject extends DrawableObject {
 
     returnVisibleMiddleYOfObject() {
         return (2 * this.returnVisibleStartY() + this.returnVisibleHeight()) / 2
+    }
+
+
+    returnVisibleEndX() {
+        return this.returnVisibleStartX() + this.returnVisibleWidth()
+    }
+
+
+    returnVisibleEndY() {
+        return this.returnVisibleStartY() + this.returnVisibleHeight()
     }
 
 

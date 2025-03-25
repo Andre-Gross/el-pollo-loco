@@ -49,8 +49,15 @@ class World {
     checkCollisions() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.getHit();
+                if (!enemy.isDead()) {
+                    if (this.character.isColliding(enemy)) {
+                        if (this.character.isJumpOn(enemy)) {
+                            enemy.getHit();
+                            this.character.jump();
+                        } else {
+                            this.character.getHit();
+                        }
+                    }
                 }
             })
             this.level.throwableObjects.forEach((bottle) => {
@@ -65,7 +72,7 @@ class World {
                     coin.collecting(1, 'coins', 20);
                 }
             })
-        }, 200)
+        }, 1000 / maxFPS)
     }
 
 
