@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-// health = 100000000
+    // health = 100000000
 
     collectedItems = {
         bottles: 0,
@@ -151,6 +151,33 @@ class Character extends MovableObject {
 
     isPressedUp() {
         return (this.world.keyboard.ARROW_UP || this.world.keyboard.W || this.world.keyboard.SPACE);
+    }
+
+
+    handleJumpAnimation(startFromGround = true) {
+        clearInterval(this.currentAnimationInterval);
+        clearInterval(this.positionInterval)
+        jumpInterval = setInterval(() => {
+            let i = 0;
+            if (i < 3 || startFromGround) {
+                this.playAnimation(this.IMAGES_JUMP.slice(0, 3))
+                i++
+            } else if (i === 3) {
+                this.jump();
+                this.img = this.imgCache[this.IMAGES_JUMP.slice(3, 3)]
+                i++;
+            } else if (this.speedY < 0.5 && this.speedY > -0.5) {
+                this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 4)]
+            } else if (this.speedY < -0.5) {
+                this.img = this.imgCache[this.IMAGES_JUMP.slice(5, 5)]
+            } else if (i === 7) {
+                clearInterval(this.jump)
+                this.animate();
+            } else {
+                this.playAnimation(this.IMAGES_JUMP.slice(6, 8))
+                i++
+            }
+        }, this.timeForFullAnimation / picturesForCurrentAnimation.length)
     }
 
 
