@@ -61,7 +61,7 @@ class Chicken extends MovableObject {
     getHit() {
         this.hit();
         if (this.health === 0) {
-            this.speedXPerFrame = 0;
+            this.speedXPerFrame = 0
         }
     }
 

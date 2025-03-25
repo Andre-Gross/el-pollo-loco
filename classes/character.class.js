@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-health = 100000000
+// health = 100000000
 
     collectedItems = {
         bottles: 0,
@@ -156,7 +156,7 @@ health = 100000000
 
     setAnimation() {
         if (this.isDead()) {
-            this.playRightAnimation(1000, this.IMAGES_DEAD)
+            this.playRightAnimation(2000, this.IMAGES_DEAD)
         } else if (this.isHurt()) {
             this.playRightAnimation(1000, this.IMAGES_HURT)
         } else if (this.isAboveGround()) {
@@ -174,7 +174,9 @@ health = 100000000
 
 
     setPosition() {
-        if (this.isPressedUp() && !this.isAboveGround()) {
+        if (this.isDead()) {
+            return
+        } else if (this.isPressedUp() && !this.isAboveGround()) {
             this.jump();
         } else if (this.isPressedRight() && this.x < this.world.level.level_end_x) {
             this.moveRight();
