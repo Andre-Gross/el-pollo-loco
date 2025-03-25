@@ -1,7 +1,9 @@
 class Character extends MovableObject {
+health = 100000000
+
     collectedItems = {
-        bottles : 0,
-        coins : 0
+        bottles: 0,
+        coins: 0
     }
 
     originalImgHeight = 1200;
@@ -18,7 +20,7 @@ class Character extends MovableObject {
         bottom: 60
     };
     imgOffsetCanvas = this.scaleImgOffset();
- 
+
     x = 70;
     y = this.calculateY();
 
@@ -71,6 +73,11 @@ class Character extends MovableObject {
         './assets/img/2_character_pepe/5_dead/D-57.png',
     ];
 
+    positionInterval
+    currentAnimationInterval;
+    timeForFullAnimation = 1000;
+    picturesForCurrentAnimation = this.IMAGES_IDLE;
+
 
     constructor() {
         super().loadImage('./assets/img/2_character_pepe/2_walk/W-21.png');
@@ -88,13 +95,13 @@ class Character extends MovableObject {
 
 
     animate() {
-        setInterval(() => {
+        this.positionInterval = setInterval(() => {
             this.setPosition();
         }, 1000 / maxFPS);
 
-        setInterval(() => {
+        this.currentAnimationInterval = setInterval(() => {
             this.setAnimation();
-        }, 1000 / this.IMAGES_WALK.length)
+        }, this.timeForFullAnimation / this.picturesForCurrentAnimation.length)
     }
 
 
@@ -149,18 +156,18 @@ class Character extends MovableObject {
 
     setAnimation() {
         if (this.isDead()) {
-            this.playAnimation(this.IMAGES_DEAD)
+            this.playRightAnimation(1000, this.IMAGES_DEAD)
         } else if (this.isHurt()) {
-            this.playAnimation(this.IMAGES_HURT)
+            this.playRightAnimation(1000, this.IMAGES_HURT)
         } else if (this.isAboveGround()) {
-            this.playAnimation(this.IMAGES_JUMP);
+            this.playRightAnimation(1000, this.IMAGES_JUMP)
         } else {
             if (this.isPressedUp()) {
-                this.playAnimation(this.IMAGES_JUMP);
+                this.playRightAnimation(1000, this.IMAGES_JUMP)
             } else if (this.isPressedRight() || this.isPressedLeft()) {
-                this.playAnimation(this.IMAGES_WALK);
+                this.playRightAnimation(1000, this.IMAGES_WALK);
             } else {
-                this.playAnimation(this.IMAGES_IDLE);
+                this.playRightAnimation(1000, this.IMAGES_IDLE)
             }
         }
     }

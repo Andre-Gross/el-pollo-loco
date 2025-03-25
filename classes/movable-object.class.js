@@ -12,6 +12,9 @@ class MovableObject extends DrawableObject {
 
     otherDirection = false;
     currentImage = 0;
+    currentAnimation;
+    timeForFullAnimation;
+    pictureForCurrentAnimation = this.IMAGES_IDLE;
 
     IMAGES_WALK;
 
@@ -80,11 +83,17 @@ class MovableObject extends DrawableObject {
         )
     }
 
+
+    isCurrentAnimationRightAnimation(pictureSet) {
+        return this.picturesForCurrentAnimation === pictureSet
+    }
+
+
     isJumpOn(mo) {
         return (
             this.returnVisibleEndY() - mo.returnVisibleStartY() <
             (this.returnVisibleEndY() - mo.returnVisibleEndY()) * -1) &&
-            !this.isHurt()
+            this.speedY < 0
     }
 
 
@@ -125,8 +134,25 @@ class MovableObject extends DrawableObject {
     }
 
 
+    playRightAnimation(time, pictureSet) {
+        if (!this.isCurrentAnimationRightAnimation(pictureSet)) {
+            this.resetAnimationImages(time, pictureSet)
+        }
+        this.playAnimation(pictureSet)
+    }
+
+
     randomizeSpwanX(endOfX) {
         return 200 + Math.random() * (endOfX - 800)
+    }
+
+
+    resetAnimationImages(time, pictureSet) {
+        this.timeForFullAnimation = time;
+        this.picturesForCurrentAnimation = pictureSet;
+        clearInterval(this.currentAnimationInterval);
+        clearInterval(this.positionInterval)
+        this.animate();
     }
 
 
