@@ -1,8 +1,11 @@
+const endOfXInLevel1 = (3840 * backgroundHeightFactor) + 1;
+
 const level1 = new Level(
+    endOfXInLevel1,
     [
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
+        new Chicken(endOfXInLevel1),
+        new Chicken(endOfXInLevel1),
+        new Chicken(endOfXInLevel1),
         new Endboss(),
     ],
     [
@@ -25,11 +28,10 @@ const level1 = new Level(
         new Cloud(3840- 2),
     ],
     [
-        new ThrowableObject(),
-        new ThrowableObject(),
-        new ThrowableObject(),
-        new ThrowableObject(),
-        new ThrowableObject(),
+        new ThrowableObject(endOfXInLevel1),
+        new ThrowableObject(endOfXInLevel1),
+        new ThrowableObject(endOfXInLevel1),
+        new ThrowableObject(endOfXInLevel1),
+        new ThrowableObject(endOfXInLevel1),
     ],
-    ((3840 * backgroundHeightFactor) + 1),
 )

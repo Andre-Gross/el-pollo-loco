@@ -118,6 +118,11 @@ class MovableObject extends DrawableObject {
     }
 
 
+    randomizeSpwanX(endOfX) {
+        return 200 + Math.random() * (endOfX - 800)
+    }
+
+
     returnRectDatas() {
         return [
             this.returnVisibleStartX(),

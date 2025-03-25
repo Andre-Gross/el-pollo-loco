@@ -45,7 +45,7 @@ class ThrowableObject extends MovableObject {
     ]
 
 
-    constructor() {
+    constructor(endOfX) {
         super()
         if (Math.random() > 0.5) {
             this.loadImage(this.IMAGES_GROUND[0]);
@@ -58,7 +58,7 @@ class ThrowableObject extends MovableObject {
         }
         this.loadImages(this.IMAGES_THROW);
 
-        this.x = 200 + Math.random() * 500;
+        this.x = this.randomizeSpwanX(endOfX);
         this.y = this.calculateY();
     }
 
