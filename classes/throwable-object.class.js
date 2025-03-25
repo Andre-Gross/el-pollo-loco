@@ -1,5 +1,5 @@
-class ThrowableObject extends MovableObject {
-    isCollected = false;
+class ThrowableObject extends CollectableObjects {
+    
     originalImgHeight = 400;
     originalImgWidth = 400;
     height = this.originalImgHeight * backgroundHeightFactor * 0.4;
@@ -71,18 +71,6 @@ class ThrowableObject extends MovableObject {
         setInterval(() => {
             this.playAnimation(this.IMAGES_THROW);
         }, 600 / this.IMAGES_THROW.length)
-    }
-
-
-    collecting() {
-        const bottleStatusbar = this.world.statusBars[2];
-        const character = this.world.character;
-        this.isCollected = true;
-        this.height = 0;
-        this.width = 0;
-        character.collectedBottles++;
-        bottleStatusbar.percentage = character.collectedBottles * 20;
-        bottleStatusbar.setPercentage(bottleStatusbar.percentage);
     }
 
 

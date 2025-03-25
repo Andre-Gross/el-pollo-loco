@@ -1,5 +1,8 @@
 class Character extends MovableObject {
-    collectedBottles = 0;
+    collectedItems = {
+        bottles : 0,
+        coins : 0
+    }
 
     originalImgHeight = 1200;
     originalImgWidth = 610;
@@ -97,7 +100,7 @@ class Character extends MovableObject {
 
     checkThrow() {
         setInterval(() => {
-            if (this.isPressedThrow() && this.collectedBottles > 0) {
+            if (this.isPressedThrow() && this.collectedItems['bottles'] > 0) {
                 const throwableObjects = this.world.level.throwableObjects
                 for (let i = 0; i < throwableObjects.length; i++) {
                     const bottle = throwableObjects[i];

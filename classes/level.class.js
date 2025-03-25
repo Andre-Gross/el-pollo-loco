@@ -2,6 +2,7 @@ class Level {
     enemies;
     backgroundObjects;
     clouds;
+    coins;
     throwableObjects;
     level_end_x;
 
@@ -10,6 +11,7 @@ class Level {
         this.enemies = enemies;
         this.backgroundObjects = backgroundObjects;
         this.clouds = clouds;
+        this.coins = coins
         this.throwableObjects = throwableObjects;
     }
 }

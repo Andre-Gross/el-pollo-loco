@@ -28,6 +28,13 @@ const level1 = new Level(
         new Cloud(3840- 2),
     ],
     [
+        new Coin(endOfXInLevel1),
+        new Coin(endOfXInLevel1),
+        new Coin(endOfXInLevel1),
+        new Coin(endOfXInLevel1),
+        new Coin(endOfXInLevel1)
+    ],
+    [
         new ThrowableObject(endOfXInLevel1),
         new ThrowableObject(endOfXInLevel1),
         new ThrowableObject(endOfXInLevel1),

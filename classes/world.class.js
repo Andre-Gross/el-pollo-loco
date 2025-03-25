@@ -52,13 +52,18 @@ class World {
                 if (this.character.isColliding(enemy)) {
                     this.character.getHit();
                 }
-                this.level.throwableObjects.forEach((bottle) => {
-                    if (this.character.isColliding(bottle) && !bottle.isCollected) {
-                        if (!bottle.isThrown()) {
-                            bottle.collecting();
-                        }
+            })
+            this.level.throwableObjects.forEach((bottle) => {
+                if (this.character.isColliding(bottle) && !bottle.isCollected) {
+                    if (!bottle.isThrown()) {
+                        bottle.collecting(2, 'bottles', 20);
                     }
-                })
+                }
+            })
+            this.level.coins.forEach((coin) => {
+                if (this.character.isColliding(coin) && !coin.isCollected) {
+                    coin.collecting(1, 'coins', 20);
+                }
             })
         }, 200)
     }
@@ -73,6 +78,7 @@ class World {
         this.addObjectToMap(this.level.clouds);
         this.addObjectToMap(this.level.enemies);
         this.addObjectToMap(this.level.throwableObjects);
+        this.addObjectToMap(this.level.coins);
         this.addToMap(this.character)
 
         this.ctx.translate(-this.camera_x, 0);
@@ -106,6 +112,9 @@ class World {
             statusBar.world = this
         });
         this.level.throwableObjects.forEach((o) => {
+            o.world = this;
+        })
+        this.level.coins.forEach((o) => {
             o.world = this;
         })
         this.level.enemies.forEach((enemy) => {
