@@ -53,7 +53,8 @@ class World {
                     if (this.character.isColliding(enemy)) {
                         if (this.character.isJumpOn(enemy)) {
                             enemy.getHit();
-                            this.character.jump();
+                            clearInterval(this.character.jumpInterval);
+                            this.character.handleJumpAnimation(false);
                         } else {
                             this.character.getHit();
                         }

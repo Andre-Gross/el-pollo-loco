@@ -74,7 +74,8 @@ class Character extends MovableObject {
     ];
 
     positionInterval
-    currentAnimationInterval;
+    imageInterval;
+    jumpInterval;
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
 
@@ -99,7 +100,7 @@ class Character extends MovableObject {
             this.setPosition();
         }, 1000 / maxFPS);
 
-        this.currentAnimationInterval = setInterval(() => {
+        this.imageInterval = setInterval(() => {
             this.setAnimation();
         }, this.timeForFullAnimation / this.picturesForCurrentAnimation.length)
     }
@@ -155,29 +156,40 @@ class Character extends MovableObject {
 
 
     handleJumpAnimation(startFromGround = true) {
-        clearInterval(this.currentAnimationInterval);
-        clearInterval(this.positionInterval)
-        jumpInterval = setInterval(() => {
-            let i = 0;
-            if (i < 3 || startFromGround) {
-                this.playAnimation(this.IMAGES_JUMP.slice(0, 3))
+        this.clearAnimation();
+        let i = 0;
+        let summitSpeedY = 5;
+        let alreadyJumped = false;
+        let alreadyStand = false;
+        this.jumpInterval = setInterval(() => {
+            if (i < 3 && startFromGround) {
+                this.playAnimation(this.IMAGES_JUMP.slice(0, 3), i)
                 i++
-            } else if (i === 3) {
-                this.jump();
-                this.img = this.imgCache[this.IMAGES_JUMP.slice(3, 3)]
-                i++;
-            } else if (this.speedY < 0.5 && this.speedY > -0.5) {
-                this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 4)]
-            } else if (this.speedY < -0.5) {
-                this.img = this.imgCache[this.IMAGES_JUMP.slice(5, 5)]
-            } else if (i === 7) {
-                clearInterval(this.jump)
+            } else if (i <= 3 || this.speedY > summitSpeedY) {
+                if (!alreadyJumped) {
+                    this.jump();
+                    alreadyJumped = true
+                    i = 4;
+                    this.positionInterval = setInterval(() => {
+                        this.setPositionLeftAndRight();
+                    }, 1000 / maxFPS)
+                }
+                this.img = this.imgCache[this.IMAGES_JUMP.slice(3, 4)]
+            } else if (this.speedY < summitSpeedY && this.speedY > -summitSpeedY) {
+                this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 5)]
+            } else if (i === 6) {
+                clearInterval(this.jumpInterval);
                 this.animate();
-            } else {
-                this.playAnimation(this.IMAGES_JUMP.slice(6, 8))
+            } else if (this.standOnGround()) {
+                if (!alreadyStand) {
+                    clearInterval(this.positionInterval);
+                }
+                this.playAnimation(this.IMAGES_JUMP.slice(6, 8), i - 4)
                 i++
+            } else if (this.speedY < -summitSpeedY) {
+                this.img = this.imgCache[this.IMAGES_JUMP.slice(5, 6)]
             }
-        }, this.timeForFullAnimation / picturesForCurrentAnimation.length)
+        }, 500 / this.picturesForCurrentAnimation.length)
     }
 
 
@@ -190,7 +202,7 @@ class Character extends MovableObject {
             this.playRightAnimation(1000, this.IMAGES_JUMP)
         } else {
             if (this.isPressedUp()) {
-                this.playRightAnimation(1000, this.IMAGES_JUMP)
+                this.handleJumpAnimation();
             } else if (this.isPressedRight() || this.isPressedLeft()) {
                 this.playRightAnimation(1000, this.IMAGES_WALK);
             } else {
@@ -203,9 +215,16 @@ class Character extends MovableObject {
     setPosition() {
         if (this.isDead()) {
             return
-        } else if (this.isPressedUp() && !this.isAboveGround()) {
-            this.jump();
-        } else if (this.isPressedRight() && this.x < this.world.level.level_end_x) {
+            // } else if (this.isPressedUp() && !this.isAboveGround()) {
+            //     return;
+        } else {
+            this.setPositionLeftAndRight();
+        }
+    }
+
+
+    setPositionLeftAndRight() {
+        if (this.isPressedRight() && this.x < this.world.level.level_end_x) {
             this.moveRight();
         } else if (this.isPressedLeft() && this.x > 0) {
             this.moveLeft();

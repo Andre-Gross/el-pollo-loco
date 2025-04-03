@@ -13,6 +13,8 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     currentImage = 0;
     currentAnimation;
+    positionInterval
+    imageInterval;
     timeForFullAnimation;
     pictureForCurrentAnimation = this.IMAGES_IDLE;
 
@@ -41,6 +43,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    clearAnimation() {
+        clearInterval(this.imageInterval);
+        clearInterval(this.positionInterval)
+    }
+
+
     drawFrame(ctx) {
         if (this.isObjectWithFrame()) {
             ctx.beginPath();
@@ -66,6 +74,11 @@ class MovableObject extends DrawableObject {
         } else {
             this.lastHit = new Date().getTime();
         }
+    }
+
+
+    standOnGround () {
+        return this.returnVisibleEndY() >= this.groundLevel;
     }
 
 
@@ -126,8 +139,10 @@ class MovableObject extends DrawableObject {
     }
 
 
-    playAnimation(images) {
-        let i = this.currentImage % images.length;
+    playAnimation(images, i) {
+        if (!i) {
+            i = this.currentImage % images.length;
+        }
         let path = images[i];
         this.img = this.imgCache[path];
         this.currentImage++
@@ -150,8 +165,7 @@ class MovableObject extends DrawableObject {
     resetAnimationImages(time, pictureSet) {
         this.timeForFullAnimation = time;
         this.picturesForCurrentAnimation = pictureSet;
-        clearInterval(this.currentAnimationInterval);
-        clearInterval(this.positionInterval)
+        this.clearAnimation();
         this.animate();
     }
 
