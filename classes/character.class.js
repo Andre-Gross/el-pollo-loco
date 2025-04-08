@@ -156,7 +156,7 @@ class Character extends MovableObject {
 
 
     handleJumpAnimation(startFromGround = true) {
-        this.clearAnimation();
+        clearInterval(this.imageInterval);
         let i = 0;
         let summitSpeedY = 5;
         let alreadyJumped = false;
@@ -170,20 +170,21 @@ class Character extends MovableObject {
                     this.jump();
                     alreadyJumped = true
                     i = 4;
-                    this.positionInterval = setInterval(() => {
-                        this.setPositionLeftAndRight();
-                    }, 1000 / maxFPS)
+                    // this.positionInterval = setInterval(() => {
+                    //     this.setPositionLeftAndRight();
+                    // }, 1000 / maxFPS)
                 }
                 this.img = this.imgCache[this.IMAGES_JUMP.slice(3, 4)]
             } else if (this.speedY < summitSpeedY && this.speedY > -summitSpeedY) {
                 this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 5)]
             } else if (i === 6) {
                 clearInterval(this.jumpInterval);
+                clearInterval(this.positionInterval);
                 this.animate();
             } else if (this.standOnGround()) {
-                if (!alreadyStand) {
-                    clearInterval(this.positionInterval);
-                }
+                // if (!alreadyStand) {
+                //     clearInterval(this.positionInterval);
+                // }
                 this.playAnimation(this.IMAGES_JUMP.slice(6, 8), i - 4)
                 i++
             } else if (this.speedY < -summitSpeedY) {
