@@ -31,7 +31,8 @@ class ThrowableObject extends CollectableObjects {
         bottom: 44
     };
 
-    lastThrow = 0;
+    isThrown = false;
+    throwInterval;
 
     IMAGES_GROUND = [
         './assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
@@ -42,6 +43,14 @@ class ThrowableObject extends CollectableObjects {
         './assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
         './assets/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
         './assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
+    ]
+    IMAGES_SPLASH = [
+        './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/3_bottle_splash.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
     ]
 
 
@@ -57,6 +66,7 @@ class ThrowableObject extends CollectableObjects {
             this.imgOffsetCanvas = this.scaleImgOffset();
         }
         this.loadImages(this.IMAGES_THROW);
+        this.loadImages(this.IMAGES_SPLASH);
 
         this.x = this.randomizeSpwanX(endOfX);
         this.y = this.calculateY();
@@ -64,20 +74,13 @@ class ThrowableObject extends CollectableObjects {
 
 
     animate() {
-        setInterval(() => {
+        this.positionInterval = setInterval(() => {
             this.x += this.speedXPerFrame;
         }, 1000 / maxFPS);
 
-        setInterval(() => {
+        this.imageInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_THROW);
         }, 600 / this.IMAGES_THROW.length)
-    }
-
-
-    isThrown() {
-        let timepassed = new Date().getTime() - this.lastThrow;
-        timepassed = timepassed / 1000;
-        return timepassed < 1;
     }
 
 
@@ -88,15 +91,32 @@ class ThrowableObject extends CollectableObjects {
         this.y = character.returnVisibleMiddleYOfObject();
         this.height = this.originalImgHeight * backgroundHeightFactor * 0.4;
         this.width = this.originalImgWidth * this.height / this.originalImgHeight;
-        this.lastThrow = new Date().getTime();
-        this.playAnimation(this.IMAGES_THROW);
+        this.isThrown = true;
         this.jump(5);
         this.applyGravity();
 
         this.animate()
-        // setTimeout(() => {
-        //     this.world.level.throwableObjects.splice(i, 1);
-        // }, 1000)
+
+        const splashTimeFullAnimation = 600
+
+        this.throwInterval = setInterval(() => {
+            this.world.level.enemies.forEach((enemy) => {
+                if (this.isColliding(enemy) || this.standOnGround()) {
+                    clearInterval(this.imageInterval);
+                    clearInterval(this.positionInterval);
+                    clearInterval(this.throwInterval);
+                    clearInterval(this.gravityInterval);
+                    this.speedY = 0;
+                    this.imageInterval = setInterval(() => {
+                        this.playAnimation(this.IMAGES_SPLASH);
+                    }, splashTimeFullAnimation / this.IMAGES_SPLASH.length)
+                    setTimeout(() => {
+                        this.world.level.throwableObjects.splice(i, 1)
+                    }, splashTimeFullAnimation); 
+                }
+            })
+        })
+
     }
 }
 

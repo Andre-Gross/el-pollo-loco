@@ -63,7 +63,7 @@ class World {
             })
             this.level.throwableObjects.forEach((bottle) => {
                 if (this.character.isColliding(bottle) && !bottle.isCollected) {
-                    if (!bottle.isThrown()) {
+                    if (!bottle.isThrown) {
                         bottle.collecting(2, 'bottles', 20);
                     }
                 }
