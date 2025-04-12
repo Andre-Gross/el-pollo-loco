@@ -14,6 +14,7 @@ class MovableObject extends DrawableObject {
     currentImage = 0;
     currentAnimation;
     positionInterval;
+    gravityInterval;
     imageInterval;
     timeForFullAnimation;
     pictureForCurrentAnimation = this.IMAGES_IDLE;
@@ -22,7 +23,7 @@ class MovableObject extends DrawableObject {
 
 
     applyGravity() {
-        setInterval(() => {
+        this.gravityInterval = setInterval(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;
