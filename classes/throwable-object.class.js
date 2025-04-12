@@ -33,6 +33,7 @@ class ThrowableObject extends CollectableObjects {
 
     isThrown = false;
     throwInterval;
+    splashTimeFullAnimation = 600
 
     IMAGES_GROUND = [
         './assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
@@ -84,39 +85,53 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
-    throw(i) {
-        const character = this.world.character;
+    clearAllIntervals() {
+        this.clearAnimation();
+        clearInterval(this.throwInterval);
+        clearInterval(this.gravityInterval);
+    }
 
+
+    handleCollidingWithEnemy() {
+        this.throwInterval = setInterval(() => {
+            this.world.level.enemies.forEach((enemy) => {
+                if (this.isColliding(enemy) || this.standOnGround()) {
+                    this.clearAllIntervals();
+                    this.speedY = 0;
+                    this.setSplashAnimation();
+                    setTimeout(() => {
+                        this.world.level.throwableObjects.splice(i, 1)
+                    }, this.splashTimeFullAnimation);
+                }
+            })
+        })
+    }
+
+
+    setCoordinatesAndSizes() {
+        const character = this.world.character;
         this.x = character.returnVisibleMiddleXOfObject();
         this.y = character.returnVisibleMiddleYOfObject();
         this.height = this.originalImgHeight * backgroundHeightFactor * 0.4;
         this.width = this.originalImgWidth * this.height / this.originalImgHeight;
+    }
+
+
+    setSplashAnimation() {
+        this.imageInterval = setInterval(() => {
+            this.playAnimation(this.IMAGES_SPLASH);
+        }, this.splashTimeFullAnimation / this.IMAGES_SPLASH.length)
+    }
+
+
+    throw(i) {
+        this.setCoordinatesAndSizes();
         this.isThrown = true;
         this.jump(5);
         this.applyGravity();
 
         this.animate()
-
-        const splashTimeFullAnimation = 600
-
-        this.throwInterval = setInterval(() => {
-            this.world.level.enemies.forEach((enemy) => {
-                if (this.isColliding(enemy) || this.standOnGround()) {
-                    clearInterval(this.imageInterval);
-                    clearInterval(this.positionInterval);
-                    clearInterval(this.throwInterval);
-                    clearInterval(this.gravityInterval);
-                    this.speedY = 0;
-                    this.imageInterval = setInterval(() => {
-                        this.playAnimation(this.IMAGES_SPLASH);
-                    }, splashTimeFullAnimation / this.IMAGES_SPLASH.length)
-                    setTimeout(() => {
-                        this.world.level.throwableObjects.splice(i, 1)
-                    }, splashTimeFullAnimation); 
-                }
-            })
-        })
-
+        this.handleCollidingWithEnemy();
     }
 }
 
