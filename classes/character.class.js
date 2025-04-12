@@ -73,9 +73,6 @@ class Character extends MovableObject {
         './assets/img/2_character_pepe/5_dead/D-57.png',
     ];
 
-    positionInterval
-    imageInterval;
-    jumpInterval;
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
 

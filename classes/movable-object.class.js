@@ -13,7 +13,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     currentImage = 0;
     currentAnimation;
-    positionInterval
+    positionInterval;
     imageInterval;
     timeForFullAnimation;
     pictureForCurrentAnimation = this.IMAGES_IDLE;
