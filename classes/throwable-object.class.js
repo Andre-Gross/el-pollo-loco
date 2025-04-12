@@ -92,7 +92,7 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
-    handleCollidingWithEnemy() {
+    handleCollidingWithEnemy(i) {
         this.throwInterval = setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
                 if (this.isColliding(enemy) || this.standOnGround()) {
@@ -100,8 +100,9 @@ class ThrowableObject extends CollectableObjects {
                     this.speedY = 0;
                     this.setSplashAnimation();
                     setTimeout(() => {
-                        this.world.level.throwableObjects.splice(i, 1)
-                    }, this.splashTimeFullAnimation);
+                        this.height = 0;
+                        this.width = 0;
+                    }, this.splashTimeFullAnimation - (this.splashTimeFullAnimation / this.IMAGES_SPLASH.length));
                 }
             })
         })
@@ -131,7 +132,7 @@ class ThrowableObject extends CollectableObjects {
         this.applyGravity();
 
         this.animate()
-        this.handleCollidingWithEnemy();
+        this.handleCollidingWithEnemy(i);
     }
 }
 
