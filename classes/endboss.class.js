@@ -9,9 +9,9 @@ class Endboss extends MovableObject {
     y;
 
     imgOffsetOriginal = {
-        left: 0,
-        top: 0,
-        right: 0,
+        left: 187,
+        top: 468,
+        right: 139,
         bottom: 125
     };
 
