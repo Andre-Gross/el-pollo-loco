@@ -17,7 +17,7 @@ class MovableObject extends DrawableObject {
     gravityInterval;
     imageInterval;
     timeForFullAnimation;
-    pictureForCurrentAnimation = this.IMAGES_IDLE;
+    pictureForCurrentAnimation;
 
     IMAGES_WALK;
 
