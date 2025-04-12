@@ -1,5 +1,5 @@
 class ThrowableObject extends CollectableObjects {
-    
+
     originalImgHeight = 400;
     originalImgWidth = 400;
     sizeFactor = 0.4;

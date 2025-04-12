@@ -78,7 +78,7 @@ class MovableObject extends DrawableObject {
     }
 
 
-    standOnGround () {
+    standOnGround() {
         return this.returnVisibleEndY() >= this.groundLevel;
     }
 
