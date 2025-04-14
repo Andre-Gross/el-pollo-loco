@@ -75,9 +75,17 @@ class ThrowableObject extends CollectableObjects {
 
 
     animate() {
-        this.positionInterval = setInterval(() => {
-            this.x += this.speedXPerFrame;
-        }, 1000 / maxFPS);
+        const character = this.world.character;
+
+        if (character.otherDirection) {
+            this.positionInterval = setInterval(() => {
+                this.x -= this.speedXPerFrame;
+            }, 1000 / maxFPS);
+        } else {
+            this.positionInterval = setInterval(() => {
+                this.x += this.speedXPerFrame;
+            }, 1000 / maxFPS);
+        }
 
         this.imageInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_THROW);
