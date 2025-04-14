@@ -92,6 +92,11 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
+    isAboveGround() {
+        return this.returnVisibleMiddleYOfObject() < this.groundLevel;
+    }
+
+
     isColliding(mo) {
             return (
                 this.returnVisibleMiddleXOfObject() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
@@ -132,6 +137,11 @@ class ThrowableObject extends CollectableObjects {
         this.imageInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_SPLASH);
         }, this.splashTimeFullAnimation / this.IMAGES_SPLASH.length)
+    }
+    
+
+    standOnGround() {
+        return this.returnVisibleMiddleYOfObject() >= this.groundLevel;
     }
 
 
