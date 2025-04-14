@@ -126,8 +126,8 @@ class Character extends MovableObject {
     }
 
 
-    getHit() {
-        this.hit();
+    getHit(damage = 10) {
+        this.hit(damage);
         world.statusBars[0].setPercentage(this.health);
     }
 
