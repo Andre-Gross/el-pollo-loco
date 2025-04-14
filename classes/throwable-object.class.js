@@ -110,7 +110,7 @@ class ThrowableObject extends CollectableObjects {
     handleCollidingWithEnemy(i) {
         this.throwInterval = setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
-                if (this.isColliding(enemy) || this.standOnGround()) {
+                if ((this.isColliding(enemy) && !enemy.isDead()) || this.standOnGround()) {
                     this.clearAllIntervals();
                     this.speedY = 0;
                     this.setSplashAnimation();
