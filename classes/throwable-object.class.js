@@ -92,6 +92,16 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
+    isColliding(mo) {
+            return (
+                this.returnVisibleMiddleXOfObject() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
+                this.returnVisibleMiddleYOfObject() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
+                this.returnVisibleMiddleXOfObject() > mo.returnVisibleStartX() &&
+                this.returnVisibleMiddleYOfObject() > mo.returnVisibleStartY()
+            )
+    }
+
+
     handleCollidingWithEnemy(i) {
         this.throwInterval = setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
