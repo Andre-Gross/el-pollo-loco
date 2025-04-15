@@ -5,8 +5,11 @@ class Endboss extends MovableObject {
     height = this.calculateHeight();
     width = this.calculateWidth();
 
-    x = 45;
+    x;
     y;
+
+    speedXPerSecond = 240;
+    speedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
 
     imgOffsetOriginal = {
         left: 187,
