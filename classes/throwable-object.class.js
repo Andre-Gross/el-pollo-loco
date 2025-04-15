@@ -39,12 +39,6 @@ class ThrowableObject extends CollectableObjects {
         './assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
         './assets/img/6_salsa_bottle/2_salsa_bottle_on_ground.png'
     ]
-    IMAGES_THROW = [
-        './assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
-        './assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
-        './assets/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
-        './assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
-    ]
     IMAGES_SPLASH = [
         './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/1_bottle_splash.png',
         './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/2_bottle_splash.png',
@@ -52,6 +46,12 @@ class ThrowableObject extends CollectableObjects {
         './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/4_bottle_splash.png',
         './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/5_bottle_splash.png',
         './assets/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
+    ]
+    IMAGES_THROW = [
+        './assets/img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/2_bottle_rotation.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/3_bottle_rotation.png',
+        './assets/img/6_salsa_bottle/bottle_rotation/4_bottle_rotation.png'
     ]
 
 
@@ -106,12 +106,12 @@ class ThrowableObject extends CollectableObjects {
 
 
     isColliding(mo) {
-            return (
-                this.returnVisibleMiddleXOfObject() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
-                this.returnVisibleMiddleYOfObject() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
-                this.returnVisibleMiddleXOfObject() > mo.returnVisibleStartX() &&
-                this.returnVisibleMiddleYOfObject() > mo.returnVisibleStartY()
-            )
+        return (
+            this.returnVisibleMiddleXOfObject() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
+            this.returnVisibleMiddleYOfObject() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
+            this.returnVisibleMiddleXOfObject() > mo.returnVisibleStartX() &&
+            this.returnVisibleMiddleYOfObject() > mo.returnVisibleStartY()
+        )
     }
 
 
@@ -126,6 +126,7 @@ class ThrowableObject extends CollectableObjects {
                         this.height = 0;
                         this.width = 0;
                     }, this.splashTimeFullAnimation - (this.splashTimeFullAnimation / this.IMAGES_SPLASH.length));
+                    enemy.getHit(20);
                 }
             })
         })
@@ -146,7 +147,7 @@ class ThrowableObject extends CollectableObjects {
             this.playAnimation(this.IMAGES_SPLASH);
         }, this.splashTimeFullAnimation / this.IMAGES_SPLASH.length)
     }
-    
+
 
     standOnGround() {
         return this.returnVisibleMiddleYOfObject() >= this.groundLevel;
