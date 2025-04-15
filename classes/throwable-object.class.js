@@ -116,6 +116,7 @@ class ThrowableObject extends CollectableObjects {
 
 
     handleCollidingWithEnemy(i) {
+    handleCollidingWithEnemy() {
         this.throwInterval = setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
                 if ((this.isColliding(enemy) && !enemy.isDead()) || this.standOnGround()) {
@@ -154,14 +155,14 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
-    throw(i) {
+    throw() {
         this.setCoordinatesAndSizes();
         this.isThrown = true;
         this.jump(5);
         this.applyGravity();
 
         this.animate()
-        this.handleCollidingWithEnemy(i);
+        this.handleCollidingWithEnemy();
     }
 }
 

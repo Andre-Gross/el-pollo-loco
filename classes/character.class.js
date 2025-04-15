@@ -110,7 +110,7 @@ class Character extends MovableObject {
                 for (let i = 0; i < throwableObjects.length; i++) {
                     const bottle = throwableObjects[i];
                     if (bottle.isCollected) {
-                        bottle.throw(i)
+                        bottle.throw()
                         bottle.isCollected = false;
                         this.collectedItems.bottles--;
                         this.handleStatusPercentage(2, this.collectedItems.bottles);
