@@ -6,6 +6,7 @@ class MovableObject extends DrawableObject {
     groundLevel = canvasHeight * 415 / 480;
 
     speedXPerSecond;
+    standartSpeedXPerFrame;
     speedXPerFrame;
     speedY = 0;
     acceleration = 0.35;
@@ -20,6 +21,21 @@ class MovableObject extends DrawableObject {
     pictureForCurrentAnimation;
 
     IMAGES_WALK;
+
+
+    alignSelfTo(mo) {
+        const middleOfThis = this.returnVisibleMiddleXOfObject();
+        const middleOfObject = mo.returnVisibleMiddleXOfObject();
+        if (Math.abs(middleOfThis - middleOfObject) < 50) {
+            this.speedXPerFrame = 0;
+        } else if (middleOfThis >= middleOfObject) {
+            this.otherDirection = false;
+            this.speedXPerFrame = this.standartSpeedXPerFrame
+        } else {
+            this.otherDirection = true;
+            this.speedXPerFrame = -this.standartSpeedXPerFrame
+        }
+    }
 
 
     applyGravity() {

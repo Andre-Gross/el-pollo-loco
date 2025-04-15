@@ -9,7 +9,8 @@ class Endboss extends MovableObject {
     y;
 
     speedXPerSecond = 240;
-    speedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
+    standartSpeedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
+    speedXPerFrame;
 
     imgOffsetOriginal = {
         left: 187,
@@ -74,14 +75,12 @@ class Endboss extends MovableObject {
 
         this.applyGravity();
 
-        this.animate()
-
     }
 
 
     animate() {
-
         this.imageInterval = setInterval(() => {
+            this.alignSelfTo(world.character)
             this.setAnimation();
         }, this.timeForFullAnimation / this.picturesForCurrentAnimation.length)
     }
@@ -107,6 +106,7 @@ class Endboss extends MovableObject {
                 if (!alreadyJumped) {
                     this.jump();
                     this.positionInterval = setInterval(() => {
+                        this.alignSelfTo(world.character)
                         this.x -= this.speedXPerFrame;
                     }, 1000 / maxFPS);
 

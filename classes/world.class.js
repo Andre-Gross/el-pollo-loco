@@ -127,6 +127,7 @@ class World {
         })
         this.level.enemies.forEach((enemy) => {
             enemy.world = this;
+            enemy.animate()
         })
     }
 }
