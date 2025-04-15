@@ -94,7 +94,7 @@ class Endboss extends MovableObject {
     }
 
 
-    handleAttackAnimation() {
+    handleJumpAttack() {
         clearInterval(this.imageInterval);
         let i = 0;
         let alreadyJumped = false;
@@ -131,6 +131,31 @@ class Endboss extends MovableObject {
     }
 
 
+    handleWalkAttack() {
+        const additionalSpeed = 150 / maxFPS;
+        this.standartSpeedXPerFrame = this.standartSpeedXPerFrame + additionalSpeed;
+
+        clearInterval(this.imageInterval);
+
+        this.imageInterval = setInterval(() => {
+            if (this.speedXPerFrame === 0) {
+                this.playAnimation(this.IMAGES_ALERT)
+            } else {
+                this.playAnimation(this.IMAGES_WALK)
+            }
+        }, 600 / this.IMAGES_WALK.length)
+
+        this.positionInterval = setInterval(() => {
+            this.alignSelfTo(world.character)
+            this.x -= this.speedXPerFrame;
+        }, 1000 / maxFPS);
+
+        setTimeout(() => {
+            this.standartSpeedXPerFrame = this.standartSpeedXPerFrame - additionalSpeed;
+            this.clearAnimation();
+            this.animate();
+        }, 1000)
+    }
     setAnimation() {
         const timeToDie = 900;
         if (this.isDead()) {
