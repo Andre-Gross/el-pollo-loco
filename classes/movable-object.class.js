@@ -150,11 +150,11 @@ class MovableObject extends DrawableObject {
     }
 
 
-    playRightAnimation(time, pictureSet) {
+    playRightAnimation(time, pictureSet, index) {
         if (!this.isCurrentAnimationRightAnimation(pictureSet)) {
             this.resetAnimationImages(time, pictureSet)
         }
-        this.playAnimation(pictureSet)
+        this.playAnimation(pictureSet, index)
     }
 
 
