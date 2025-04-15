@@ -115,11 +115,15 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
-    handleCollidingWithEnemy(i) {
+    isCollidingLivingEnemy(enemy) {
+        return this.isColliding(enemy) && !enemy.isDead()
+    }
+
+
     handleCollidingWithEnemy() {
         this.throwInterval = setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
-                if ((this.isColliding(enemy) && !enemy.isDead()) || this.standOnGround()) {
+                if (this.isCollidingLivingEnemy(enemy) || this.standOnGround()) {
                     this.clearAllIntervals();
                     this.speedY = 0;
                     this.setSplashAnimation();
@@ -127,7 +131,9 @@ class ThrowableObject extends CollectableObjects {
                         this.height = 0;
                         this.width = 0;
                     }, this.splashTimeFullAnimation - (this.splashTimeFullAnimation / this.IMAGES_SPLASH.length));
-                    enemy.getHit(20);
+                    if (this.isCollidingLivingEnemy(enemy)) {
+                        enemy.getHit(20);
+                    }
                 }
             })
         })
