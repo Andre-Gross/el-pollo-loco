@@ -112,8 +112,8 @@ class Character extends MovableObject {
                     if (bottle.isCollected) {
                         bottle.throw(i)
                         bottle.isCollected = false;
-                        this.collectedBottles--;
-                        this.handleStatusPercentage(2, this.collectedBottles);
+                        this.collectedItems.bottles--;
+                        this.handleStatusPercentage(2, this.collectedItems.bottles);
                         break
                     }
                 }
@@ -157,7 +157,6 @@ class Character extends MovableObject {
         let i = 0;
         let summitSpeedY = 5;
         let alreadyJumped = false;
-        let alreadyStand = false;
         this.jumpInterval = setInterval(() => {
             if (i < 3 && startFromGround) {
                 this.playAnimation(this.IMAGES_JUMP.slice(0, 3), i)
@@ -213,7 +212,6 @@ class Character extends MovableObject {
     setPosition() {
         if (this.isDead()) {
             return
-            // } else if (this.isPressedUp() && !this.isAboveGround()) {
             //     return;
         } else {
             this.setPositionLeftAndRight();
