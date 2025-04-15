@@ -50,13 +50,19 @@ class MovableObject extends DrawableObject {
     }
 
 
-    calculateY() {
-        return this.groundLevel - (this.height - this.imgOffsetCanvas.bottom);
+    calculateDistanceTo(mo) {
+        const distance = Math.abs(this.x - mo.x);
+        return distance;
     }
 
 
     calculateSpeedPerFrame(speedPerSecond) {
         return speedPerSecond / maxFPS;
+    }
+
+
+    calculateY() {
+        return this.groundLevel - (this.height - this.imgOffsetCanvas.bottom);
     }
 
 

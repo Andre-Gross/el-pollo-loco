@@ -65,12 +65,12 @@ class Endboss extends MovableObject {
     constructor() {
         super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_ALERT);
-        this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_WALK);
-        this.x = 600 / backgroundImgOriginalHeight * canvasHeight;
+        // this.x = 600 / backgroundImgOriginalHeight * canvasHeight;
+        this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.y = this.calculateY();
 
         this.applyGravity();
@@ -156,6 +156,21 @@ class Endboss extends MovableObject {
             this.animate();
         }, 1000)
     }
+
+
+    shallAttack(probabilityOfAttackInPercent = 5) {
+        const character = world.character;
+        if (this.calculateDistanceTo(character) < this.speedXPerSecond * 2) {
+            return Math.random() > (100 - probabilityOfAttackInPercent) / 100;
+        }
+    }
+
+
+    shallJumpAttack() {
+        return Math.random() > 0.5 &&
+            this.calculateDistanceTo(world.character) < this.speedXPerSecond;
+    }
+
     setAnimation() {
         const timeToDie = 900;
         if (this.isDead()) {
@@ -166,6 +181,12 @@ class Endboss extends MovableObject {
             }, timeToDie - (timeToDie / this.IMAGES_DEAD.length))
         } else if (this.isHurt()) {
             this.playRightAnimation(600, this.IMAGES_HURT);
+        } else if (this.shallAttack()) {
+            if (this.shallJumpAttack()) {
+                this.handleJumpAttack();
+            } else {
+                this.handleWalkAttack();
+            }
         } else {
             this.playRightAnimation(1200, this.IMAGES_ALERT);
         }
