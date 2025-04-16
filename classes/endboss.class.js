@@ -60,6 +60,7 @@ class Endboss extends MovableObject {
 
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_ALERT;
+    counterWalkAttack = 0;
 
 
     constructor() {
@@ -104,9 +105,9 @@ class Endboss extends MovableObject {
                 i++
             } else if (i === 3) {
                 if (!alreadyJumped) {
-                    this.jump();
+                    this.jump(13);
+                    this.alignSelfTo(world.character)
                     this.positionInterval = setInterval(() => {
-                        this.alignSelfTo(world.character)
                         this.x -= this.speedXPerFrame;
                     }, 1000 / maxFPS);
 
@@ -119,6 +120,7 @@ class Endboss extends MovableObject {
                 this.animate();
             } else if (this.standOnGround()) {
                 clearInterval(this.positionInterval);
+                this.alignSelfTo(world.character)
                 alreadyJumped = false;
                 this.playAnimation(this.IMAGES_ATTACK.slice(6, 8), i - 4)
                 i++
@@ -145,8 +147,9 @@ class Endboss extends MovableObject {
             }
         }, 600 / this.IMAGES_WALK.length)
 
+        this.alignSelfTo(world.character)
+
         this.positionInterval = setInterval(() => {
-            this.alignSelfTo(world.character)
             this.x -= this.speedXPerFrame;
         }, 1000 / maxFPS);
 
@@ -161,14 +164,18 @@ class Endboss extends MovableObject {
     shallAttack(probabilityOfAttackInPercent = 5) {
         const character = world.character;
         if (this.calculateDistanceTo(character) < this.speedXPerSecond * 2) {
-            return Math.random() > (100 - probabilityOfAttackInPercent) / 100;
+            return Math.random() > (100 - probabilityOfAttackInPercent) / 100
         }
     }
 
 
     shallJumpAttack() {
-        return Math.random() > 0.5 &&
-            this.calculateDistanceTo(world.character) < this.speedXPerSecond;
+        if (this.calculateDistanceTo(world.character) < this.speedXPerSecond) {
+            if (this.counterWalkAttack >= 2 || Math.random() > 0.5) {
+                this.counterWalkAttack = 0;
+                return true
+            }
+        }
     }
 
     setAnimation() {
@@ -186,6 +193,7 @@ class Endboss extends MovableObject {
                 this.handleJumpAttack();
             } else {
                 this.handleWalkAttack();
+                this.counterWalkAttack++;
             }
         } else {
             this.playRightAnimation(1200, this.IMAGES_ALERT);
