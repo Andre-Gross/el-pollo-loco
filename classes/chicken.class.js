@@ -68,6 +68,8 @@ class Chicken extends MovableObject {
     setAnimation() {
         if (this.isDead()) {
             this.img = this.imgCache[this.IMAGE_DEAD];
+        } else if (this.speedXPerFrame === 0) {
+            this.img = this.imgCache[this.IMAGES_WALK[0]];
         } else {
             this.playAnimation(this.IMAGES_WALK)
         }
