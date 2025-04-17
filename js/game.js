@@ -3,7 +3,7 @@ let world;
 let keyboard = new Keyboard();
 
 let canvasHeight = 480;
-let canvasWidth = 720;
+let canvasWidth = 1920 * 480 / 1080;
 const backgroundImgOriginalHeight  = 1080;
 let backgroundHeightFactor = canvasHeight / backgroundImgOriginalHeight;
 
@@ -12,6 +12,8 @@ let maxFPS = 60;
 
 function init() {
     canvas = document.getElementById('canvas');
+    canvas.height = canvasHeight;
+    canvas.width = canvasWidth;
     world = new World(canvas, keyboard);
 }
 

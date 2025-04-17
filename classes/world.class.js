@@ -1,6 +1,8 @@
 class World {
     height = 480;
 
+    startScreen = new StartScreen();
+
     character = new Character();
     statusBars = [
         new HealthStatusbar(),
@@ -12,6 +14,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+
+    isGameStarted = false;
 
 
     constructor(canvas, keyboard) {
@@ -79,18 +83,24 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-
         this.ctx.translate(this.camera_x, 0);
 
-        this.addObjectToMap(this.level.backgroundObjects);
-        this.addObjectToMap(this.level.clouds);
-        this.addObjectToMap(this.level.throwableObjects);
-        this.addObjectToMap(this.level.coins);
-        this.addObjectToMap(this.level.enemies);
-        this.addToMap(this.character)
+        if (this.isGameStarted) {
 
-        this.ctx.translate(-this.camera_x, 0);
-        this.addObjectToMap(this.statusBars);
+
+            this.addObjectToMap(this.level.backgroundObjects);
+            this.addObjectToMap(this.level.clouds);
+            this.addObjectToMap(this.level.throwableObjects);
+            this.addObjectToMap(this.level.coins);
+            this.addObjectToMap(this.level.enemies);
+            this.addToMap(this.character)
+
+            this.ctx.translate(-this.camera_x, 0);
+            this.addObjectToMap(this.statusBars);
+        } else {
+            this.addToMap(this.startScreen);
+            this.ctx.translate(-this.camera_x, 0);
+        }
 
 
         let self = this;
