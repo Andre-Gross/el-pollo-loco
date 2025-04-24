@@ -79,7 +79,11 @@ function startGame() {
     activateKeyboard();
     world.isGameStarted = true;
     world.level.enemies.forEach(enemy => {
-        enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame();
+        if (enemy instanceof Endboss) {
+            enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame(enemy.speedXPerSecond);
+        } else {
+            enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame();
+        }
     });
 }
 

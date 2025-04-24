@@ -10,7 +10,7 @@ class Endboss extends MovableObject {
 
     speedXPerSecond = 240;
     standartSpeedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
-    speedXPerFrame;
+    speedXPerFrame = this.standartSpeedXPerFrame;
 
     imgOffsetOriginal = {
         left: 187,
