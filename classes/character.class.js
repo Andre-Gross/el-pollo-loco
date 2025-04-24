@@ -126,14 +126,20 @@ class Character extends MovableObject {
     }
 
 
-    getHit(damage = 10) {
+    getHit(hitFromRight, damage = 10, duration = 500) {
         this.hit(damage);
         world.statusBars[0].setPercentage(this.health);
+        this.knockBack(hitFromRight, duration);
     }
 
 
     isPressedLeft() {
         return (this.world.keyboard.ARROW_LEFT || this.world.keyboard.A);
+    }
+
+
+    isPressedMove() {
+        return (this.isPressedLeft() || this.isPressedRight() || this.isPressedUp())
     }
 
 
@@ -187,6 +193,28 @@ class Character extends MovableObject {
                 this.img = this.imgCache[this.IMAGES_JUMP.slice(5, 6)]
             }
         }, 500 / this.picturesForCurrentAnimation.length)
+    }
+
+
+    knockBack(hitFromRight, duration) {
+        this.jump(3)
+        this.speedXPerSecond
+
+        const knockBackInterval = setInterval(() => {
+            if (hitFromRight && this.x > 0) {
+                this.moveLeft()
+            } else if (this.x < this.world.level.level_end_x){
+                this.moveRight()
+            }
+            if (this.isPressedMove()) {
+                clearTimeout(knockBackTimeout);
+                clearInterval(knockBackInterval);
+            }
+        },  1000 / maxFPS)
+
+        const knockBackTimeout = setTimeout(() => {
+            clearInterval(knockBackInterval);
+        }, duration)
     }
 
 

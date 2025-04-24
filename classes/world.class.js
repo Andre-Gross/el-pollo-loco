@@ -60,7 +60,8 @@ class World {
                             clearInterval(this.character.jumpInterval);
                             this.character.handleJumpAnimation(false);
                         } else {
-                            this.character.getHit();
+                            const hitFromRight = this.character.isHitFromRight(enemy);
+                            this.character.getHit(hitFromRight);
                         }
                     }
                 }

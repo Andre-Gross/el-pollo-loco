@@ -193,6 +193,15 @@ class MovableObject extends DrawableObject {
     }
 
 
+    isHitFromRight(mo) {
+        if (this.x < mo.x) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
     returnRectDatas() {
         return [
             this.returnVisibleStartX(),
