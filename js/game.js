@@ -79,7 +79,7 @@ function startGame() {
     activateKeyboard();
     world.isGameStarted = true;
     world.level.enemies.forEach(enemy => {
-        enemy.speedXPerFrame = this.standartSpeedXPerFrame
+        enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame();
     });
 }
 
