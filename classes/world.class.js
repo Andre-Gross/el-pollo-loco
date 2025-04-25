@@ -59,7 +59,7 @@ class World {
                             enemy.getHit();
                             clearInterval(this.character.jumpInterval);
                             this.character.handleJumpAnimation(false);
-                        } else {
+                        } else if (!this.character.isHurt()){
                             const hitFromRight = this.character.isHitFromRight(enemy);
                             this.character.getHit(hitFromRight);
                         }

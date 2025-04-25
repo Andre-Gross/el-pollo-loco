@@ -197,24 +197,22 @@ class Character extends MovableObject {
 
 
     knockBack(hitFromRight, duration) {
-        this.jump(3)
-        this.speedXPerSecond
+            this.jump(3)
+            const knockBackInterval = setInterval(() => {
+                if (hitFromRight && this.x > 0) {
+                    this.moveLeft()
+                } else if (this.x < this.world.level.level_end_x) {
+                    this.moveRight()
+                }
+                if (this.isPressedMove()) {
+                    clearTimeout(knockBackTimeout);
+                    clearInterval(knockBackInterval);
+                }
+            }, 1000 / maxFPS)
 
-        const knockBackInterval = setInterval(() => {
-            if (hitFromRight && this.x > 0) {
-                this.moveLeft()
-            } else if (this.x < this.world.level.level_end_x){
-                this.moveRight()
-            }
-            if (this.isPressedMove()) {
-                clearTimeout(knockBackTimeout);
+            const knockBackTimeout = setTimeout(() => {
                 clearInterval(knockBackInterval);
-            }
-        },  1000 / maxFPS)
-
-        const knockBackTimeout = setTimeout(() => {
-            clearInterval(knockBackInterval);
-        }, duration)
+            }, duration)
     }
 
 
