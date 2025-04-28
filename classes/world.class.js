@@ -1,8 +1,6 @@
 class World {
     height = 480;
 
-    startScreen = new StartScreen();
-
     character = new Character();
     statusBars = [
         new HealthStatusbar(),
@@ -10,6 +8,8 @@ class World {
         new BottleStatusbar()
     ];
     level = level1;
+
+    startScreen = new StartScreen();
     canvas;
     ctx;
     keyboard;
@@ -25,6 +25,16 @@ class World {
         this.draw();
         this.setWorld();
         this.checkCollisions();
+    }
+
+
+    addGameObjects() {
+        this.addObjectToMap(this.level.backgroundObjects);
+        this.addObjectToMap(this.level.clouds);
+        this.addObjectToMap(this.level.throwableObjects);
+        this.addObjectToMap(this.level.coins);
+        this.addObjectToMap(this.level.enemies);
+        this.addToMap(this.character)
     }
 
 
@@ -50,35 +60,59 @@ class World {
     }
 
 
+    characterJumpOnEnemy(enemy) {
+        enemy.getHit();
+        clearInterval(this.character.jumpInterval);
+        this.character.handleJumpAnimation(false);
+    }
+
+
     checkCollisions() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (!enemy.isDead()) {
-                    if (this.character.isColliding(enemy)) {
-                        if (this.character.isJumpOn(enemy)) {
-                            enemy.getHit();
-                            clearInterval(this.character.jumpInterval);
-                            this.character.handleJumpAnimation(false);
-                        } else if (!this.character.isHurt()){
-                            const hitFromRight = this.character.isHitFromRight(enemy);
-                            this.character.getHit(hitFromRight);
-                        }
-                    }
-                }
-            })
-            this.level.throwableObjects.forEach((bottle) => {
-                if (this.character.isColliding(bottle) && !bottle.isCollected) {
-                    if (!bottle.isThrown) {
-                        bottle.collecting(2, 'bottles', 20);
-                    }
-                }
-            })
-            this.level.coins.forEach((coin) => {
-                if (this.character.isColliding(coin) && !coin.isCollected) {
-                    coin.collecting(1, 'coins', 20);
-                }
-            })
+            this.checkCollisionsCharacterEnemies();
+            this.checkCollisionsCharacterCollectables();
         }, 1000 / maxFPS)
+    }
+
+
+    checkCollisionsCharacterCollectables() {
+        this.checkCollisionsCharacterThrowableObjects();
+        this.checkCollisionsCharacterCoins();
+    }
+
+
+    checkCollisionsCharacterCoins() {
+        this.level.coins.forEach((coin) => {
+            if (this.character.isColliding(coin) && !coin.isCollected) {
+                coin.collecting(1, 'coins', 20);
+            }
+        })
+    }
+
+
+    checkCollisionsCharacterEnemies() {
+        this.level.enemies.forEach((enemy) => {
+            if (!enemy.isDead()) {
+                if (this.character.isColliding(enemy)) {
+                    if (this.character.isJumpOn(enemy)) {
+                        this.characterJumpOnEnemy(enemy);
+                    } else if (!this.character.isHurt()) {
+                        this.enemyHitCharacter(enemy);
+                    }
+                }
+            }
+        })
+    }
+
+
+    checkCollisionsCharacterThrowableObjects() {
+        this.level.throwableObjects.forEach((to) => {
+            if (this.character.isColliding(to) && !to.isCollected) {
+                if (!to.isThrown) {
+                    to.collecting(2, 'bottles', 20);
+                }
+            }
+        })
     }
 
 
@@ -88,13 +122,7 @@ class World {
 
         if (this.isGameStarted) {
 
-
-            this.addObjectToMap(this.level.backgroundObjects);
-            this.addObjectToMap(this.level.clouds);
-            this.addObjectToMap(this.level.throwableObjects);
-            this.addObjectToMap(this.level.coins);
-            this.addObjectToMap(this.level.enemies);
-            this.addToMap(this.character)
+            this.addGameObjects();
 
             this.ctx.translate(-this.camera_x, 0);
             this.addObjectToMap(this.statusBars);
@@ -108,6 +136,12 @@ class World {
         requestAnimationFrame(() => {
             self.draw()
         });
+    }
+
+
+    enemyHitCharacter(enemy) {
+        const hitFromRight = this.character.isHitFromRight(enemy);
+        this.character.getHit(hitFromRight);
     }
 
 
@@ -127,18 +161,38 @@ class World {
 
     setWorld() {
         this.character.world = this;
-        this.statusBars.forEach((statusBar) => {
-            statusBar.world = this
-        });
-        this.level.throwableObjects.forEach((o) => {
-            o.world = this;
-        })
+        this.setWorldInStatusbars();
+        this.setWorldInThrowableObjects();
+        this.setWorldInCoins();
+        this.setWorldInEnemies()
+    }
+
+
+    setWorldInCoins() {
         this.level.coins.forEach((o) => {
             o.world = this;
         })
+    }
+
+
+    setWorldInEnemies() {
         this.level.enemies.forEach((enemy) => {
             enemy.world = this;
             enemy.animate()
+        })
+    }
+
+
+    setWorldInStatusbars() {
+        this.statusBars.forEach((statusBar) => {
+            statusBar.world = this
+        });
+    }
+
+
+    setWorldInThrowableObjects() {
+        this.level.throwableObjects.forEach((o) => {
+            o.world = this;
         })
     }
 }
