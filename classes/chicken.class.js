@@ -21,7 +21,7 @@ class Chicken extends MovableObject {
     minSpeedXPerSecond = 6;
     maxAdditionalSpeedXPerSecond = 18;
 
-    standartSpeedXPerFrame = 0;
+    standartSpeedXPerFrame = this.calculateSpeedPerFrame();
     speedXPerFrame = this.standartSpeedXPerFrame;
 
     IMAGES_WALK = [

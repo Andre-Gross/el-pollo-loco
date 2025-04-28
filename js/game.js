@@ -11,6 +11,9 @@ let backgroundHeightFactor = canvasHeight / backgroundImgOriginalHeight;
 let maxFPS = 60;
 
 
+isGameStarted = false;
+
+
 function activateKeyboard() {
     activateKeyDown();
     activateKeyUp();
@@ -71,16 +74,41 @@ function init() {
     canvas = document.getElementById('canvas');
     canvas.height = canvasHeight;
     canvas.width = canvasWidth;
-    world = new World(canvas, keyboard);
 }
 
 
 function startGame() {
-    activateKeyboard();
-    world.isGameStarted = true;
-    world.level.enemies.forEach(enemy => {
-        if (enemy instanceof Endboss) {
-            enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame(enemy.speedXPerSecond);
+    if (!isGameStarted) {
+        activateKeyboard();
+        world = new World(canvas, keyboard);
+        isGameStarted = true;
+        // world.isGameStarted = true;
+        // world.level.enemies.forEach(enemy => {
+        //     if (enemy instanceof Endboss) {
+        //         enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame(enemy.speedXPerSecond);
+        //     } else {
+        //         enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame();
+        //     }
+        // });
+    }
+}
+
+
+function toggleControls() {
+    canvas = document.getElementById('canvas');
+    controlContainer = document.getElementById('controlContainer');
+
+    controlContainer.height = canvasHeight;
+    controlContainer.width = canvasWidth;
+
+    if (controlContainer.classList.contains('d-none')) {
+        canvas.classList.add('d-none');
+        toggleDisplayNone(canvas, 'd-flex', true);
+    } else {
+        canvas.classList.remove('d-none');
+        toggleDisplayNone(canvas, 'd-flex', false);
+    }
+}
         } else {
             enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame();
         }
