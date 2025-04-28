@@ -17,6 +17,16 @@ canvas {
 }
 
 
+.d-flex {
+    display: flex;
+}
+
+
+.d-none {
+    display: none;
+}
+
+
 .bg-image {
     height: 100%;
     width: 100%;
