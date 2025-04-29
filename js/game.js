@@ -93,22 +93,6 @@ function startGame() {
     }
 }
 
-
-function toggleControls() {
-    canvas = document.getElementById('canvas');
-    controlContainer = document.getElementById('controlContainer');
-
-    controlContainer.height = canvasHeight;
-    controlContainer.width = canvasWidth;
-
-    if (controlContainer.classList.contains('d-none')) {
-        canvas.classList.add('d-none');
-        toggleDisplayNone(canvas, 'd-flex', true);
-    } else {
-        canvas.classList.remove('d-none');
-        toggleDisplayNone(canvas, 'd-flex', false);
-    }
-}
         toggleDisplayNone(startGameButton, 'd-inline-block', false);
         toggleDisplayNone(showControlsButton, 'd-inline-block', false);
         toggleDisplayNone(showStartScreenButton, 'd-inline-block', false)

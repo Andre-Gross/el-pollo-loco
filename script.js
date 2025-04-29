@@ -18,6 +18,33 @@ function showRightButtons(visibleButtons) {
         }
     })
 }
+function showControls() {
+    controlContainer = document.getElementById('control-container');
+    showStartScreenButton = document.getElementById('show-start-screen-btn')
+    controlsButton = document.getElementById('show-controls-btn');
+
+    showRightFrontElement(controlContainer);
+
+    toggleDisplayNone(showStartScreenButton, 'd-inline-block', true);
+    toggleDisplayNone(controlsButton, 'd-inline-block', false);
+}
+
+
+function showControlsButtons() {
+    startGameButton = document.getElementById('start-game-btn');
+    restartGameButton = document.getElementById('restart-game-btn');
+    showControlsButton = document.getElementById('show-controls-btn');
+    showStartScreenButton = document.getElementById('show-start-screen-btn');
+
+    visibleButtons = [
+        startGameButton,
+        showStartScreenButton,
+    ]
+
+    showRightButtons(visibleButtons);
+}
+
+
 /**
  * Toggles the display of an element based on the specified mode.
  * @param {HTMLElement} element - The DOM element to toggle.
