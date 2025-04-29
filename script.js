@@ -48,6 +48,36 @@ function showRightButtons(visibleButtons) {
         }
     })
 }
+
+
+function showStartScreen() {
+    startScreen = document.getElementById('start-screen');
+
+    if (Math.random() > 0.5) {
+        startScreen.src = './assets/img/9_intro_outro_screens/start/startscreen_1.png'
+    } else {
+        startScreen.src = './assets/img/9_intro_outro_screens/start/startscreen_2.png'
+    }
+
+    showRightFrontElement(startScreen);
+
+    showStartScreenButtons();
+}
+
+
+function showStartScreenButtons() {
+    startGameButton = document.getElementById('start-game-btn');
+    showControlsButton = document.getElementById('show-controls-btn');
+
+    visibleButtons = [
+        startGameButton,
+        showControlsButton,
+    ]
+
+    showRightButtons(visibleButtons);
+}
+
+
 function showControls() {
     controlContainer = document.getElementById('control-container');
     showStartScreenButton = document.getElementById('show-start-screen-btn')
