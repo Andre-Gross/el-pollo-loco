@@ -20,6 +20,8 @@ class MovableObject extends DrawableObject {
     timeForFullAnimation;
     pictureForCurrentAnimation;
 
+    allIntervals = []
+
     IMAGES_WALK;
 
 
@@ -180,74 +182,101 @@ class MovableObject extends DrawableObject {
     }
 
 
+    pushToAllIntervals(interval) {
+        this.allIntervals.push(interval);
+        allGameIntervals.push(interval);
+    }
+
+
     randomizeSpwanX(endOfX) {
         return 200 + Math.random() * (endOfX - 800)
     }
 
 
-    resetAnimationImages(time, pictureSet) {
-        this.timeForFullAnimation = time;
-        this.picturesForCurrentAnimation = pictureSet;
-        this.clearAnimation();
-        this.animate();
+/**
+ * Removes a given interval ID from both the global allGameIntervals array
+ * and the instance-specific this.allIntervals array, preserving array integrity.
+ *
+ * @param {number} intervalId - The interval ID to remove.
+ */
+removeIntervalById(intervalId) {
+    clearInterval(intervalId);
+
+    const globalIndex = allGameIntervals.indexOf(intervalId);
+    if (globalIndex !== -1) {
+        allGameIntervals.splice(globalIndex, 1);
     }
 
-
-    isHitFromRight(mo) {
-        if (this.x < mo.x) {
-            return true;
-        } else {
-            return false;
-        }
+    const instanceIndex = this.allIntervals?.indexOf(intervalId);
+    if (instanceIndex !== -1) {
+        this.allIntervals.splice(instanceIndex, 1);
     }
+}
 
 
-    returnRectDatas() {
-        return [
-            this.returnVisibleStartX(),
-            this.returnVisibleStartY(),
-            this.returnVisibleWidth(),
-            this.returnVisibleHeight()
-        ];
+resetAnimationImages(time, pictureSet) {
+    this.timeForFullAnimation = time;
+    this.picturesForCurrentAnimation = pictureSet;
+    this.clearAnimation();
+    this.animate();
+}
+
+
+isHitFromRight(mo) {
+    if (this.x < mo.x) {
+        return true;
+    } else {
+        return false;
     }
+}
 
 
-    returnVisibleStartX() {
-        return this.x + this.imgOffsetCanvas.left;
-    }
+returnRectDatas() {
+    return [
+        this.returnVisibleStartX(),
+        this.returnVisibleStartY(),
+        this.returnVisibleWidth(),
+        this.returnVisibleHeight()
+    ];
+}
 
 
-    returnVisibleStartY() {
-        return this.y + this.imgOffsetCanvas.top;
-    }
+returnVisibleStartX() {
+    return this.x + this.imgOffsetCanvas.left;
+}
 
 
-    returnVisibleMiddleXOfObject() {
-        return (2 * this.returnVisibleStartX() + this.returnVisibleWidth()) / 2
-    }
+returnVisibleStartY() {
+    return this.y + this.imgOffsetCanvas.top;
+}
 
 
-    returnVisibleMiddleYOfObject() {
-        return (2 * this.returnVisibleStartY() + this.returnVisibleHeight()) / 2
-    }
+returnVisibleMiddleXOfObject() {
+    return (2 * this.returnVisibleStartX() + this.returnVisibleWidth()) / 2
+}
 
 
-    returnVisibleEndX() {
-        return this.returnVisibleStartX() + this.returnVisibleWidth()
-    }
+returnVisibleMiddleYOfObject() {
+    return (2 * this.returnVisibleStartY() + this.returnVisibleHeight()) / 2
+}
 
 
-    returnVisibleEndY() {
-        return this.returnVisibleStartY() + this.returnVisibleHeight()
-    }
+returnVisibleEndX() {
+    return this.returnVisibleStartX() + this.returnVisibleWidth()
+}
 
 
-    returnVisibleWidth() {
-        return this.width - this.imgOffsetCanvas.right - this.imgOffsetCanvas.left;
-    }
+returnVisibleEndY() {
+    return this.returnVisibleStartY() + this.returnVisibleHeight()
+}
 
 
-    returnVisibleHeight() {
-        return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
-    }
+returnVisibleWidth() {
+    return this.width - this.imgOffsetCanvas.right - this.imgOffsetCanvas.left;
+}
+
+
+returnVisibleHeight() {
+    return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
+}
 }

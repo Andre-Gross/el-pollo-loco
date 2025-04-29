@@ -5,11 +5,11 @@ let keyboard = new Keyboard();
 const backgroundImgOriginalHeight = 1080;
 let backgroundHeightFactor = canvasHeight / backgroundImgOriginalHeight;
 
-
 let maxFPS = 60;
 
-
 isGameStarted = false;
+
+let allGameIntervals = [];
 
 
 function activateKeyboard() {
@@ -40,6 +40,13 @@ function activateKeyDown() {
             keyboard.T = true
         }
     })
+}
+
+
+function restartGame() {
+    world = new World;
+    isGameStarted = false;
+    startGame();
 }
 
 
@@ -84,6 +91,15 @@ function startGame() {
         toggleDisplayNone(startGameButton, 'd-inline-block', false);
         toggleDisplayNone(showControlsButton, 'd-inline-block', false);
         toggleDisplayNone(showStartScreenButton, 'd-inline-block', false)
+    }
+}
+
+
+function stopGame() {
+    const interval_id = window.setInterval(function () { }, Number.MAX_SAFE_INTEGER);
+
+    for (let i = 1; i < interval_id; i++) {
+        window.clearInterval(i);
     }
 }
 

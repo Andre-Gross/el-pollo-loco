@@ -23,6 +23,7 @@ class Chicken extends MovableObject {
 
     standartSpeedXPerFrame = this.calculateSpeedPerFrame();
     speedXPerFrame = this.standartSpeedXPerFrame;
+    
 
     IMAGES_WALK = [
         './assets/img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -46,10 +47,13 @@ class Chicken extends MovableObject {
             this.alignSelfTo(world.character)
             this.x -= this.speedXPerFrame;
         }, 1000 / maxFPS);
+        this.pushToAllIntervals(this.positionInterval);
 
         this.imageInterval = setInterval(() => {
             this.setAnimation();
         }, 600 / this.IMAGES_WALK.length)
+        this.pushToAllIntervals(this.imageInterval);
+
     }
 
 
@@ -61,7 +65,7 @@ class Chicken extends MovableObject {
     getHit(damage = 10) {
         this.hit(damage);
         if (this.health === 0) {
-            clearInterval(this.positionInterval)
+            this.removeIntervalById(this.positionInterval);
         }
     }
 
