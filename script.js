@@ -135,3 +135,6 @@ function toggleDisplayNone(
 }
 
 
+addEventListener("DOMContentLoaded", (event) => {
+    setSizeOfEachContainer();
+});
