@@ -70,15 +70,15 @@ function activateKeyUp() {
 }
 
 
-function init() {
-    canvas = document.getElementById('canvas');
-    canvas.height = canvasHeight;
-    canvas.width = canvasWidth;
-}
-
-
 function startGame() {
     if (!isGameStarted) {
+        startGameButton = document.getElementById('start-game-btn')
+        showControlsButton = document.getElementById('show-controls-btn')
+        showStartScreenButton = document.getElementById('show-start-screen-btn')
+
+
+        canvas = document.getElementById('canvas');
+        showRightFrontElement(canvas);
         activateKeyboard();
         world = new World(canvas, keyboard);
         isGameStarted = true;
@@ -137,6 +137,9 @@ function toggleDisplayNone(
             eleClass.remove(displayMode);
             eleClass.add("d-none");
         }
+        toggleDisplayNone(startGameButton, 'd-inline-block', false);
+        toggleDisplayNone(showControlsButton, 'd-inline-block', false);
+        toggleDisplayNone(showStartScreenButton, 'd-inline-block', false)
     }
 }
 
