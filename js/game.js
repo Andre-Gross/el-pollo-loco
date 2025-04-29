@@ -2,8 +2,6 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-let canvasHeight = 480;
-let canvasWidth = 1920 * 480 / 1080;
 const backgroundImgOriginalHeight = 1080;
 let backgroundHeightFactor = canvasHeight / backgroundImgOriginalHeight;
 
@@ -82,16 +80,6 @@ function startGame() {
         activateKeyboard();
         world = new World(canvas, keyboard);
         isGameStarted = true;
-        // world.isGameStarted = true;
-        // world.level.enemies.forEach(enemy => {
-        //     if (enemy instanceof Endboss) {
-        //         enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame(enemy.speedXPerSecond);
-        //     } else {
-        //         enemy.standartSpeedXPerFrame = enemy.calculateSpeedPerFrame();
-        //     }
-        // });
-    }
-}
 
         toggleDisplayNone(startGameButton, 'd-inline-block', false);
         toggleDisplayNone(showControlsButton, 'd-inline-block', false);
