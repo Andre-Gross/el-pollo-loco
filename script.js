@@ -2,6 +2,21 @@ let canvasHeight = 480;
 let canvasWidth = 1920 * 480 / 1080;
 
 
+function setSizeOfEachContainer() {
+    canvas = document.getElementById('canvas');
+    controlContainer = document.getElementById('control-container');
+    startScreen = document.getElementById('start-screen');
+
+    setSizeOfSingleContainer(canvas);
+    setSizeOfSingleContainer(controlContainer);
+    setSizeOfSingleContainer(startScreen);
+}
+
+
+function setSizeOfSingleContainer(element, height = canvasHeight, width = canvasWidth) {
+    element.height = height;
+    element.width = width;
+}
 
 
 function showRightButtons(visibleButtons) {
