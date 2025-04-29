@@ -2,6 +2,22 @@ let canvasHeight = 480;
 let canvasWidth = 1920 * 480 / 1080;
 
 
+
+
+function showRightButtons(visibleButtons) {
+    const allButtons = [
+        document.getElementById('start-game-btn'),
+        document.getElementById('restart-game-btn'),
+        document.getElementById('show-controls-btn'),
+        document.getElementById('show-start-screen-btn'),
+    ]
+
+    allButtons.forEach((button) => {
+        if (!visibleButtons.includes(button)) {
+            toggleDisplayNone(button, 'd-inline-block', false);
+        }
+    })
+}
 /**
  * Toggles the display of an element based on the specified mode.
  * @param {HTMLElement} element - The DOM element to toggle.

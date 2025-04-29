@@ -27,6 +27,11 @@ canvas {
 }
 
 
+.d-inline-block {
+    display: inline-block;
+}
+
+
 .bg-image {
     height: 100%;
     width: 100%;
