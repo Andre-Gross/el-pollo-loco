@@ -45,6 +45,8 @@ function showRightButtons(visibleButtons) {
     allButtons.forEach((button) => {
         if (!visibleButtons.includes(button)) {
             toggleDisplayNone(button, 'd-inline-block', false);
+        } else {
+            toggleDisplayNone(button, 'd-inline-block', true);
         }
     })
 }
