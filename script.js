@@ -19,6 +19,21 @@ function setSizeOfSingleContainer(element, height = canvasHeight, width = canvas
 }
 
 
+function showRightFrontElement(element) {
+    canvas = document.getElementById('canvas');
+
+    canvas.classList.add('d-none');
+    toggleDisplayNone(controlContainer, 'd-block', false);
+    toggleDisplayNone(startScreen, 'd-block', false);
+
+    if (element === canvas) {
+        canvas.classList.remove('d-none');
+    } else {
+        toggleDisplayNone(element, 'd-block', true);
+    }
+}
+
+
 function showRightButtons(visibleButtons) {
     const allButtons = [
         document.getElementById('start-game-btn'),
