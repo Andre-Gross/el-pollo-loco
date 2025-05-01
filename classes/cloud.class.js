@@ -16,9 +16,10 @@ class Cloud extends BackgroundObject {
 
 
     animate() {
-        setInterval(() => {
+        this.positionInterval = setInterval(() => {
             this.moveLeft()
         }, 1000 / maxFPS)
+        this.pushToAllIntervals(this.positionInterval);
     }
 
 

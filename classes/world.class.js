@@ -17,6 +17,10 @@ class World {
     keyboard;
 
 
+    checkCollisionsInterval;
+    allIntervals = [];
+
+
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -61,16 +65,17 @@ class World {
 
     characterJumpOnEnemy(enemy) {
         enemy.getHit();
-        clearInterval(this.character.jumpInterval);
+        this.character.removeIntervalById(this.character.jumpInterval)
         this.character.handleJumpAnimation(false);
     }
 
 
     checkCollisions() {
-        setInterval(() => {
+        this.checkCollisionsInterval = setInterval(() => {
             this.checkCollisionsCharacterEnemies();
             this.checkCollisionsCharacterCollectables();
         }, 1000 / maxFPS)
+        this.pushToAllIntervals(this.checkCollisionsInterval);
     }
 
 
@@ -155,6 +160,33 @@ class World {
     flipCtxBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
+    }
+
+
+    pushToAllIntervals(interval) {
+        this.allIntervals.push(interval);
+        allGameIntervals.push(interval);
+    }
+
+
+    /**
+     * Removes a given interval ID from both the global allGameIntervals array
+     * and the instance-specific this.allIntervals array, preserving array integrity.
+     *
+     * @param {number} intervalId - The interval ID to remove.
+     */
+    removeIntervalById(intervalId) {
+        clearInterval(intervalId);
+
+        const globalIndex = allGameIntervals.indexOf(intervalId);
+        if (globalIndex !== -1) {
+            allGameIntervals.splice(globalIndex, 1);
+        }
+
+        const instanceIndex = this.allIntervals?.indexOf(intervalId);
+        if (instanceIndex !== -1) {
+            this.allIntervals.splice(instanceIndex, 1);
+        }
     }
 
 

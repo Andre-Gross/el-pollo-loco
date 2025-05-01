@@ -193,23 +193,31 @@ class MovableObject extends DrawableObject {
     }
 
 
-/**
- * Removes a given interval ID from both the global allGameIntervals array
- * and the instance-specific this.allIntervals array, preserving array integrity.
- *
- * @param {number} intervalId - The interval ID to remove.
- */
-removeIntervalById(intervalId) {
-    clearInterval(intervalId);
-
-    const globalIndex = allGameIntervals.indexOf(intervalId);
-    if (globalIndex !== -1) {
-        allGameIntervals.splice(globalIndex, 1);
+    removeAnimationById() {
+        this.clearAnimation();
+        this.removeIntervalById(this.positionInterval);
+        this.removeIntervalById(this.imageInterval);
     }
 
-    const instanceIndex = this.allIntervals?.indexOf(intervalId);
-    if (instanceIndex !== -1) {
-        this.allIntervals.splice(instanceIndex, 1);
+
+    /**
+     * Removes a given interval ID from both the global allGameIntervals array
+     * and the instance-specific this.allIntervals array, preserving array integrity.
+     *
+     * @param {number} intervalId - The interval ID to remove.
+     */
+    removeIntervalById(intervalId) {
+        clearInterval(intervalId);
+
+        const globalIndex = allGameIntervals.indexOf(intervalId);
+        if (globalIndex !== -1) {
+            allGameIntervals.splice(globalIndex, 1);
+        }
+
+        const instanceIndex = this.allIntervals?.indexOf(intervalId);
+        if (instanceIndex !== -1) {
+            this.allIntervals.splice(instanceIndex, 1);
+        }
     }
 }
 

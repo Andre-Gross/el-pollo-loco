@@ -84,6 +84,7 @@ class Endboss extends MovableObject {
             this.alignSelfTo(world.character)
             this.setAnimation();
         }, this.timeForFullAnimation / this.picturesForCurrentAnimation.length)
+        this.pushToAllIntervals(this.imageInterval);
     }
 
 
@@ -96,7 +97,7 @@ class Endboss extends MovableObject {
 
 
     handleJumpAttack() {
-        clearInterval(this.imageInterval);
+        this.removeIntervalById(this.imageInterval);
         let i = 0;
         let alreadyJumped = false;
         this.jumpInterval = setInterval(() => {
@@ -110,16 +111,16 @@ class Endboss extends MovableObject {
                     this.positionInterval = setInterval(() => {
                         this.x -= this.speedXPerFrame;
                     }, 1000 / maxFPS);
-
+                    this.pushToAllIntervals(this.positionInterval);
                     alreadyJumped = true
                     i = 4;
                 }
                 this.img = this.imgCache[this.IMAGES_ATTACK.slice(3, 4)];
             } else if (i === 6) {
-                clearInterval(this.jumpInterval);
+                this.removeIntervalById(this.jumpInterval);
                 this.animate();
             } else if (this.standOnGround()) {
-                clearInterval(this.positionInterval);
+                this.removeIntervalById(this.positionInterval);
                 this.alignSelfTo(world.character)
                 alreadyJumped = false;
                 this.playAnimation(this.IMAGES_ATTACK.slice(6, 8), i - 4)
@@ -130,6 +131,7 @@ class Endboss extends MovableObject {
                 this.img = this.imgCache[this.IMAGES_ATTACK.slice(5, 6)]
             }
         }, 500 / this.picturesForCurrentAnimation.length)
+        this.pushToAllIntervals(this.jumpInterval);
     }
 
 

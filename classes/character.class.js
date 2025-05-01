@@ -76,6 +76,8 @@ class Character extends MovableObject {
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
 
+    checkThrowInterval;
+
 
     constructor() {
         super().loadImage('./assets/img/2_character_pepe/2_walk/W-21.png');
@@ -100,11 +102,13 @@ class Character extends MovableObject {
         this.imageInterval = setInterval(() => {
             this.setAnimation();
         }, this.timeForFullAnimation / this.picturesForCurrentAnimation.length)
+
+        this.pushAnimationToAllIntervals();
     }
 
 
     checkThrow() {
-        setInterval(() => {
+        this.checkThrowInterval = setInterval(() => {
             if (this.isPressedThrow() && this.collectedItems['bottles'] > 0) {
                 const throwableObjects = this.world.level.throwableObjects
                 for (let i = 0; i < throwableObjects.length; i++) {
@@ -122,7 +126,7 @@ class Character extends MovableObject {
 
             }
         }, 1000 / maxFPS);
-
+        this.pushToAllIntervals(this.checkThrowInterval);
     }
 
 
@@ -159,7 +163,7 @@ class Character extends MovableObject {
 
 
     handleJumpAnimation(startFromGround = true) {
-        clearInterval(this.imageInterval);
+        this.removeIntervalById(this.imageInterval);
         let i = 0;
         let summitSpeedY = 5;
         let alreadyJumped = false;
@@ -180,12 +184,12 @@ class Character extends MovableObject {
             } else if (this.speedY < summitSpeedY && this.speedY > -summitSpeedY) {
                 this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 5)]
             } else if (i === 6) {
-                clearInterval(this.jumpInterval);
-                clearInterval(this.positionInterval);
+                this.removeIntervalById(this.jumpInterval);
+                this.removeIntervalById(this.positionInterval);
                 this.animate();
             } else if (this.standOnGround()) {
                 // if (!alreadyStand) {
-                //     clearInterval(this.positionInterval);
+                //     removeIntervalById(this.positionInterval);
                 // }
                 this.playAnimation(this.IMAGES_JUMP.slice(6, 8), i - 4)
                 i++
@@ -193,6 +197,8 @@ class Character extends MovableObject {
                 this.img = this.imgCache[this.IMAGES_JUMP.slice(5, 6)]
             }
         }, 500 / this.picturesForCurrentAnimation.length)
+
+        this.pushToAllIntervals(this.jumpInterval);
     }
 
 
@@ -206,13 +212,15 @@ class Character extends MovableObject {
                 }
                 if (this.isPressedMove()) {
                     clearTimeout(knockBackTimeout);
-                    clearInterval(knockBackInterval);
+                    this.removeIntervalById(knockBackInterval);
                 }
             }, 1000 / maxFPS)
 
             const knockBackTimeout = setTimeout(() => {
-                clearInterval(knockBackInterval);
+                this.removeIntervalById(knockBackInterval);
             }, duration)
+
+            this.pushToAllIntervals(this.knockBackInterval)
     }
 
 
@@ -238,7 +246,6 @@ class Character extends MovableObject {
     setPosition() {
         if (this.isDead()) {
             return
-            //     return;
         } else {
             this.setPositionLeftAndRight();
         }

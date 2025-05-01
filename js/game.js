@@ -43,13 +43,6 @@ function activateKeyDown() {
 }
 
 
-function restartGame() {
-    world = new World;
-    isGameStarted = false;
-    startGame();
-}
-
-
 function activateKeyUp() {
     document.addEventListener('keyup', (event => {
         let key = event.key;
@@ -95,12 +88,9 @@ function startGame() {
 }
 
 
-function stopGame() {
-    const interval_id = window.setInterval(function () { }, Number.MAX_SAFE_INTEGER);
-
-    for (let i = 1; i < interval_id; i++) {
-        window.clearInterval(i);
-    }
+function pauseGame() {
+    allGameIntervals.forEach((interval) => {clearInterval(interval)});
+    allGameIntervals = [];
 }
 
 

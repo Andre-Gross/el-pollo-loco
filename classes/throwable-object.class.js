@@ -90,13 +90,15 @@ class ThrowableObject extends CollectableObjects {
         this.imageInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_THROW);
         }, 600 / this.IMAGES_THROW.length)
+        
+        this.pushAnimationToAllIntervals();
     }
 
 
-    clearAllIntervals() {
-        this.clearAnimation();
-        clearInterval(this.throwInterval);
-        clearInterval(this.gravityInterval);
+    removeAllIntervals() {
+        this.removeAnimationById();
+        this.removeIntervalById(this.throwInterval);
+        this.removeIntervalById(this.gravityInterval);
     }
 
 
@@ -124,7 +126,7 @@ class ThrowableObject extends CollectableObjects {
         this.throwInterval = setInterval(() => {
             this.world.level.enemies.forEach((enemy) => {
                 if (this.isCollidingLivingEnemy(enemy) || this.standOnGround()) {
-                    this.clearAllIntervals();
+                    this.removeAllIntervals();
                     this.speedY = 0;
                     this.setSplashAnimation();
                     setTimeout(() => {
@@ -137,6 +139,7 @@ class ThrowableObject extends CollectableObjects {
                 }
             })
         })
+        this.pushToAllIntervals(this.throwInterval);
     }
 
 
@@ -153,6 +156,7 @@ class ThrowableObject extends CollectableObjects {
         this.imageInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_SPLASH);
         }, this.splashTimeFullAnimation / this.IMAGES_SPLASH.length)
+        this.pushToAllIntervals(this.imageInterval);
     }
 
 
