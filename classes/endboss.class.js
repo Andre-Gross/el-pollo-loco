@@ -139,7 +139,7 @@ class Endboss extends MovableObject {
         const additionalSpeed = 150 / maxFPS;
         this.standartSpeedXPerFrame = this.standartSpeedXPerFrame + additionalSpeed;
 
-        clearInterval(this.imageInterval);
+        this.removeIntervalById(this.imageInterval);
 
         this.imageInterval = setInterval(() => {
             if (this.speedXPerFrame === 0) {
@@ -148,16 +148,18 @@ class Endboss extends MovableObject {
                 this.playAnimation(this.IMAGES_WALK)
             }
         }, 600 / this.IMAGES_WALK.length)
+        this.pushToAllIntervals(this.imageInterval);
 
         this.alignSelfTo(world.character)
 
         this.positionInterval = setInterval(() => {
             this.x -= this.speedXPerFrame;
         }, 1000 / maxFPS);
+        this.pushToAllIntervals(this.positionInterval);
 
         setTimeout(() => {
             this.standartSpeedXPerFrame = this.standartSpeedXPerFrame - additionalSpeed;
-            this.clearAnimation();
+            this.removeAnimationById();
             this.animate();
         }, 1000)
     }
@@ -185,7 +187,7 @@ class Endboss extends MovableObject {
         if (this.isDead()) {
             this.playRightAnimation(timeToDie, this.IMAGES_DEAD, 0);
             setTimeout(() => {
-                this.clearAnimation();
+                this.removeAnimationById();
                 this.img = this.imgCache[this.IMAGES_DEAD[2]];
             }, timeToDie - (timeToDie / this.IMAGES_DEAD.length))
         } else if (this.isHurt()) {

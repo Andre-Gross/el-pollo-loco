@@ -182,6 +182,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    pushAnimationToAllIntervals() {
+        this.pushToAllIntervals(this.positionInterval);
+        this.pushToAllIntervals(this.imageInterval);
+    }
+
+
     pushToAllIntervals(interval) {
         this.allIntervals.push(interval);
         allGameIntervals.push(interval);
@@ -219,72 +225,71 @@ class MovableObject extends DrawableObject {
             this.allIntervals.splice(instanceIndex, 1);
         }
     }
-}
 
 
-resetAnimationImages(time, pictureSet) {
-    this.timeForFullAnimation = time;
-    this.picturesForCurrentAnimation = pictureSet;
-    this.clearAnimation();
-    this.animate();
-}
-
-
-isHitFromRight(mo) {
-    if (this.x < mo.x) {
-        return true;
-    } else {
-        return false;
+    resetAnimationImages(time, pictureSet) {
+        this.timeForFullAnimation = time;
+        this.picturesForCurrentAnimation = pictureSet;
+        this.clearAnimation();
+        this.animate();
     }
-}
 
 
-returnRectDatas() {
-    return [
-        this.returnVisibleStartX(),
-        this.returnVisibleStartY(),
-        this.returnVisibleWidth(),
-        this.returnVisibleHeight()
-    ];
-}
+    isHitFromRight(mo) {
+        if (this.x < mo.x) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
-returnVisibleStartX() {
-    return this.x + this.imgOffsetCanvas.left;
-}
+    returnRectDatas() {
+        return [
+            this.returnVisibleStartX(),
+            this.returnVisibleStartY(),
+            this.returnVisibleWidth(),
+            this.returnVisibleHeight()
+        ];
+    }
 
 
-returnVisibleStartY() {
-    return this.y + this.imgOffsetCanvas.top;
-}
+    returnVisibleStartX() {
+        return this.x + this.imgOffsetCanvas.left;
+    }
 
 
-returnVisibleMiddleXOfObject() {
-    return (2 * this.returnVisibleStartX() + this.returnVisibleWidth()) / 2
-}
+    returnVisibleStartY() {
+        return this.y + this.imgOffsetCanvas.top;
+    }
 
 
-returnVisibleMiddleYOfObject() {
-    return (2 * this.returnVisibleStartY() + this.returnVisibleHeight()) / 2
-}
+    returnVisibleMiddleXOfObject() {
+        return (2 * this.returnVisibleStartX() + this.returnVisibleWidth()) / 2
+    }
 
 
-returnVisibleEndX() {
-    return this.returnVisibleStartX() + this.returnVisibleWidth()
-}
+    returnVisibleMiddleYOfObject() {
+        return (2 * this.returnVisibleStartY() + this.returnVisibleHeight()) / 2
+    }
 
 
-returnVisibleEndY() {
-    return this.returnVisibleStartY() + this.returnVisibleHeight()
-}
+    returnVisibleEndX() {
+        return this.returnVisibleStartX() + this.returnVisibleWidth()
+    }
 
 
-returnVisibleWidth() {
-    return this.width - this.imgOffsetCanvas.right - this.imgOffsetCanvas.left;
-}
+    returnVisibleEndY() {
+        return this.returnVisibleStartY() + this.returnVisibleHeight()
+    }
 
 
-returnVisibleHeight() {
-    return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
-}
+    returnVisibleWidth() {
+        return this.width - this.imgOffsetCanvas.right - this.imgOffsetCanvas.left;
+    }
+
+
+    returnVisibleHeight() {
+        return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
+    }
 }
