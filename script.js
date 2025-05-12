@@ -5,6 +5,30 @@ let savedViewportHeigth;
 let savedViewportWidth;
 
 
+function calculateSizeOfEachContainer() {
+    viewportHeight = window.innerHeight;
+    viewportWidth = window.innerWidth;
+
+    if (viewportHeight != savedViewportHeigth || viewportWidth != savedViewportWidth) {
+        savedViewportHeigth = viewportHeight;
+        savedViewportWidth = viewportWidth;
+
+        canvasHeight = viewportHeight * 0.8;
+        canvasWidth = 1920 * canvasHeight / 1080;
+
+        if (canvasWidth > viewportWidth) {
+            canvasWidth = viewportWidth;
+            canvasHeight = canvasWidth * 1080 / 1920;
+        }
+
+        if (world) {
+            world.resetWorldSizesAndPositions();
+        }
+    }
+}
+
+
+
 function setSizeOfEachContainer() {
     canvas = document.getElementById('canvas');
     controlContainer = document.getElementById('control-container');
@@ -144,21 +168,7 @@ addEventListener("DOMContentLoaded", (event) => {
     setSizeOfEachContainer();
 
     setInterval(() => {
-        viewportHeight = window.innerHeight;
-        viewportWidth = window.innerWidth;
-
-        if (viewportHeight != savedViewportHeigth || viewportWidth != savedViewportWidth) {
-            savedViewportHeigth = viewportHeight;
-            savedViewportWidth = viewportWidth;
-
-            canvasHeight = viewportHeight * 0.8;
-            canvasWidth = 1920 * canvasHeight / 1080;
-            
-            if (canvasWidth > viewportWidth) {
-                canvasWidth = viewportWidth;
-                canvasHeight = canvasWidth * 1080 / 1920;
-            }
-        }
+        calculateSizeOfEachContainer();
         setSizeOfEachContainer();
     }, 1000)
 });
