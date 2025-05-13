@@ -3,7 +3,7 @@ class MovableObject extends DrawableObject {
     health = 100;
     lastHit = 0;
 
-    groundLevel = canvasHeight * 415 / 480;
+    groundLevel = this.calculateGroundLevel();
 
     speedXPerSecond;
     standartSpeedXPerFrame;
@@ -55,6 +55,11 @@ class MovableObject extends DrawableObject {
     calculateDistanceTo(mo) {
         const distance = Math.abs(this.x - mo.x);
         return distance;
+    }
+
+
+    calculateGroundLevel() {
+        return canvasHeight * 415 / 480
     }
 
 
