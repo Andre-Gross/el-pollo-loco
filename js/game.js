@@ -2,10 +2,6 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 
-const backgroundImgOriginalHeight = 1080;
-const backgroundImgOriginalWidth = 3840;
-let backgroundHeightFactor = canvasHeight / backgroundImgOriginalHeight;
-
 let maxFPS = 60;
 
 isGameStarted = false;

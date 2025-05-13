@@ -1,11 +1,20 @@
 let canvasHeight = 480;
 let canvasWidth = 1920 * canvasHeight / 1080;
 
+const backgroundImgOriginalHeight = 1080;
+const backgroundImgOriginalWidth = 3840;
+let backgroundHeightFactor = calculateBackgroundHeightFactor();
+
 let savedViewportHeigth;
 let savedViewportWidth;
 
 
 function calculateSizeOfEachContainer() {
+function calculateBackgroundHeightFactor() {
+    return canvasHeight / backgroundImgOriginalHeight;
+}
+
+
     viewportHeight = window.innerHeight;
     viewportWidth = window.innerWidth;
 
