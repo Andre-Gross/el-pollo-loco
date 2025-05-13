@@ -9,7 +9,6 @@ let savedViewportHeigth;
 let savedViewportWidth;
 
 
-function calculateSizeOfEachContainer() {
 function calculateBackgroundHeightFactor() {
     return canvasHeight / backgroundImgOriginalHeight;
 }
