@@ -81,6 +81,9 @@ function startGame() {
         toggleDisplayNone(startGameButton, 'd-inline-block', false);
         toggleDisplayNone(showControlsButton, 'd-inline-block', false);
         toggleDisplayNone(showStartScreenButton, 'd-inline-block', false)
+
+        calculateSizeOfEachContainer(true);
+
     }
 }
 
