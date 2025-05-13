@@ -15,10 +15,11 @@ function calculateBackgroundHeightFactor() {
 }
 
 
+function calculateSizeOfEachContainer(forcedRecalculating = false) {
     viewportHeight = window.innerHeight;
     viewportWidth = window.innerWidth;
 
-    if (viewportHeight != savedViewportHeigth || viewportWidth != savedViewportWidth) {
+    if (viewportHeight != savedViewportHeigth || viewportWidth != savedViewportWidth || forcedRecalculating) {
         savedViewportHeigth = viewportHeight;
         savedViewportWidth = viewportWidth;
 
