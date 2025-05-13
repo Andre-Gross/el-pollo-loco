@@ -252,6 +252,18 @@ class Character extends MovableObject {
     }
 
 
+    
+    setSizeAfterResize() {
+        this.height = this.calculateHeight();
+        this.width = this.calculateWidth();
+    }
+
+
+    setPositionAfterResize() {
+
+    }
+
+
     setPositionLeftAndRight() {
         if (this.isPressedRight() && this.x < this.world.level.level_end_x) {
             this.moveRight();

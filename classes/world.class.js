@@ -191,9 +191,7 @@ class World {
 
 
     resetWorldSizesAndPositions() {
-        // if (character) {
-        //     character.setSizeOfObject();
-        // }
+        this.character.setSizeAfterResize();
 
         // statusBars.forEach(obj => obj.setSizeOfObject());
 
