@@ -206,8 +206,8 @@ class World {
         ];
 
         levelObjects.forEach((obj) => {
-            obj.setSizeOfObject();
-            obj.setPositionOfObject();
+            obj.setSizeAfterResize();
+            obj.setPositionAfterResize();
         }
         );
 

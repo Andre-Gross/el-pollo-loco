@@ -18,13 +18,23 @@ class BackgroundObject extends MovableObject {
     }
 
 
-    setSizeOfObject() {
-        this.height = canvasHeight;
-        this.width = (3840 * this.height / backgroundImgOriginalHeight);
+    setPositionAfterResize() {
+        this.setPositionOfObject();
+    }
+
+
+    setSizeAfterResize() {
+        this.setSizeOfObject();
     }
 
 
     setPositionOfObject(position = this.position) {
         this.x = backgroundImgOriginalWidth * position * this.height / backgroundImgOriginalHeight - (position);
+    }
+
+
+    setSizeOfObject() {
+        this.height = canvasHeight;
+        this.width = (3840 * this.height / backgroundImgOriginalHeight);
     }
 }
