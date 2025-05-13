@@ -32,6 +32,7 @@ function calculateSizeOfEachContainer(forcedRecalculating = false) {
         }
 
         if (world) {
+            backgroundHeightFactor = calculateBackgroundHeightFactor();
             world.resetWorldSizesAndPositions();
         }
     }
