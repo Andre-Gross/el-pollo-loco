@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    // health = 100000000
+    health = 100000000
 
     collectedItems = {
         bottles: 0,
@@ -203,24 +203,24 @@ class Character extends MovableObject {
 
 
     knockBack(hitFromRight, duration) {
-            this.jump(3)
-            const knockBackInterval = setInterval(() => {
-                if (hitFromRight && this.x > 0) {
-                    this.moveLeft()
-                } else if (this.x < this.world.level.level_end_x) {
-                    this.moveRight()
-                }
-                if (this.isPressedMove()) {
-                    clearTimeout(knockBackTimeout);
-                    this.removeIntervalById(knockBackInterval);
-                }
-            }, 1000 / maxFPS)
-
-            const knockBackTimeout = setTimeout(() => {
+        this.jump(3)
+        const knockBackInterval = setInterval(() => {
+            if (hitFromRight && this.x > 0) {
+                this.moveLeft()
+            } else if (this.x < this.world.level.level_end_x) {
+                this.moveRight()
+            }
+            if (this.isPressedMove()) {
+                clearTimeout(knockBackTimeout);
                 this.removeIntervalById(knockBackInterval);
-            }, duration)
+            }
+        }, 1000 / maxFPS)
 
-            this.pushToAllIntervals(this.knockBackInterval)
+        const knockBackTimeout = setTimeout(() => {
+            this.removeIntervalById(knockBackInterval);
+        }, duration)
+
+        this.pushToAllIntervals(this.knockBackInterval)
     }
 
 
@@ -249,18 +249,6 @@ class Character extends MovableObject {
         } else {
             this.setPositionLeftAndRight();
         }
-    }
-
-
-    
-    setSizeAfterResize() {
-        this.height = this.calculateHeight();
-        this.width = this.calculateWidth();
-    }
-
-
-    setPositionAfterResize() {
-
     }
 
 
