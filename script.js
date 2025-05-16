@@ -14,31 +14,6 @@ function calculateBackgroundHeightFactor() {
 }
 
 
-function calculateSizeOfEachContainer(forcedRecalculating = false) {
-    viewportHeight = window.innerHeight;
-    viewportWidth = window.innerWidth;
-
-    if (viewportHeight != savedViewportHeigth || viewportWidth != savedViewportWidth || forcedRecalculating) {
-        savedViewportHeigth = viewportHeight;
-        savedViewportWidth = viewportWidth;
-
-        canvasHeight = viewportHeight * 0.8;
-        canvasWidth = 1920 * canvasHeight / 1080;
-
-        if (canvasWidth > viewportWidth) {
-            canvasWidth = viewportWidth;
-            canvasHeight = canvasWidth * 1080 / 1920;
-        }
-
-        if (world) {
-            backgroundHeightFactor = calculateBackgroundHeightFactor();
-            world.resetWorldSizesAndPositions();
-        }
-    }
-}
-
-
-
 function setSizeOfEachContainer() {
     canvas = document.getElementById('canvas');
     controlContainer = document.getElementById('control-container');
@@ -178,7 +153,6 @@ addEventListener("DOMContentLoaded", (event) => {
     setSizeOfEachContainer();
 
     setInterval(() => {
-        calculateSizeOfEachContainer();
         setSizeOfEachContainer();
     }, 1000)
 });

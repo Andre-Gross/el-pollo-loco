@@ -190,28 +190,6 @@ class World {
     }
 
 
-    resetWorldSizesAndPositions() {
-        this.character.setSizeAfterResize();
-
-        // statusBars.forEach(obj => obj.setSizeOfObject());
-
-        const levelObjects = [
-            // ...level.enemies,
-            ...this.level.backgroundObjects,
-            // ...level.clouds,
-            // ...level.coins,
-            // ...level.throwableObjects
-        ];
-
-        levelObjects.forEach((obj) => {
-            obj.setSizeAfterResize();
-            obj.setPositionAfterResize();
-        }
-        );
-
-    }
-
-
     setWorld() {
         this.character.world = this;
         this.setWorldInStatusbars();
