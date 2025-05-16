@@ -39,6 +39,18 @@ class Character extends MovableObject {
         './assets/img/2_character_pepe/1_idle/idle/I-9.png',
         './assets/img/2_character_pepe/1_idle/idle/I-10.png',
     ];
+    IMAGES_SLEEP = [
+        './assets/img/2_character_pepe/1_idle/long_idle/I-11.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-12.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-13.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-14.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-15.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-16.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-17.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-18.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-19.png',
+        './assets/img/2_character_pepe/1_idle/long_idle/I-20.png',
+    ]
     IMAGES_WALK = [
         './assets/img/2_character_pepe/2_walk/W-21.png',
         './assets/img/2_character_pepe/2_walk/W-22.png',
@@ -75,6 +87,7 @@ class Character extends MovableObject {
 
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
+    sleepTimer = Date.now();
 
     checkThrowInterval;
 
@@ -82,6 +95,7 @@ class Character extends MovableObject {
     constructor() {
         super().loadImage('./assets/img/2_character_pepe/2_walk/W-21.png');
         this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_SLEEP);
         this.loadImages(this.IMAGES_WALK);
         this.loadImages(this.IMAGES_JUMP);
         this.loadImages(this.IMAGES_DEAD);
@@ -127,6 +141,11 @@ class Character extends MovableObject {
             }
         }, 1000 / maxFPS);
         this.pushToAllIntervals(this.checkThrowInterval);
+    }
+
+
+    checkTimeToSleep() {
+        return Date.now() - this.sleepTimer > 5000;
     }
 
 
@@ -224,20 +243,33 @@ class Character extends MovableObject {
     }
 
 
+    resetSleepTimer(time = 0) {
+        this.sleepTimer = Date.now();
+    }
+
+
     setAnimation() {
         if (this.isDead()) {
             this.playRightAnimation(2000, this.IMAGES_DEAD)
         } else if (this.isHurt()) {
             this.playRightAnimation(1000, this.IMAGES_HURT)
+            this.resetSleepTimer();
         } else if (this.isAboveGround()) {
             this.playRightAnimation(1000, this.IMAGES_JUMP)
+            this.resetSleepTimer();
         } else {
             if (this.isPressedUp()) {
                 this.handleJumpAnimation();
+                this.resetSleepTimer();
             } else if (this.isPressedRight() || this.isPressedLeft()) {
                 this.playRightAnimation(1000, this.IMAGES_WALK);
+                this.resetSleepTimer();
             } else {
-                this.playRightAnimation(1000, this.IMAGES_IDLE)
+                if (this.checkTimeToSleep()) {
+                    this.playRightAnimation(2000, this.IMAGES_SLEEP)
+                } else {
+                    this.playRightAnimation(1000, this.IMAGES_IDLE)
+                }
             }
         }
     }
