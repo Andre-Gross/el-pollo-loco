@@ -6,6 +6,9 @@ const level1 = new Level(
         new Chicken(endOfXInLevel1),
         new Chicken(endOfXInLevel1),
         new Chicken(endOfXInLevel1),
+        new SmallChicken(endOfXInLevel1),
+        new SmallChicken(endOfXInLevel1),
+        new SmallChicken(endOfXInLevel1),
         new Endboss(),
     ],
     [
