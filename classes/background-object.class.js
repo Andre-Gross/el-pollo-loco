@@ -18,16 +18,6 @@ class BackgroundObject extends MovableObject {
     }
 
 
-    setPositionAfterResize() {
-        this.setPositionOfObject();
-    }
-
-
-    setSizeAfterResize() {
-        this.setSizeOfObject();
-    }
-
-
     setPositionOfObject(position = this.position) {
         this.x = backgroundImgOriginalWidth * position * this.height / backgroundImgOriginalHeight - (position);
     }
