@@ -249,6 +249,14 @@ class MovableObject extends DrawableObject {
     }
 
 
+    restart() {
+        this.removeIntervalById(this.positionInterval);
+        this.removeIntervalById(this.imageInterval);
+        this.init();
+        this.animate();
+    }
+
+
     returnRectDatas() {
         return [
             this.returnVisibleStartX(),
