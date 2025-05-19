@@ -199,8 +199,8 @@ class MovableObject extends DrawableObject {
     }
 
 
-    randomizeSpwanX(endOfX) {
-        return 200 + Math.random() * (endOfX - 800)
+    randomizeSpwanX(endOfX, startOfX = 200) {
+        return startOfX + Math.random() * (endOfX - 800)
     }
 
 
