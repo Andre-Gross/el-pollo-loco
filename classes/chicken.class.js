@@ -1,5 +1,5 @@
-class Chicken extends MovableObject {
-    health = 10;
+class Chicken extends Enemy {
+    standartHealth = 10;
 
     originalImgHeight = 243;
     originalImgWidth = 248;
@@ -45,12 +45,6 @@ class Chicken extends MovableObject {
         this.endOfX = endOfX;
 
         this.init(endOfX);
-    }
-
-
-    init(endOfX = this.endOfX) {
-        this.health = 10;
-        this.x = this.randomizeSpwanX(endOfX);
     }
 
 

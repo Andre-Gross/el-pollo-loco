@@ -1,5 +1,5 @@
 class SmallChicken extends Chicken {
-    health = 5;
+    standartHealth = 5;
 
     originalImgHeight = 210;
     originalImgWidth = 236;
@@ -38,7 +38,9 @@ class SmallChicken extends Chicken {
         super().loadImage('./assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png')
         this.loadImage(this.IMAGE_DEAD);
         this.loadImages(this.IMAGES_WALK);
-        this.x = this.randomizeSpwanX(endOfX);
+        this.endOfX = endOfX;
+
+        this.init(endOfX);
     }
 
     animate() {
