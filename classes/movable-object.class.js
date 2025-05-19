@@ -1,6 +1,7 @@
 class MovableObject extends DrawableObject {
 
-    health = 100;
+    standartHealth = 100;
+    health;
     lastHit = 0;
 
     groundLevel = this.calculateGroundLevel();
