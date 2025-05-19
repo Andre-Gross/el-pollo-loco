@@ -200,8 +200,6 @@ class Character extends MovableObject {
                     // }, 1000 / maxFPS)
                 }
                 this.img = this.imgCache[this.IMAGES_JUMP.slice(3, 4)]
-            } else if (this.speedY < summitSpeedY && this.speedY > -summitSpeedY) {
-                this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 5)]
             } else if (i === 6) {
                 this.removeIntervalById(this.jumpInterval);
                 this.removeIntervalById(this.positionInterval);
@@ -211,7 +209,9 @@ class Character extends MovableObject {
                 //     removeIntervalById(this.positionInterval);
                 // }
                 this.playAnimation(this.IMAGES_JUMP.slice(6, 8), i - 4)
-                i++
+                i++;
+            } else if (this.speedY < summitSpeedY && this.speedY > -summitSpeedY) {
+                this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 5)]
             } else if (this.speedY < -summitSpeedY) {
                 this.img = this.imgCache[this.IMAGES_JUMP.slice(5, 6)]
             }
