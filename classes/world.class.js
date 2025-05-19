@@ -143,6 +143,17 @@ class World {
     }
 
 
+    restart() {
+        this.level.enemies.forEach((enemy) => {
+            enemy.restart()
+        });
+
+        this.level.clouds.forEach((cloud) => {
+            cloud.restart()
+        });
+    }
+
+
     enemyHitCharacter(enemy) {
         const hitFromRight = this.character.isHitFromRight(enemy);
         this.character.getHit(hitFromRight);
