@@ -2,6 +2,7 @@ class Cloud extends BackgroundObject {
     height = canvasHeight;
     width = (3840 * this.height / backgroundImgOriginalHeight);
 
+    standartX;
     y = 0;
 
     speedXPerFrame = 6 / maxFPS;
@@ -9,7 +10,8 @@ class Cloud extends BackgroundObject {
     constructor(x = 0) {
         super().loadImage('./assets/img/5_background/layers/4_clouds/full.png')
 
-        x = this.calculateX(x);
+        this.standartX = x
+        this.init(x);
 
         this.animate();
     }
@@ -25,5 +27,10 @@ class Cloud extends BackgroundObject {
 
     calculateX(x) {
         return (x + Math.random() * 500) * backgroundHeightFactor;
+    }
+
+
+    init(x = this.standartX) {
+        this.x = this.calculateX(x);
     }
 }
