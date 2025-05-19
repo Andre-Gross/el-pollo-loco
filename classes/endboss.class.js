@@ -1,4 +1,5 @@
 class Endboss extends MovableObject {
+
     originalImgHeight = 1217;
     originalImgWidth = 1045;
 
@@ -70,12 +71,19 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_WALK);
-        // this.x = 600 / backgroundImgOriginalHeight * canvasHeight;
-        this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
-        this.y = this.calculateY();
+
+        this.init();
 
         this.applyGravity();
 
+    }
+
+
+    init() {
+        this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
+        this.y = this.calculateY();
+
+        this.health = this.standartHealth;
     }
 
 
