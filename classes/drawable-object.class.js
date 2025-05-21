@@ -3,7 +3,7 @@ class DrawableObject {
 
     originalImgHeight;
     originalImgWidth;
-    sizeFactor;
+    sizeFactor = 1;
 
     height
     width
