@@ -1,10 +1,8 @@
 class Character extends MovableObject {
-    health = 100000000
 
-    collectedItems = {
-        bottles: 0,
-        coins: 0
-    }
+    standartHealth = 100000000;
+
+    collectedItems = {};
 
     originalImgHeight = 1200;
     originalImgWidth = 610;
@@ -20,9 +18,6 @@ class Character extends MovableObject {
         bottom: 60
     };
     imgOffsetCanvas = this.scaleImgOffset();
-
-    x = 70;
-    y = this.calculateY();
 
     speedXPerSecond = 480;
     speedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
@@ -101,10 +96,19 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
 
+        this.init();
         this.applyGravity();
 
         this.animate();
         this.checkThrow();
+    }
+
+
+    init() {
+        this.health = this.standartHealth;
+        this.x = 70;
+        this.y = this.calculateY();
+        this.setCollectedItems();
     }
 
 
@@ -245,6 +249,24 @@ class Character extends MovableObject {
 
     setSleepTimer() {
         this.sleepTimer = Date.now();
+    }
+
+
+    setCollectedItems(bottles = 0, coins = 0) {
+        this.collectedItems = {
+            bottles: bottles,
+            coins: coins
+        }
+    }
+
+
+    restart() {
+        this.removeIntervalById(this.positionInterval);
+        this.removeIntervalById(this.imageInterval);
+        this.removeIntervalById(this.jumpInterval);
+        this.setSleepTimer();
+        this.init();
+        this.animate();
     }
 
 

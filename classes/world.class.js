@@ -151,6 +151,9 @@ class World {
         this.level.clouds.forEach((cloud) => {
             cloud.restart()
         });
+
+        this.character.restart();
+
     }
 
 
