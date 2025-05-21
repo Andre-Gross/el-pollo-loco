@@ -243,7 +243,7 @@ class Character extends MovableObject {
     }
 
 
-    resetSleepTimer(time = 0) {
+    setSleepTimer() {
         this.sleepTimer = Date.now();
     }
 
@@ -253,17 +253,17 @@ class Character extends MovableObject {
             this.playRightAnimation(2000, this.IMAGES_DEAD)
         } else if (this.isHurt()) {
             this.playRightAnimation(1000, this.IMAGES_HURT)
-            this.resetSleepTimer();
+            this.setSleepTimer();
         } else if (this.isAboveGround()) {
             this.playRightAnimation(1000, this.IMAGES_JUMP)
-            this.resetSleepTimer();
+            this.setSleepTimer();
         } else {
             if (this.isPressedUp()) {
                 this.handleJumpAnimation();
-                this.resetSleepTimer();
+                this.setSleepTimer();
             } else if (this.isPressedRight() || this.isPressedLeft()) {
                 this.playRightAnimation(1000, this.IMAGES_WALK);
-                this.resetSleepTimer();
+                this.setSleepTimer();
             } else {
                 if (this.checkTimeToSleep()) {
                     this.playRightAnimation(2000, this.IMAGES_SLEEP)
