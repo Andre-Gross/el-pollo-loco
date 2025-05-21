@@ -2,12 +2,12 @@ class World {
     height = 480;
 
     character = new Character();
+    level = level1;
     statusBars = [
         new HealthStatusbar(),
         new CoinStatusbar(),
         new BottleStatusbar()
     ];
-    level = level1;
 
     startScreen = new StartScreen();
     canvas;
@@ -154,6 +154,9 @@ class World {
 
         this.character.restart();
 
+        this.statusBars.forEach((sb) => {
+            sb.restart();
+        })
     }
 
 

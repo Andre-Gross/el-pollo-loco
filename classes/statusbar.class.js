@@ -1,4 +1,5 @@
 class Statusbar extends DrawableObject {
+
     percentage;
 
     originalImgHeight = 158;
@@ -11,6 +12,8 @@ class Statusbar extends DrawableObject {
     position;
     x = 10;
     y = 0;
+
+    world;
 
 
     calculatePercentage(currentValue, maxValue) {
