@@ -26,6 +26,20 @@ class MovableObject extends DrawableObject {
     IMAGES_WALK;
 
 
+    addPositionInterval() {
+        this.positionInterval = setInterval(() => {
+            this.setPosition();
+        }, 1000 / maxFPS);
+    }
+
+
+    addImageInterval() {
+        this.imageInterval = setInterval(() => {
+            this.setAnimation();
+        }, this.timeForFullAnimation / this.picturesForCurrentAnimation.length)
+    }
+
+
     alignSelfTo(mo) {
         const middleOfThis = this.returnVisibleMiddleXOfObject();
         const middleOfObject = mo.returnVisibleMiddleXOfObject();
@@ -128,8 +142,8 @@ class MovableObject extends DrawableObject {
     }
 
 
-    isCurrentAnimationRightAnimation(pictureSet) {
-        return this.picturesForCurrentAnimation === pictureSet
+    isCurrentAnimationRightAnimation(imageSet) {
+        return this.picturesForCurrentAnimation === imageSet
     }
 
 
@@ -180,11 +194,11 @@ class MovableObject extends DrawableObject {
     }
 
 
-    playRightAnimation(time, pictureSet, index) {
-        if (!this.isCurrentAnimationRightAnimation(pictureSet)) {
-            this.resetAnimationImages(time, pictureSet)
+    playRightAnimation(time, imageSet, index) {
+        if (!this.isCurrentAnimationRightAnimation(imageSet)) {
+            this.resetAnimationImages(time, imageSet)
         }
-        this.playAnimation(pictureSet, index)
+        this.playAnimation(imageSet, index)
     }
 
 
@@ -233,9 +247,9 @@ class MovableObject extends DrawableObject {
     }
 
 
-    resetAnimationImages(time, pictureSet) {
+    resetAnimationImages(time, imageSet) {
         this.timeForFullAnimation = time;
-        this.picturesForCurrentAnimation = pictureSet;
+        this.picturesForCurrentAnimation = imageSet;
         this.clearAnimation();
         this.animate();
     }
