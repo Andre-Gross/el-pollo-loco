@@ -30,13 +30,15 @@ class MovableObject extends DrawableObject {
         this.positionInterval = setInterval(() => {
             this.setPosition();
         }, 1000 / maxFPS);
+        this.pushToAllIntervals(this.positionInterval);
     }
 
 
-    addImageInterval() {
+    addImageInterval(timeForFullAnimation = this.timeForFullAnimation, picturesForCurrentAnimation = this.picturesForCurrentAnimation) {
         this.imageInterval = setInterval(() => {
             this.setAnimation();
-        }, this.timeForFullAnimation / this.picturesForCurrentAnimation.length)
+        }, timeForFullAnimation / picturesForCurrentAnimation.length)
+        this.pushToAllIntervals(this.imageInterval);
     }
 
 
