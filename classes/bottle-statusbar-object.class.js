@@ -1,7 +1,8 @@
 class BottleStatusbar extends Statusbar {
-
     position = 2;
     y = this.calculateY(this.position);
+    
+    valuePerItem;
 
     IMAGES = [
         './assets/img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/0.png',
@@ -17,6 +18,20 @@ class BottleStatusbar extends Statusbar {
     constructor() {
         super();
         this.loadImages(this.IMAGES);
-        this.setPercentage(0);
+        this.init();
+    }
+
+
+    init() {
+        this.setPercentage(this.percentage);
+    }
+
+
+    restart() {
+        const collectedBottles = this.world.character.collectedItems['bottles'];
+        const amountOfTO = this.world.level.throwableObjects.lenght;
+        this.percentage = 100 / amountOfTO * collectedBottles;
+
+        this.init();
     }
 }

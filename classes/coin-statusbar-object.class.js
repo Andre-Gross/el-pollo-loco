@@ -17,6 +17,20 @@ class CoinStatusbar extends Statusbar {
     constructor() {
         super();
         this.loadImages(this.IMAGES);
-        this.setPercentage(0);
+        this.init()
+    }
+
+
+    init(percentage = this.percentage) {
+        this.setPercentage(percentage);
+    }
+
+
+    restart() {
+        const collectedCoins = this.world.character.collectedItems['coins'];
+        const amountOfCoins = this.world.level.coins.lenght;
+        this.percentage = 100 / amountOfCoins * collectedCoins;
+
+        this.init();
     }
 }
