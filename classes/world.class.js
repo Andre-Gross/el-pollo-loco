@@ -152,11 +152,21 @@ class World {
             cloud.restart()
         });
 
+        this.level.throwableObjects.forEach((to) => {
+            to.restart()
+        });
+
+        this.level.coins.forEach((coin) => {
+            coin.restart()
+        });
+
         this.character.restart();
 
         this.statusBars.forEach((sb) => {
             sb.restart();
         })
+
+
     }
 
 

@@ -4,9 +4,6 @@ class ThrowableObject extends CollectableObjects {
     originalImgWidth = 400;
     sizeFactor = 0.4;
 
-    height = this.calculateHeight();
-    width = this.calculateWidth();
-
     x;
     y;
 
@@ -57,18 +54,32 @@ class ThrowableObject extends CollectableObjects {
 
     constructor(endOfX) {
         super()
-        if (Math.random() > 0.5) {
-            this.loadImage(this.IMAGES_GROUND[0]);
-            this.imgOffsetOriginal = this.imgOffsetOriginal_1SalsaBottle;
-            this.imgOffsetCanvas = this.scaleImgOffset();
-        } else {
-            this.loadImage(this.IMAGES_GROUND[1]);
-            this.imgOffsetOriginal = this.imgOffsetOriginal_2SalsaBottle;
-            this.imgOffsetCanvas = this.scaleImgOffset();
-        }
+
+        this.setSizes();
+
+        this.chooseStartImage();
+        this.imgOffsetCanvas = this.scaleImgOffset();
+
         this.loadImages(this.IMAGES_THROW);
         this.loadImages(this.IMAGES_SPLASH);
 
+        this.endOfX = endOfX;
+        this.init(endOfX);
+    }
+
+
+    restart() {
+        this.isCollected = false;
+        this.isThrown = false;
+        this.removeAllIntervals();
+        this.setSizes();
+
+        this.chooseStartImage();
+        this.init();
+    }
+
+
+    init(endOfX = this.endOfX) {
         this.x = this.randomizeSpwanX(endOfX);
         this.y = this.calculateY();
     }
@@ -90,35 +101,21 @@ class ThrowableObject extends CollectableObjects {
         this.imageInterval = setInterval(() => {
             this.playAnimation(this.IMAGES_THROW);
         }, 600 / this.IMAGES_THROW.length)
-        
+
         this.pushAnimationToAllIntervals();
     }
 
 
-    removeAllIntervals() {
-        this.removeAnimationById();
-        this.removeIntervalById(this.throwInterval);
-        this.removeIntervalById(this.gravityInterval);
-    }
+    chooseStartImage() {
 
+        if (Math.random() > 0.5) {
+            this.loadImage(this.IMAGES_GROUND[0]);
+            this.imgOffsetOriginal = this.imgOffsetOriginal_1SalsaBottle;
+        } else {
+            this.loadImage(this.IMAGES_GROUND[1]);
+            this.imgOffsetOriginal = this.imgOffsetOriginal_2SalsaBottle;
+        }
 
-    isAboveGround() {
-        return this.returnVisibleMiddleYOfObject() < this.groundLevel;
-    }
-
-
-    isColliding(mo) {
-        return (
-            this.returnVisibleMiddleXOfObject() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
-            this.returnVisibleMiddleYOfObject() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
-            this.returnVisibleMiddleXOfObject() > mo.returnVisibleStartX() &&
-            this.returnVisibleMiddleYOfObject() > mo.returnVisibleStartY()
-        )
-    }
-
-
-    isCollidingLivingEnemy(enemy) {
-        return this.isColliding(enemy) && !enemy.isDead()
     }
 
 
@@ -143,12 +140,45 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
+    isAboveGround() {
+        return this.returnVisibleMiddleYOfObject() < this.groundLevel;
+    }
+
+
+    isColliding(mo) {
+        return (
+            this.returnVisibleMiddleXOfObject() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
+            this.returnVisibleMiddleYOfObject() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
+            this.returnVisibleMiddleXOfObject() > mo.returnVisibleStartX() &&
+            this.returnVisibleMiddleYOfObject() > mo.returnVisibleStartY()
+        )
+    }
+
+
+    isCollidingLivingEnemy(enemy) {
+        return this.isColliding(enemy) && !enemy.isDead()
+    }
+
+
+    removeAllIntervals() {
+        this.removeAnimationById();
+        this.removeIntervalById(this.throwInterval);
+        this.removeIntervalById(this.gravityInterval);
+    }
+
+
     setCoordinatesAndSizes() {
         const character = this.world.character;
         this.x = character.returnVisibleMiddleXOfObject();
         this.y = character.returnVisibleMiddleYOfObject();
         this.height = this.originalImgHeight * backgroundHeightFactor * 0.4;
         this.width = this.originalImgWidth * this.height / this.originalImgHeight;
+    }
+
+
+    setSizes() {
+        this.height = this.calculateHeight();
+        this.width = this.calculateWidth();
     }
 
 

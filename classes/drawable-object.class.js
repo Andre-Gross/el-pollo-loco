@@ -1,8 +1,9 @@
 class DrawableObject {
+    endOfX;
 
     originalImgHeight;
     originalImgWidth;
-    sizeFactor = 1;
+    sizeFactor;
 
     height
     width
@@ -30,6 +31,12 @@ class DrawableObject {
 
     calculateWidth() {
         return this.originalImgWidth * this.height / this.originalImgHeight
+    }
+
+
+    setSizes() {
+        this.height = this.calculateHeight();
+        this.width = this.calculateWidth();
     }
 
 

@@ -21,6 +21,13 @@ class Coin extends CollectableObjects {
     constructor(endOfX) {
         super()
         this.loadImage(this.img);
+        this.endOfX = endOfX;
+        this.init(endOfX);
+    }
+
+
+    init(endOfX = this.endOfX) {
+        this.setSizes();
 
         this.x = this.randomizeSpwanX(endOfX);
         this.y = this.randomizeSpwanY()
