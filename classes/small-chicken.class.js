@@ -29,6 +29,12 @@ class SmallChicken extends Chicken {
     IMAGE_DEAD = './assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
 
 
+    /**
+     * Creates an instance of the small chicken enemy and initializes its state.
+     *
+     * @param {number} endOfX - The maximum horizontal coordinate the character can reach.
+     *                          Used to calculate a random spawn position within that range.
+     */
     constructor(endOfX) {
         super().loadImage('./assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png')
         this.loadImage(this.IMAGE_DEAD);
