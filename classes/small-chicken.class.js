@@ -15,9 +15,6 @@ class SmallChicken extends Chicken {
     minSpeedXPerSecond = 12;
     maxAdditionalSpeedXPerSecond = 36;
 
-    standartSpeedXPerFrame = this.calculateSpeedPerFrame();
-    speedXPerFrame = this.standartSpeedXPerFrame;
-
 
     IMAGES_WALK = [
         './assets/img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
@@ -43,6 +40,7 @@ class SmallChicken extends Chicken {
 
         this.setSizes();
         this.y = this.calculateY();
+        this.setSpeedX();
 
         this.init(endOfX);
     }

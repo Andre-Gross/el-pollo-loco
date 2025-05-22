@@ -46,7 +46,7 @@ class Chicken extends Enemy {
         this.imgOffsetCanvas = this.scaleImgOffset();
         this.y = this.calculateY();
 
-        this.setSpeed();
+        this.setSpeedX();
 
         this.init(endOfX);
     }
@@ -81,8 +81,8 @@ class Chicken extends Enemy {
      * Calculates the horizontal speed per frame with a random additional speed.
      * @returns number The calculated speed per frame.
      */
-    calculateSpeedPerFrame() {
-        return (this.minSpeedXPerSecond + Math.random() * this.maxAdditionalSpeedXPerSecond) / maxFPS;
+    calculateSpeedPerFrame(minSpeedXPerSecond = this.minSpeedXPerSecond) {
+        return (minSpeedXPerSecond + Math.random() * this.maxAdditionalSpeedXPerSecond) / maxFPS;
     }
 
 
@@ -115,16 +115,5 @@ class Chicken extends Enemy {
         } else {
             this.playAnimation(this.IMAGES_WALK)
         }
-    }
-
-
-    /**
-     * Sets the horizontal movement speed per frame.
-     * Initializes standard and current speed.
-     * @returns void
-     */
-    setSpeed() {
-        this.standartSpeedXPerFrame = this.calculateSpeedPerFrame();
-        this.speedXPerFrame = this.standartSpeedXPerFrame;
     }
 }
