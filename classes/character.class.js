@@ -426,6 +426,7 @@ class Character extends MovableObject {
         this.setSleepTimer();
         this.init();
         this.animate();
+        this.otherDirection = false;
     }
 
 
