@@ -1,14 +1,9 @@
-class Endboss extends MovableObject {
+class Endboss extends Enemy {
 
     originalImgHeight = 1217;
     originalImgWidth = 1045;
 
-    x;
-    y;
-
     speedXPerSecond = 240;
-    standartSpeedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
-    speedXPerFrame = this.standartSpeedXPerFrame;
 
     imgOffsetOriginal = {
         left: 187,
@@ -17,6 +12,8 @@ class Endboss extends MovableObject {
         bottom: 125
     };
 
+    timeForFullAnimation = 1000;
+    counterWalkAttack = 0;
 
     IMAGES_ALERT = [
         'assets/img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -55,11 +52,11 @@ class Endboss extends MovableObject {
         './assets/img/4_enemie_boss_chicken/1_walk/G4.png',
     ]
 
-    timeForFullAnimation = 1000;
-    picturesForCurrentAnimation = this.IMAGES_ALERT;
-    counterWalkAttack = 0;
 
-
+    /**
+     * Constructs the enemy boss character.
+     * Loads all relevant images, sets initial properties, sizes, speed, and applies gravity.
+     */
     constructor() {
         super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_ALERT);
@@ -67,9 +64,11 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_DEAD);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_WALK);
+        this.picturesForCurrentAnimation = this.IMAGES_ALERT;
 
         this.setSizes();
         this.imgOffsetCanvas = this.scaleImgOffset();
+        this.setSpeedX();
         this.init();
 
         this.applyGravity();
@@ -77,6 +76,10 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Initializes the enemy's position and health.
+     * Sets the initial x and y coordinates based on the canvas size and sets the default health.
+     */
     init() {
         this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.y = this.calculateY();
@@ -85,6 +88,12 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Starts the animation loop for the enemy.
+     * Aligns the enemy to the player character and updates the animation frames.
+     * 
+     * @returns {void}
+     */
     animate() {
         this.imageInterval = setInterval(() => {
             this.alignSelfTo(world.character)
@@ -94,6 +103,12 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Applies damage to the enemy and stops horizontal movement if health reaches zero.
+     * 
+     * @param {number} [damage=10] - Amount of damage to apply.
+     * @returns {void}
+     */
     getHit(damage = 10) {
         this.hit(damage);
         if (this.health === 0) {
@@ -102,75 +117,207 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Starts the boss jump attack sequence.
+     * Manages all animation phases using a frame-based loop.
+     * 
+     * @returns {void}
+     */
     handleJumpAttack() {
         this.removeIntervalById(this.imageInterval);
         let i = 0;
         let alreadyJumped = false;
+
         this.jumpInterval = setInterval(() => {
-            if (i < 3) {
-                this.playAnimation(this.IMAGES_ATTACK.slice(0, 3), i)
-                i++
-            } else if (i === 3) {
-                if (!alreadyJumped) {
-                    this.jump(13);
-                    this.alignSelfTo(world.character)
-                    this.positionInterval = setInterval(() => {
-                        this.x -= this.speedXPerFrame;
-                    }, 1000 / maxFPS);
-                    this.pushToAllIntervals(this.positionInterval);
-                    alreadyJumped = true
-                    i = 4;
-                }
-                this.img = this.imgCache[this.IMAGES_ATTACK.slice(3, 4)];
-            } else if (i === 6) {
-                this.removeIntervalById(this.jumpInterval);
-                this.animate();
-            } else if (this.standOnGround()) {
-                this.removeIntervalById(this.positionInterval);
-                this.alignSelfTo(world.character)
-                alreadyJumped = false;
-                this.playAnimation(this.IMAGES_ATTACK.slice(6, 8), i - 4)
-                i++
-            } else if (this.speedY > 0) {
-                this.img = this.imgCache[this.IMAGES_ATTACK.slice(4, 5)]
-            } else if (this.speedY < 0) {
-                this.img = this.imgCache[this.IMAGES_ATTACK.slice(5, 6)]
-            }
-        }, 500 / this.picturesForCurrentAnimation.length)
+            ({ i, alreadyJumped } = this.handleJumpAttackPhase({ i, alreadyJumped }));
+        }, 500 / this.picturesForCurrentAnimation.length);
+
         this.pushToAllIntervals(this.jumpInterval);
     }
 
 
+    /**
+     * Controls the current phase of the boss jump attack.
+     * Delegates logic based on frame index and vertical state.
+     * 
+     * @param {Object} params
+     * @param {number} params.i - Current frame index.
+     * @param {boolean} params.alreadyJumped - Whether the boss has already jumped.
+     * @returns {{ i: number, alreadyJumped: boolean }} - Updated animation state.
+     */
+    handleJumpAttackPhase({ i, alreadyJumped }) {
+        if (i < 3) {
+            return this.handleJumpAttackStart(i);
+        } else if (i === 3) {
+            return this.handleJumpAttackLeap({ i, alreadyJumped });
+        } else if (i === 6) {
+            this.handleJumpAttackEnd();
+        } else if (this.standOnGround()) {
+            return this.handleJumpAttackLanding(i);
+        } else if (this.speedY > 0) {
+            this.handleJumpAttackMidAir();
+        } else if (this.speedY < 0) {
+            this.handleJumpAttackDescending();
+        }
+        return { i, alreadyJumped };
+    }
+
+
+    /**
+     * Handles the start phase of the boss jump attack.
+     * 
+     * @param {number} i - Current frame index.
+     * @returns {{ i: number }} - Updated index.
+     */
+    handleJumpAttackStart(i) {
+        this.playAnimation(this.IMAGES_ATTACK.slice(0, 3), i);
+        return { i: i + 1 };
+    }
+
+
+    /**
+     * Triggers the boss's actual jump and horizontal movement.
+     * 
+     * @param {Object} params
+     * @param {number} params.i - Current frame index.
+     * @param {boolean} params.alreadyJumped - Whether the jump was already triggered.
+     * @returns {{ i: number, alreadyJumped: boolean }} - Updated state.
+     */
+    handleJumpAttackLeap({ i, alreadyJumped }) {
+        if (!alreadyJumped) {
+            this.jump(13);
+            this.alignSelfTo(world.character);
+            this.positionInterval = setInterval(() => {
+                this.x -= this.speedXPerFrame;
+            }, 1000 / maxFPS);
+            this.pushToAllIntervals(this.positionInterval);
+            alreadyJumped = true;
+            i = 4;
+        }
+        this.img = this.imgCache[this.IMAGES_ATTACK.slice(3, 4)];
+        return { i, alreadyJumped };
+    }
+
+
+    /**
+     * Displays the appropriate image while the boss is falling.
+     * 
+     * @returns {void}
+     */
+    handleJumpAttackMidAir() {
+        this.img = this.imgCache[this.IMAGES_ATTACK.slice(4, 5)];
+    }
+
+
+    /**
+     * Displays the appropriate image while the boss is ascending.
+     * 
+     * @returns {void}
+     */
+    handleJumpAttackDescending() {
+        this.img = this.imgCache[this.IMAGES_ATTACK.slice(5, 6)];
+    }
+
+
+    /**
+     * Handles the landing animation once the boss touches the ground.
+     * 
+     * @param {number} i - Current frame index.
+     * @returns {{ i: number }} - Updated index.
+     */
+    handleJumpAttackLanding(i) {
+        this.removeIntervalById(this.positionInterval);
+        this.alignSelfTo(world.character);
+        this.playAnimation(this.IMAGES_ATTACK.slice(6, 8), i - 4);
+        return { i: i + 1 };
+    }
+
+    /**
+     * Ends the boss jump attack sequence.
+     * Clears active intervals and returns to default animation.
+     * 
+     * @returns {void}
+     */
+    handleJumpAttackEnd() {
+        this.removeIntervalById(this.jumpInterval);
+        this.animate();
+    }
+
+
+    /**
+     * Initiates the walk attack sequence for the boss.
+     * Increases movement speed, starts animation and movement,
+     * and ends the sequence after a fixed duration.
+     * 
+     * @returns {void}
+     */
     handleWalkAttack() {
         const additionalSpeed = 150 / maxFPS;
-        this.standartSpeedXPerFrame = this.standartSpeedXPerFrame + additionalSpeed;
+        this.standartSpeedXPerFrame += additionalSpeed;
 
+        this.handleWalkAttackAnimation();
+        this.handleWalkAttackMovement();
+
+        setTimeout(() => {
+            this.handleWalkAttackEnd(additionalSpeed);
+        }, 1000);
+    }
+
+
+    /**
+     * Starts the attack animation interval.
+     * Shows walking or alert animation based on movement.
+     * 
+     * @returns {void}
+     */
+    handleWalkAttackAnimation() {
         this.removeIntervalById(this.imageInterval);
-
         this.imageInterval = setInterval(() => {
             if (this.speedXPerFrame === 0) {
-                this.playAnimation(this.IMAGES_ALERT)
+                this.playAnimation(this.IMAGES_ALERT);
             } else {
-                this.playAnimation(this.IMAGES_WALK)
+                this.playAnimation(this.IMAGES_WALK);
             }
-        }, 600 / this.IMAGES_WALK.length)
+        }, 600 / this.IMAGES_WALK.length);
         this.pushToAllIntervals(this.imageInterval);
+    }
 
-        this.alignSelfTo(world.character)
 
+    /**
+     * Starts the movement interval that moves the boss to the left.
+     * Aligns the boss to the main character before moving.
+     * 
+     * @returns {void}
+     */
+    handleWalkAttackMovement() {
+        this.alignSelfTo(world.character);
         this.positionInterval = setInterval(() => {
             this.x -= this.speedXPerFrame;
         }, 1000 / maxFPS);
         this.pushToAllIntervals(this.positionInterval);
-
-        setTimeout(() => {
-            this.standartSpeedXPerFrame = this.standartSpeedXPerFrame - additionalSpeed;
-            this.removeAnimationById();
-            this.animate();
-        }, 1000)
     }
 
 
+    /**
+     * Ends the walk attack sequence.
+     * Restores original speed and stops animation.
+     * 
+     * @param {number} additionalSpeed - The temporary speed that was added during the attack.
+     * @returns {void}
+     */
+    handleWalkAttackEnd(additionalSpeed) {
+        this.standartSpeedXPerFrame -= additionalSpeed;
+        this.removeAnimationById();
+        this.animate();
+    }
+
+
+    /**
+     * Determines whether the enemy should initiate an attack based on proximity and probability.
+     *
+     * @param {number} [probabilityOfAttackInPercent=5] - Chance (in percent) to initiate an attack when close to the player.
+     * @returns {boolean} - `true` if attack should be initiated, otherwise `false`.
+     */
     shallAttack(probabilityOfAttackInPercent = 5) {
         const character = world.character;
         if (this.calculateDistanceTo(character) < this.speedXPerSecond * 2) {
@@ -179,6 +326,13 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * Determines whether the enemy should perform a jump attack.
+     * A jump attack is triggered if the player is close enough and
+     * either the walk attack counter reached 2 or a random chance succeeds.
+     *
+     * @returns {boolean} - `true` if jump attack should be performed, otherwise `false`.
+     */
     shallJumpAttack() {
         if (this.calculateDistanceTo(world.character) < this.speedXPerSecond) {
             if (this.counterWalkAttack >= 2 || Math.random() > 0.5) {
@@ -188,25 +342,55 @@ class Endboss extends MovableObject {
         }
     }
 
+
+    /**
+     * Determines and triggers the appropriate animation based on character state.
+     * Prioritizes death, hurt, attack, and idle in that order.
+     *
+     * @returns {void}
+     */
     setAnimation() {
         const timeToDie = 900;
+
         if (this.isDead()) {
-            this.playRightAnimation(timeToDie, this.IMAGES_DEAD, 0);
-            setTimeout(() => {
-                this.removeAnimationById();
-                this.img = this.imgCache[this.IMAGES_DEAD[2]];
-            }, timeToDie - (timeToDie / this.IMAGES_DEAD.length))
+            this.handleDeathAnimation(timeToDie);
         } else if (this.isHurt()) {
             this.playRightAnimation(600, this.IMAGES_HURT);
         } else if (this.shallAttack()) {
-            if (this.shallJumpAttack()) {
-                this.handleJumpAttack();
-            } else {
-                this.handleWalkAttack();
-                this.counterWalkAttack++;
-            }
+            this.handleAttackDecision();
         } else {
             this.playRightAnimation(1200, this.IMAGES_ALERT);
+        }
+    }
+
+
+    /**
+     * Handles the death animation and schedules final frame.
+     *
+     * @param {number} timeToDie - Total duration of the death animation.
+     * @returns {void}
+     */
+    handleDeathAnimation(timeToDie) {
+        this.playRightAnimation(timeToDie, this.IMAGES_DEAD, 0);
+        setTimeout(() => {
+            this.removeAnimationById();
+            this.img = this.imgCache[this.IMAGES_DEAD[2]];
+        }, timeToDie - (timeToDie / this.IMAGES_DEAD.length));
+    }
+
+
+    /**
+     * Decides whether to execute a jump or walk attack.
+     * Increments the walk attack counter if applicable.
+     *
+     * @returns {void}
+     */
+    handleAttackDecision() {
+        if (this.shallJumpAttack()) {
+            this.handleJumpAttack();
+        } else {
+            this.handleWalkAttack();
+            this.counterWalkAttack++;
         }
     }
 }

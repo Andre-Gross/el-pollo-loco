@@ -12,17 +12,9 @@ class SmallChicken extends Chicken {
         bottom: 41
     };
 
-    height = this.calculateHeight();
-    width = this.calculateWidth();
-
-    y = this.calculateY();
-
     minSpeedXPerSecond = 12;
     maxAdditionalSpeedXPerSecond = 36;
 
-    standartSpeedXPerFrame = this.calculateSpeedPerFrame();
-    speedXPerFrame = this.standartSpeedXPerFrame;
-    
 
     IMAGES_WALK = [
         './assets/img/3_enemies_chicken/chicken_small/1_walk/2_w.png',
@@ -34,25 +26,32 @@ class SmallChicken extends Chicken {
     IMAGE_DEAD = './assets/img/3_enemies_chicken/chicken_small/2_dead/dead.png'
 
 
+    /**
+     * Creates an instance of the small chicken enemy and initializes its state.
+     *
+     * @param {number} endOfX - The maximum horizontal coordinate the character can reach.
+     *                          Used to calculate a random spawn position within that range.
+     */
     constructor(endOfX) {
         super().loadImage('./assets/img/3_enemies_chicken/chicken_small/1_walk/1_w.png')
         this.loadImage(this.IMAGE_DEAD);
         this.loadImages(this.IMAGES_WALK);
         this.endOfX = endOfX;
 
+        this.setSizes();
+        this.y = this.calculateY();
+        this.setSpeedX();
+
         this.init(endOfX);
     }
 
-    animate() {
-        this.positionInterval = setInterval(() => {
-            this.alignSelfTo(world.character)
-            this.x -= this.speedXPerFrame;
-        }, 1000 / maxFPS);
-        this.pushToAllIntervals(this.positionInterval);
 
-        this.imageInterval = setInterval(() => {
-            this.setAnimation();
-        }, 300 / this.IMAGES_WALK.length)
-        this.pushToAllIntervals(this.imageInterval);
+    /**
+     * Starts the animation by adding position and image update intervals.
+     * @returns void
+     */
+    animate() {
+        this.addPositionInterval();
+        this.addImageInterval(300, this.IMAGES_WALK);
     }
 }

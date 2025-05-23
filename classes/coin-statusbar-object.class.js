@@ -1,7 +1,6 @@
 class CoinStatusbar extends Statusbar {
 
     position = 1;
-    y = this.calculateY(this.position);
 
     IMAGES = [
         './assets/img/7_statusbars/1_statusbar/1_statusbar_coin/green/0.png',
@@ -14,23 +13,27 @@ class CoinStatusbar extends Statusbar {
     percentage = 0;
 
 
+    /**
+     * Initializes the coin status bar.
+     */
     constructor() {
         super();
         this.loadImages(this.IMAGES);
-        this.init()
+        this.height = this.calculateHeight();
+        this.width = this.calculateWidth();
+        this.y = this.calculateY(this.position ?? 0);
+        this.setPercentage(this.percentage);
     }
 
 
-    init(percentage = this.percentage) {
-        this.setPercentage(percentage);
-    }
-
-
+    /**
+     * Updates the coin status bar based on the number of collected coins.
+     */    
     restart() {
         const collectedCoins = this.world.character.collectedItems['coins'];
-        const amountOfCoins = this.world.level.coins.lenght;
-        this.percentage = 100 / amountOfCoins * collectedCoins;
+        const amountOfCoins = this.world.level.coins.length;
+        this.percentage = amountOfCoins > 0 ? (100 / amountOfCoins * collectedCoins) : 0;
 
-        this.init();
+        this.setPercentage(this.percentage);
     }
 }

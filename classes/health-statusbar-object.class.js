@@ -11,20 +11,24 @@ class HealthStatusbar extends Statusbar {
     percentage = 100;
 
 
+    /**
+     * Initializes the health status bar with default settings and image.
+     */    
     constructor() {
         super();
         this.loadImages(this.IMAGES);
-        this.init()
-    }
-
-
-    init() {
+        this.height = this.calculateHeight();
+        this.width = this.calculateWidth();
+        this.y = this.calculateY(this.position ?? 0);
         this.setPercentage(this.percentage);
     }
 
 
+    /**
+     * Resets the health bar to the character’s current health value.
+     */    
     restart() {
         this.percentage = this.world.character.health;
-        this.init();
+        this.setPercentage(this.percentage);
     }
 }
