@@ -13,6 +13,10 @@ class StartScreen extends DrawableObject {
     imgCache = [];
 
 
+    /**
+     * Constructor initializes the start screen by loading images and
+     * randomly selecting one to display.
+     */
     constructor() {
         super()
         this.loadImages(this.IMAGES);
