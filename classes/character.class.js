@@ -17,6 +17,8 @@ class Character extends MovableObject {
     speedXPerSecond = 480;
     speedXPerFrame = this.calculateSpeedPerFrame(this.speedXPerSecond);
 
+    lastVisibleEndY;
+
     IMAGES_IDLE = [
         './assets/img/2_character_pepe/1_idle/idle/I-1.png',
         './assets/img/2_character_pepe/1_idle/idle/I-2.png',
@@ -79,6 +81,7 @@ class Character extends MovableObject {
     picturesForCurrentAnimation = this.IMAGES_IDLE;
     sleepTimer = Date.now();
 
+    isJumpAllowed = true;
     checkThrowInterval;
 
 
@@ -123,6 +126,7 @@ class Character extends MovableObject {
 
         this.x = 70;
         this.y = this.calculateY();
+        this.lastVisibleEndY = this.returnVisibleEndY();
     }
 
 
@@ -189,6 +193,22 @@ class Character extends MovableObject {
         this.hit(damage);
         world.statusBars[0].setPercentage(this.health);
         this.knockBack(hitFromRight, duration);
+    }
+
+
+    allowJump() {
+        let allowJumpInterval = setInterval(() => {
+            if (this.standOnGround()) {
+                this.isJumpAllowed = true;
+                this.removeIntervalById(allowJumpInterval);
+            }
+        }, 1000 / maxFPS)
+        this.pushToAllIntervals(allowJumpInterval);
+    }
+
+
+    isJumpOn(mo) {
+        return this.returnVisibleEndY() > mo.returnVisibleStartY() && this.lastVisibleEndY < mo.returnVisibleStartY();
     }
 
 
@@ -487,7 +507,7 @@ class Character extends MovableObject {
             this.playRightAnimation(2000, this.IMAGES_DEAD);
         } else if (this.isHurt()) {
             this.playAnimationAndSetSleepTimer(1000, this.IMAGES_HURT);
-        } else if (this.isPressedUp()) {
+        } else if (this.isPressedUp() && this.isJumpAllowed) {
             this.handleJumpAnimation();
             this.setSleepTimer();
         } else if (this.isPressedRight() || this.isPressedLeft()) {

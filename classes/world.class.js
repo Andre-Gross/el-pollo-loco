@@ -140,11 +140,17 @@ class World {
                     if (this.character.isJumpOn(enemy)) {
                         this.characterJumpOnEnemy(enemy);
                     } else if (!this.character.isHurt()) {
+                        if (this.character.jumpInterval) {
+                            this.character.removeAllIntervals();
+                            this.character.animate();
+                            this.isJumpAllowed = false;
+                        }
                         this.enemyHitCharacter(enemy);
                     }
                 }
             }
         })
+        this.character.lastVisibleEndY = this.character.returnVisibleEndY();
     }
 
 
@@ -304,7 +310,7 @@ class World {
         this.level.enemies.forEach((enemy) => enemy.animate());
     }
 
-    
+
     /**
      * Assigns the current world instance to each object in the provided array.
      * This is used to establish a reference between game entities (e.g., coins, enemies, status bars)
