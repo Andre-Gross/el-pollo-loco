@@ -21,6 +21,13 @@ class World {
     allIntervals = [];
 
 
+    /**
+     * Constructs the game world.
+     * Initializes canvas context, input, world setup and collision checks.
+     * 
+     * @param {HTMLCanvasElement} canvas - The canvas element for rendering.
+     * @param {object} keyboard - Object representing the current keyboard state.
+     */
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
@@ -31,6 +38,9 @@ class World {
     }
 
 
+    /**
+     * Adds all relevant game objects (backgrounds, enemies, items, character) to the canvas.
+     */
     addGameObjects() {
         this.addObjectToMap(this.level.backgroundObjects);
         this.addObjectToMap(this.level.clouds);
@@ -41,12 +51,22 @@ class World {
     }
 
 
+    /**
+     * Adds an array of drawable objects to the canvas.
+     * 
+     * @param {DrawableObject[]} object - Array of game objects to draw.
+     */
     addObjectToMap(object) {
         object.forEach(o => {
             this.addToMap(o);
         })
     }
 
+    /**
+     * Draws a single object on the canvas and handles direction flip if needed.
+     * 
+     * @param {DrawableObject} mo - The game object to draw.
+     */
     addToMap(mo) {
         if (mo.otherDirection) {
             this.flipCtx(mo)
@@ -63,6 +83,12 @@ class World {
     }
 
 
+    /**
+     * Handles the event when the character jumps on an enemy.
+     * Triggers the enemy hit and resets the jump animation.
+     * 
+     * @param {Enemy} enemy - The enemy the character jumped on.
+     */
     characterJumpOnEnemy(enemy) {
         enemy.getHit();
         this.character.removeIntervalById(this.character.jumpInterval)
@@ -70,6 +96,9 @@ class World {
     }
 
 
+    /**
+     * Starts a continuous interval that checks for various types of collisions.
+     */
     checkCollisions() {
         this.checkCollisionsInterval = setInterval(() => {
             this.checkCollisionsCharacterEnemies();
@@ -79,12 +108,18 @@ class World {
     }
 
 
+    /**
+     * Checks all collisions between the character and collectible items.
+     */
     checkCollisionsCharacterCollectables() {
         this.checkCollisionsCharacterThrowableObjects();
         this.checkCollisionsCharacterCoins();
     }
 
 
+    /**
+     * Checks collisions between the character and coins, and collects them if hit.
+     */
     checkCollisionsCharacterCoins() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin) && !coin.isCollected) {
@@ -94,6 +129,10 @@ class World {
     }
 
 
+    /**
+     * Checks collisions between the character and enemies,
+     * and triggers damage or stomp effects accordingly.
+     */
     checkCollisionsCharacterEnemies() {
         this.level.enemies.forEach((enemy) => {
             if (!enemy.isDead()) {
@@ -109,6 +148,10 @@ class World {
     }
 
 
+    /**
+     * Checks collisions between the character and throwable objects,
+     * and allows collection if not thrown.
+     */
     checkCollisionsCharacterThrowableObjects() {
         this.level.throwableObjects.forEach((to) => {
             if (this.character.isColliding(to) && !to.isCollected) {
@@ -120,6 +163,11 @@ class World {
     }
 
 
+    /**
+     * The main draw loop.
+     * Clears canvas, draws all visible objects depending on game state,
+     * and re-requests the next animation frame.
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
         this.ctx.translate(this.camera_x, 0);
@@ -143,6 +191,10 @@ class World {
     }
 
 
+    /**
+     * Restarts the game state by resetting all enemies, clouds,
+     * throwable objects, coins, the character and status bars.
+     */
     restart() {
         this.level.enemies.forEach((enemy) => {
             enemy.restart()
@@ -170,12 +222,23 @@ class World {
     }
 
 
+    /**
+     * Handles what happens when the enemy hits the character.
+     * Determines hit direction and applies damage.
+     * 
+     * @param {Enemy} enemy - The enemy that hit the character.
+     */
     enemyHitCharacter(enemy) {
         const hitFromRight = this.character.isHitFromRight(enemy);
         this.character.getHit(hitFromRight);
     }
 
 
+    /**
+     * Flips the canvas context horizontally to draw mirrored objects.
+     * 
+     * @param {DrawableObject} mo - The object to flip before drawing.
+     */
     flipCtx(mo) {
         this.ctx.save();
         this.ctx.translate(mo.width, 0);
@@ -184,12 +247,23 @@ class World {
     }
 
 
+    /**
+     * Restores canvas context after a flip and resets the object's x coordinate.
+     * 
+     * @param {DrawableObject} mo - The previously flipped object.
+     */
     flipCtxBack(mo) {
         mo.x = mo.x * -1;
         this.ctx.restore();
     }
 
 
+    /**
+     * Adds an interval ID to both the local and global interval lists
+     * for centralized management and cleanup.
+     * 
+     * @param {number} interval - The interval ID to store.
+     */
     pushToAllIntervals(interval) {
         this.allIntervals.push(interval);
         allGameIntervals.push(interval);
@@ -217,39 +291,29 @@ class World {
     }
 
 
+    /**
+     * Sets up world references inside all major object categories
+     * so they can interact with world logic.
+     */
     setWorld() {
         this.character.world = this;
-        this.setWorldInStatusbars();
-        this.setWorldInThrowableObjects();
-        this.setWorldInCoins();
-        this.setWorldInEnemies()
+        this.setWorldFor(this.statusBars);
+        this.setWorldFor(this.level.throwableObjects);
+        this.setWorldFor(this.level.coins);
+        this.setWorldFor(this.level.enemies);
+        this.level.enemies.forEach((enemy) => enemy.animate());
     }
 
-
-    setWorldInCoins() {
-        this.level.coins.forEach((o) => {
-            o.world = this;
-        })
-    }
-
-
-    setWorldInEnemies() {
-        this.level.enemies.forEach((enemy) => {
-            enemy.world = this;
-            enemy.animate()
-        })
-    }
-
-
-    setWorldInStatusbars() {
-        this.statusBars.forEach((statusBar) => {
-            statusBar.world = this
-        });
-    }
-
-
-    setWorldInThrowableObjects() {
-        this.level.throwableObjects.forEach((o) => {
+    
+    /**
+     * Assigns the current world instance to each object in the provided array.
+     * This is used to establish a reference between game entities (e.g., coins, enemies, status bars)
+     * and the world they belong to, enabling interaction and communication.
+     *
+     * @param {Array<Object>} array - An array of game objects that should reference this world.
+     */
+    setWorldFor(array) {
+        array.forEach((o) => {
             o.world = this;
         })
     }
