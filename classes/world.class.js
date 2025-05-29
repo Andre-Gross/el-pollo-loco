@@ -3,12 +3,12 @@ class World {
 
     character = new Character();
     level = level1;
-    statusBars = [
     fixedStatusbars = [
         new HealthStatusbar(),
         new CoinStatusbar(),
         new BottleStatusbar(),
     ];
+    movableStatusbar = new EndbossStatusbar();
 
     startScreen = new StartScreen();
     canvas;
@@ -48,6 +48,7 @@ class World {
         this.addObjectToMap(this.level.throwableObjects);
         this.addObjectToMap(this.level.coins);
         this.addObjectToMap(this.level.enemies);
+        this.addToMap(this.movableStatusbar);
         this.addToMap(this.character)
     }
 
@@ -224,6 +225,7 @@ class World {
         this.fixedStatusbars.forEach((sb) => {
             sb.restart();
         })
+        // this.movableStatusbar.restart();
 
 
     }

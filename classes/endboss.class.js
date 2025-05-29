@@ -111,6 +111,7 @@ class Endboss extends Enemy {
      */
     getHit(damage = 10) {
         this.hit(damage);
+        this.world.movableStatusbar.setPercentage(this.health);
         if (this.health === 0) {
             this.speedXPerFrame = 0
         }

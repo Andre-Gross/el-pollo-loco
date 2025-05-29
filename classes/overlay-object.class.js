@@ -1,0 +1,3 @@
+class OverlayObject extends MovableObject {
+    
+}
