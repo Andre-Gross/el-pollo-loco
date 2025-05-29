@@ -15,7 +15,7 @@ class CollectableObjects extends MovableObject {
      * @param {number} valuePerItem - The value percentage each collected item contributes.
      */
     collecting(idOfStatusbar, item, valuePerItem) {
-        const statusbar = this.world.statusBars[idOfStatusbar];
+        const statusbar = this.world.fixedStatusbars[idOfStatusbar];
         const character = this.world.character;
         let percentage
 

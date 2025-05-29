@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    standartHealth = 100000000;
+    standartHealth = 100000;
 
     collectedItems = {};
 
@@ -191,7 +191,7 @@ class Character extends MovableObject {
      */
     getHit(hitFromRight, damage = 10, duration = 500) {
         this.hit(damage);
-        world.statusBars[0].setPercentage(this.health);
+        world.fixedStatusbars[0].setPercentage(this.health);
         this.knockBack(hitFromRight, duration);
     }
 

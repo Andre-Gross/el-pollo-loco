@@ -170,7 +170,7 @@ class MovableObject extends DrawableObject {
      * @param {number} [valuePerItem=20] - Value each item contributes to the percentage.
      */
     handleStatusPercentage(id, amountOfItems, valuePerItem = 20) {
-        const statusbar = this.world.statusBars[id];
+        const statusbar = this.world.fixedStatusbars[id];
         const percentage = amountOfItems * valuePerItem;
         statusbar.setPercentage(percentage);
     }

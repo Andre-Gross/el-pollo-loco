@@ -4,9 +4,10 @@ class World {
     character = new Character();
     level = level1;
     statusBars = [
+    fixedStatusbars = [
         new HealthStatusbar(),
         new CoinStatusbar(),
-        new BottleStatusbar()
+        new BottleStatusbar(),
     ];
 
     startScreen = new StartScreen();
@@ -183,7 +184,7 @@ class World {
             this.addGameObjects();
 
             this.ctx.translate(-this.camera_x, 0);
-            this.addObjectToMap(this.statusBars);
+            this.addObjectToMap(this.fixedStatusbars);
         } else {
             this.addToMap(this.startScreen);
             this.ctx.translate(-this.camera_x, 0);
@@ -220,7 +221,7 @@ class World {
 
         this.character.restart();
 
-        this.statusBars.forEach((sb) => {
+        this.fixedStatusbars.forEach((sb) => {
             sb.restart();
         })
 
@@ -303,7 +304,8 @@ class World {
      */
     setWorld() {
         this.character.world = this;
-        this.setWorldFor(this.statusBars);
+        this.setWorldFor(this.fixedStatusbars);
+        this.movableStatusbar.world = this;
         this.setWorldFor(this.level.throwableObjects);
         this.setWorldFor(this.level.coins);
         this.setWorldFor(this.level.enemies);
