@@ -9,6 +9,10 @@ class World {
         new BottleStatusbar(),
     ];
     movableStatusbar = new EndbossStatusbar();
+    overlays = {
+        lost: new LostOverlay()
+    }
+
 
     startScreen = new StartScreen();
     canvas;
@@ -17,6 +21,8 @@ class World {
 
     keyboard;
 
+    isGameFinished = false;
+    isGameWon = false;
 
     checkCollisionsInterval;
     allIntervals = [];
@@ -181,11 +187,19 @@ class World {
         this.ctx.translate(this.camera_x, 0);
 
         if (isGameStarted) {
-
             this.addGameObjects();
 
             this.ctx.translate(-this.camera_x, 0);
             this.addObjectToMap(this.fixedStatusbars);
+
+            if (this.isGameFinished) {
+                if (this.isGameWon) {
+                    return
+                } else {
+                    this.addToMap(this.overlays.lost);
+                }
+            }
+
         } else {
             this.addToMap(this.startScreen);
             this.ctx.translate(-this.camera_x, 0);

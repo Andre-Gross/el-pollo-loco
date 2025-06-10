@@ -193,6 +193,10 @@ class Character extends MovableObject {
         this.hit(damage);
         world.fixedStatusbars[0].setPercentage(this.health);
         this.knockBack(hitFromRight, duration);
+
+        if(this.health <= 0) {
+            world.isGameFinished = true;
+        }
     }
 
 

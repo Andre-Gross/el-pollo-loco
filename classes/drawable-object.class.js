@@ -30,8 +30,8 @@ class DrawableObject {
      * 
      * @returns {number} The calculated height of the object.
      */
-    calculateHeight() {
-        return this.originalImgHeight * backgroundHeightFactor * this.sizeFactor
+    calculateHeight(height = this.originalImgHeight) {
+        return height * backgroundHeightFactor * this.sizeFactor
     }
 
 
@@ -42,8 +42,8 @@ class DrawableObject {
      * 
      * @returns {number} The calculated width of the object.
      */    
-    calculateWidth() {
-        return this.originalImgWidth * this.height / this.originalImgHeight
+    calculateWidth(width = this.originalImgWidth) {
+        return width * this.height / this.originalImgHeight
     }
 
 

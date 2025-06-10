@@ -1,3 +1,5 @@
-class OverlayObject extends MovableObject {
-    
+class OverlayObject extends DrawableObject {
+
+    sizeFactor = 2
+
 }
