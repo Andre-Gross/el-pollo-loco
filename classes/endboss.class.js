@@ -103,6 +103,14 @@ class Endboss extends Enemy {
     }
 
 
+    die() {
+        const timeToDie = 900;
+
+        this.speedXPerFrame = 0
+        this.handleDeathAnimation(timeToDie);
+    }
+
+
     /**
      * Applies damage to the enemy and stops horizontal movement if health reaches zero.
      * 
@@ -112,8 +120,8 @@ class Endboss extends Enemy {
     getHit(damage = 10) {
         this.hit(damage);
         this.world.movableStatusbar.setPercentage(this.health);
-        if (this.health === 0) {
-            this.speedXPerFrame = 0
+        if (this.health <= 0) {
+            world.handleGameOverByEndbossDead();
         }
     }
 
@@ -351,11 +359,7 @@ class Endboss extends Enemy {
      * @returns {void}
      */
     setAnimation() {
-        const timeToDie = 900;
-
-        if (this.isDead()) {
-            this.handleDeathAnimation(timeToDie);
-        } else if (this.isHurt()) {
+        if (this.isHurt()) {
             this.playRightAnimation(600, this.IMAGES_HURT);
         } else if (this.shallAttack()) {
             this.handleAttackDecision();

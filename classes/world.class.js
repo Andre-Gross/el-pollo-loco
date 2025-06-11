@@ -250,6 +250,18 @@ class World {
     }
 
 
+    handleGameOverByEndbossDead() {
+        allGameIntervals.forEach((interval) => {
+            clearInterval(interval)
+        })
+        this.level.enemies[6].die();
+        setTimeout(() => {
+            world.isGameFinished = true;
+            world.isGameWon = true;
+        }, 2000);
+    }
+
+
     handleGameOverByPlayerDead() {
         allGameIntervals.forEach((interval) => {
             clearInterval(interval)
