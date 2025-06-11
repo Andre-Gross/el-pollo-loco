@@ -1,4 +1,4 @@
-class LostOverlay extends OverlayObject {
+class LoseOverlay extends OverlayObject {
     height = 0;
     width = 0;
 

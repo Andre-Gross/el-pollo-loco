@@ -14,7 +14,7 @@ class OverlayObject extends DrawableObject {
         this.x = (canvasWidth - this.width) / 2;
         this.y = (canvasHeight - this.height) / 2;
     }
-    
+
 
     choosePicture() {
         let num = Math.random() * 4;

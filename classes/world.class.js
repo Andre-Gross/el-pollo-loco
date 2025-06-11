@@ -10,7 +10,7 @@ class World {
     ];
     movableStatusbar = new EndbossStatusbar();
     overlays = {
-        lost: new LostOverlay()
+        lose: new LoseOverlay(),
     }
 
 
@@ -196,7 +196,7 @@ class World {
                 if (this.isGameWon) {
                     return
                 } else {
-                    this.addToMap(this.overlays.lost);
+                    this.addToMap(this.overlays.lose);
                 }
             }
 
