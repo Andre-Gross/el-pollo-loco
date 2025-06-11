@@ -179,6 +179,23 @@ class Character extends MovableObject {
     }
 
 
+    die() {
+        let index = 0;
+        let dieInterval = setInterval(() => {
+            if (index === 7) {
+                clearInterval(dieInterval);
+            } else {
+                let path = this.IMAGES_DEAD[index];
+                this.img = this.imgCache[path];
+                index++;
+            }
+        }, 2000 / this.IMAGES_DEAD.length);
+        setTimeout(() => {
+            this.img = this.imgCache[this.IMAGES_DEAD.slice(5, 6)];
+        }, 2000)
+    }
+
+
     /**
      * Applies damage to the character and triggers a knockback animation.
      * Updates the health bar accordingly.
@@ -194,8 +211,8 @@ class Character extends MovableObject {
         world.fixedStatusbars[0].setPercentage(this.health);
         this.knockBack(hitFromRight, duration);
 
-        if(this.health <= 0) {
-            world.isGameFinished = true;
+        if (this.health <= 0) {
+            world.handleGameOverByPlayerDead();
         }
     }
 
@@ -507,9 +524,7 @@ class Character extends MovableObject {
      * @returns void
      */
     setAnimation() {
-        if (this.isDead()) {
-            this.playRightAnimation(2000, this.IMAGES_DEAD);
-        } else if (this.isHurt()) {
+        if (this.isHurt()) {
             this.playAnimationAndSetSleepTimer(1000, this.IMAGES_HURT);
         } else if (this.isPressedUp() && this.isJumpAllowed) {
             this.handleJumpAnimation();

@@ -214,38 +214,6 @@ class World {
 
 
     /**
-     * Restarts the game state by resetting all enemies, clouds,
-     * throwable objects, coins, the character and status bars.
-     */
-    restart() {
-        this.level.enemies.forEach((enemy) => {
-            enemy.restart()
-        });
-
-        this.level.clouds.forEach((cloud) => {
-            cloud.restart()
-        });
-
-        this.level.throwableObjects.forEach((to) => {
-            to.restart()
-        });
-
-        this.level.coins.forEach((coin) => {
-            coin.restart()
-        });
-
-        this.character.restart();
-
-        this.fixedStatusbars.forEach((sb) => {
-            sb.restart();
-        })
-        // this.movableStatusbar.restart();
-
-
-    }
-
-
-    /**
      * Handles what happens when the enemy hits the character.
      * Determines hit direction and applies damage.
      * 
@@ -281,6 +249,17 @@ class World {
     }
 
 
+    handleGameOverByPlayerDead() {
+        allGameIntervals.forEach((interval) => {
+            clearInterval(interval)
+        })
+        this.character.die();
+        setTimeout(() => {
+            world.isGameFinished = true;
+        }, 2000);
+    }
+
+
     /**
      * Adds an interval ID to both the local and global interval lists
      * for centralized management and cleanup.
@@ -311,6 +290,36 @@ class World {
         if (instanceIndex !== -1) {
             this.allIntervals.splice(instanceIndex, 1);
         }
+    }
+
+
+    /**
+     * Restarts the game state by resetting all enemies, clouds,
+     * throwable objects, coins, the character and status bars.
+     */
+    restart() {
+        this.level.enemies.forEach((enemy) => {
+            enemy.restart()
+        });
+
+        this.level.clouds.forEach((cloud) => {
+            cloud.restart()
+        });
+
+        this.level.throwableObjects.forEach((to) => {
+            to.restart()
+        });
+
+        this.level.coins.forEach((coin) => {
+            coin.restart()
+        });
+
+        this.character.restart();
+
+        this.fixedStatusbars.forEach((sb) => {
+            sb.restart();
+        })
+        // this.movableStatusbar.restart();
     }
 
 
