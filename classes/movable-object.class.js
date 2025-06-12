@@ -291,9 +291,9 @@ class MovableObject extends DrawableObject {
      * Moves the object left by decreasing its X coordinate.
      * Sets direction flag to indicate facing left.
      */
-    moveLeft() {
+    moveLeft(otherDirection = true) {
         this.x -= this.speedXPerFrame;
-        this.otherDirection = true;
+        this.otherDirection = otherDirection;
     }
 
 
@@ -301,9 +301,9 @@ class MovableObject extends DrawableObject {
      * Moves the object right by increasing its X coordinate.
      * Sets direction flag to indicate facing right.
      */
-    moveRight() {
+    moveRight(otherDirection = false) {
         this.x += this.speedXPerFrame;
-        this.otherDirection = false;
+        this.otherDirection = otherDirection;
     }
 
 

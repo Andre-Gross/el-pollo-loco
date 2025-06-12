@@ -206,10 +206,10 @@ class Character extends MovableObject {
      *
      * @returns {void}
      */
-    getHit(hitFromRight, damage = 10, duration = 500) {
+    getHit(hitFromRight, damage = 10, duration = 200) {
+        this.knockBack(hitFromRight, duration);
         this.hit(damage);
         world.fixedStatusbars[0].setPercentage(this.health);
-        this.knockBack(hitFromRight, duration);
 
         if (this.health <= 0) {
             world.handleGameOverByPlayerDead();
@@ -424,20 +424,23 @@ class Character extends MovableObject {
      */
     knockBack(hitFromRight, duration) {
         this.jump(3)
+        this.removeAnimationById();
         const knockBackInterval = setInterval(() => {
             if (hitFromRight && this.x > 0) {
-                this.moveLeft()
+                this.moveLeft(this.otherDirection)
             } else if (this.x < this.world.level.level_end_x) {
-                this.moveRight()
+                this.moveRight(!this.otherDirection)
             }
-            if (this.isPressedMove()) {
-                clearTimeout(knockBackTimeout);
-                this.removeIntervalById(knockBackInterval);
-            }
+            this.setWorldCameraPositionX();
+            // if (this.isPressedMove()) {
+            //     clearTimeout(knockBackTimeout);
+            //     this.removeIntervalById(knockBackInterval);
+            // }
         }, 1000 / maxFPS)
 
         const knockBackTimeout = setTimeout(() => {
             this.removeIntervalById(knockBackInterval);
+            this.animate();
         }, duration)
 
         this.pushToAllIntervals(this.knockBackInterval)
