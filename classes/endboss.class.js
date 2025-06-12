@@ -322,6 +322,22 @@ class Endboss extends Enemy {
 
 
     /**
+     * Restarts the movement and animation cycles of the object.
+     *
+     * This method clears the current intervals for position updates and image animation,
+     * reinitializes the object state, updates the status bar with the current health,
+     * and restarts the animation.
+     */
+    restart() {
+        this.removeIntervalById(this.positionInterval);
+        this.removeIntervalById(this.imageInterval);
+        this.init();
+        this.world.movableStatusbar.setPercentage(this.health);
+        this.animate();
+    }
+
+
+    /**
      * Determines whether the enemy should initiate an attack based on proximity and probability.
      *
      * @param {number} [probabilityOfAttackInPercent=5] - Chance (in percent) to initiate an attack when close to the player.
