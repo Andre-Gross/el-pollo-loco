@@ -38,6 +38,7 @@ class EndbossStatusbar extends Statusbar {
                 this.x = this.calculateX(endbossDatas);
             }
         }, 1000 / maxFPS)
+        this.pushToAllIntervals(this.positionInterval);
     }
 
 
