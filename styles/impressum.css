@@ -1,0 +1,9 @@
+body {
+    color: white !important;
+    font-family: sans-serif;
+}
+
+
+#front {
+    max-height: min-content;
+}
