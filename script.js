@@ -64,10 +64,12 @@ function setSizeOfSingleContainer(element, height = canvasHeight, width = canvas
 function showRightFrontElement(element) {
     const canvas = document.getElementById('canvas');
     const controlContainer = document.getElementById('control-container');
+    const creditsContainer = document.getElementById('credits-container');
     const startScreen = document.getElementById('start-screen');
 
     canvas.classList.add('d-none');
     toggleDisplayNone(controlContainer, 'd-flex', false);
+    toggleDisplayNone(creditsContainer, 'd-flex', false);
     toggleDisplayNone(startScreen, 'd-flex', false);
 
     if (element === canvas) {

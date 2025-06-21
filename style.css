@@ -44,7 +44,7 @@ canvas {
 
 canvas,
 #control-container,
-#credit-container {
+#credits-container {
     background-color: black;
 }
 
@@ -86,13 +86,16 @@ canvas,
 }
 
 
-#control-container {
+#control-container,
+#credits-container {
     width: var(--canvas-width);
     height: var(--canvas-height);
+}
 
 
+#control-container {
     justify-content: center;
-    align-items: top;
+    align-items: start;
 
     font-size: var(--controls-font-size);
     color: white;
@@ -108,6 +111,23 @@ canvas,
 #control-container span {
     font-size: calc(var(--controls-font-size) * 1.3);
     text-decoration: underline;
+}
+
+
+#credits-container {
+    padding: var(--credits-padding);
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    font-size: var(--credits-font-size);
+}
+
+
+#credits-container a {
+    padding-bottom: calc(var(--credits-padding) / 2);
+    color: white;
 }
 
 
@@ -204,7 +224,7 @@ canvas,
     canvas,
     #front,
     #start-screen,
-    #credit-container {
+    #credits-container {
         width: 100%;
     }
 }
@@ -215,7 +235,7 @@ canvas,
 
     canvas,
     #front,
-    #credit-container {
+    #credits-container {
         height: 100%;
     }
 }
