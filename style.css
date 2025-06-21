@@ -1,6 +1,7 @@
 :root {
     --canvas-height: 480px;
     --canvas-width: 720px;
+    --controls-font-size: 64px;
 }
 
 
@@ -71,6 +72,31 @@ canvas,
 
 .canvas-button:hover {
     background-color: #87ceeb;
+}
+
+
+#control-container {
+    width: var(--canvas-width);
+    height: var(--canvas-height);
+
+
+    justify-content: center;
+    align-items: top;
+
+    font-size: var(--controls-font-size);
+    color: white;
+}
+
+
+#control-container p {
+    margin: 0;
+    margin-top: 5%;
+}
+
+
+#control-container span {
+    font-size: calc(var(--controls-font-size) * 1.3);
+    text-decoration: underline;
 }
 
 
