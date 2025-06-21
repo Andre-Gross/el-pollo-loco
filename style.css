@@ -1,9 +1,12 @@
 :root {
+    --base-font-size: 64px;
+    --button-font-size: calc(var(--base-font-size) / 3.2);
+    --button-padding: 12px;
     --canvas-height: 480px;
     --canvas-width: 720px;
-    --controls-font-size: 64px;
-    --button-font-size: 20px; 
-    --button-padding: 12px;
+    --controls-font-size: var(--base-font-size);
+    --credits-font-size: calc(var(--base-font-size) / 2);
+    --credits-padding: calc(var(--credits-font-size))
 }
 
 

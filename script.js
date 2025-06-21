@@ -38,14 +38,12 @@ function checkAndSetElementSizes() {
 
 
 function resetAllRootVariables(newHeight, newWidth) {
-    const controlsFontSize = newHeight / 7.5;
-    const buttonFontSize = newHeight / 20;
+    const baseFontSize =  newHeight / 7.5;
     const buttonPadding = newHeight / 40;
 
     setRootVariable('--canvas-width', `${newWidth}px`);
     setRootVariable('--canvas-height', `${newHeight}px`);
-    setRootVariable('--controls-font-size', `${controlsFontSize}px`);
-    setRootVariable('--button-font-size', `${buttonFontSize}px`);
+    setRootVariable('--base-font-size', `${baseFontSize}px`);
     setRootVariable('--button-padding', `${buttonPadding}px`);
 }
 
