@@ -55,6 +55,27 @@ canvas {
 }
 
 
+.button-container {
+    position: absolute;
+}
+
+
+.canvas-button {
+    background-color: #2c9be3;
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    cursor: pointer;
+    box-shadow: 0 0.4vh 1vh rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease;
+    font-family: 'zabars', Arial, sans-serif;
+}
+
+.canvas-button:hover {
+    background-color: #87ceeb;
+}
+
+
 #front {
     position: absolute;
     top: 50%;
@@ -74,6 +95,22 @@ canvas {
 
     text-align: center;
     font-size: 64px;
+}
+
+
+#startscreen-button-container {
+    bottom: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 48px
+}
+
+
+#startscreen-button-container .canvas-button {
+    padding: 12px;
+    font-size: 20px;
 }
 
 

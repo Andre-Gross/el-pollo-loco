@@ -44,7 +44,7 @@
 
     <div class="bg-image"></div>
 
-    <div id="front">
+    <div id="front" class="d-flex">
         <canvas id="canvas" width="720" height="480"></canvas>
         <img id="start-screen" class="d-none"></img>
         <div id="control-container" class="d-none">
@@ -53,11 +53,13 @@
             D = Move Right
             T = Throw Bottle (if collected)
         </div>
-        <div class="d-flex">
-            <button id="start-game-btn" onclick="startGame()">Start Game</button>
-            <button id="restart-game-btn" onclick="restartGame()">Restart Game</button>
-            <button id="show-controls-btn" onclick="showControls()">Controls</button>
-            <button id="show-start-screen-btn" class="d-none" onclick="showStartScreen()">Leave Controls</button>
+        <div id="startscreen-button-container" class="button-container d-flex">
+            <button id="show-start-screen-btn" class="canvas-button d-none"
+                onclick="showStartScreen()">Startscreen</button>
+            <button id="start-game-btn" class="canvas-button" onclick="startGame()">Start Game</button>
+            <button id="restart-game-btn" class="canvas-button" onclick="restartGame()">Restart</button>
+            <button id="show-controls-btn" class="canvas-button" onclick="showControls()">Controls</button>
+            <button id="show-credits" class="canvas-button" onclick="">Credits</button>
         </div>
     </div>
 
