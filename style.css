@@ -1,3 +1,9 @@
+:root {
+    --canvas-height: 480px;
+    --canvas-width: 720px;
+}
+
+
 @font-face {
     font-family: 'zabars';
     src: url('./assets/fonts/zabars.ttf') format('truetype');
@@ -20,22 +26,14 @@ body {
 
 
 canvas {
+    display: block;
+}
+
+
+canvas,
+#control-container,
+#credit-container {
     background-color: black;
-}
-
-
-.d-flex {
-    display: flex;
-}
-
-
-.d-none {
-    display: none;
-}
-
-
-.d-inline-block {
-    display: inline-block;
 }
 
 
@@ -76,11 +74,34 @@ canvas {
 }
 
 
+.d-flex {
+    display: flex;
+}
+
+
+.d-none {
+    display: none;
+}
+
+
+.d-inline-block {
+    display: inline-block;
+}
+
+
 #front {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    /* height: var(--canvas-height);
+    width: var(--canvas-width); */
+}
+
+
+.maxSize {
+    height: 100%;
+    width: 100%;
 }
 
 
@@ -95,6 +116,12 @@ canvas {
 
     text-align: center;
     font-size: 64px;
+}
+
+
+#start-screen {
+    width: var(--canvas-width);
+    height: var(--canvas-height);
 }
 
 
@@ -122,5 +149,26 @@ canvas {
 
     #portrait-notice {
         display: block;
+    }
+}
+
+
+@media only screen and (max-width: 720px) {
+
+    canvas,
+    #front,
+    #credit-container {
+        width: 100%;
+    }
+}
+
+
+
+@media only screen and (max-height: 480px) {
+
+    canvas,
+    #front,
+    #credit-container {
+        height: 100%;
     }
 }
