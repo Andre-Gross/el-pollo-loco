@@ -32,16 +32,21 @@ function checkAndSetElementSizes() {
             newWidth = height * aspectRatio;
         }
 
-        let controlsFontSize = newHeight / 7.5;
-        let buttonFontSize = newHeight / 20;
-        let buttonPadding = newHeight / 40;
-
-        setRootVariable('--canvas-width', `${newWidth}px`);
-        setRootVariable('--canvas-height', `${newHeight}px`);
-        setRootVariable('--controls-font-size', `${controlsFontSize}px`);
-        setRootVariable('--button-font-size', `${buttonFontSize}px`);
-        setRootVariable('--button-padding', `${buttonPadding}px`);
+        resetAllRootVariables(newHeight, newWidth);
     }
+}
+
+
+function resetAllRootVariables(newHeight, newWidth) {
+    const controlsFontSize = newHeight / 7.5;
+    const buttonFontSize = newHeight / 20;
+    const buttonPadding = newHeight / 40;
+
+    setRootVariable('--canvas-width', `${newWidth}px`);
+    setRootVariable('--canvas-height', `${newHeight}px`);
+    setRootVariable('--controls-font-size', `${controlsFontSize}px`);
+    setRootVariable('--button-font-size', `${buttonFontSize}px`);
+    setRootVariable('--button-padding', `${buttonPadding}px`);
 }
 
 
