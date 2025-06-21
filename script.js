@@ -83,9 +83,9 @@ function showRightFrontElement(element) {
 function showRightButtons(visibleButtons) {
     const allButtons = [
         document.getElementById('start-game-btn'),
-        document.getElementById('restart-game-btn'),
-        document.getElementById('show-controls-btn'),
         document.getElementById('show-start-screen-btn'),
+        document.getElementById('show-controls-btn'),
+        document.getElementById('show-credits-btn'),
     ]
 
     allButtons.forEach((button) => {
@@ -114,12 +114,14 @@ function showStartScreen() {
 
 
 function showStartScreenButtons() {
-    startGameButton = document.getElementById('start-game-btn');
-    showControlsButton = document.getElementById('show-controls-btn');
+    const startGameButton = document.getElementById('start-game-btn');
+    const showControlsButton = document.getElementById('show-controls-btn');
+    const showCreditsButton = document.getElementById('show-credits-btn');
 
     visibleButtons = [
         startGameButton,
         showControlsButton,
+        showCreditsButton
     ]
 
     showRightButtons(visibleButtons);
@@ -139,14 +141,41 @@ function showControls() {
 
 
 function showControlsButtons() {
-    startGameButton = document.getElementById('start-game-btn');
-    restartGameButton = document.getElementById('restart-game-btn');
-    showControlsButton = document.getElementById('show-controls-btn');
-    showStartScreenButton = document.getElementById('show-start-screen-btn');
+    const startGameButton = document.getElementById('start-game-btn');
+    const showStartScreenButton = document.getElementById('show-start-screen-btn');
+    const showCreditsButton = document.getElementById('show-credits-btn');
 
     visibleButtons = [
         startGameButton,
         showStartScreenButton,
+        showCreditsButton
+    ]
+
+    showRightButtons(visibleButtons);
+}
+
+
+function showCredits() {
+    const creditsContainer = document.getElementById('credits-container');
+    const showStartScreenButton = document.getElementById('show-start-screen-btn')
+    const creditsButton = document.getElementById('show-credits-btn');
+
+    showRightFrontElement(creditsContainer);
+
+    toggleDisplayNone(showStartScreenButton, 'd-inline-block', true);
+    toggleDisplayNone(creditsButton, 'd-inline-block', false);
+}
+
+
+function showControlsButtons() {
+    const startGameButton = document.getElementById('start-game-btn');
+    const showStartScreenButton = document.getElementById('show-start-screen-btn');
+    const showCreditsButton = document.getElementById('show-credits-btn');
+
+    visibleButtons = [
+        startGameButton,
+        showStartScreenButton,
+        showCreditsButton
     ]
 
     showRightButtons(visibleButtons);
