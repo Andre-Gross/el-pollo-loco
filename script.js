@@ -14,6 +14,13 @@ function calculateBackgroundHeightFactor() {
 }
 
 
+function setRootVariable(variableName, value, element = document.documentElement) {
+    const cssVarName = variableName.startsWith('--') ? variableName : `--${variableName}`;
+
+    element.style.setProperty(cssVarName, value);
+}
+
+
 function setSizeOfEachContainer() {
     canvas = document.getElementById('canvas');
     controlContainer = document.getElementById('control-container');
