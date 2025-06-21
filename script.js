@@ -14,21 +14,41 @@ function calculateBackgroundHeightFactor() {
 }
 
 
+function checkAndSetElementSizes() {
+    const minWidth = 720;
+    const minHeight = 480;
+    const aspectRatio = minWidth / minHeight;
+
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+
+
+    if (width < minWidth || height < minHeight) {
+        let newWidth = width;
+        let newHeight = width / aspectRatio;
+
+        if (newHeight > height) {
+            newHeight = height;
+            newWidth = height * aspectRatio;
+        }
+
+        let controlsFontSize = newHeight / 7.5;
+        let buttonFontSize = newHeight / 20;
+        let buttonPadding = newHeight / 40;
+
+        setRootVariable('--canvas-width', `${newWidth}px`);
+        setRootVariable('--canvas-height', `${newHeight}px`);
+        setRootVariable('--controls-font-size', `${controlsFontSize}px`);
+        setRootVariable('--button-font-size', `${buttonFontSize}px`);
+        setRootVariable('--button-padding', `${buttonPadding}px`);
+    }
+}
+
+
 function setRootVariable(variableName, value, element = document.documentElement) {
     const cssVarName = variableName.startsWith('--') ? variableName : `--${variableName}`;
 
     element.style.setProperty(cssVarName, value);
-}
-
-
-function setSizeOfEachContainer() {
-    canvas = document.getElementById('canvas');
-    controlContainer = document.getElementById('control-container');
-    startScreen = document.getElementById('start-screen');
-
-    setSizeOfSingleContainer(canvas);
-    setSizeOfSingleContainer(controlContainer);
-    setSizeOfSingleContainer(startScreen);
 }
 
 
@@ -39,16 +59,18 @@ function setSizeOfSingleContainer(element, height = canvasHeight, width = canvas
 
 
 function showRightFrontElement(element) {
-    canvas = document.getElementById('canvas');
+    const canvas = document.getElementById('canvas');
+    const controlContainer = document.getElementById('control-container');
+    const startScreen = document.getElementById('start-screen');
 
     canvas.classList.add('d-none');
-    toggleDisplayNone(controlContainer, 'd-block', false);
-    toggleDisplayNone(startScreen, 'd-block', false);
+    toggleDisplayNone(controlContainer, 'd-flex', false);
+    toggleDisplayNone(startScreen, 'd-flex', false);
 
     if (element === canvas) {
         canvas.classList.remove('d-none');
     } else {
-        toggleDisplayNone(element, 'd-block', true);
+        toggleDisplayNone(element, 'd-flex', true);
     }
 }
 
@@ -156,10 +178,11 @@ function toggleDisplayNone(
 }
 
 
-addEventListener("DOMContentLoaded", (event) => {
-    setSizeOfEachContainer();
-
-    setInterval(() => {
-        setSizeOfEachContainer();
-    }, 1000)
+window.addEventListener('load', () => {
+    checkAndSetElementSizes();
 });
+
+
+window.addEventListener('resize', () => {
+    checkAndSetElementSizes();
+})

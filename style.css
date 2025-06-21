@@ -2,6 +2,8 @@
     --canvas-height: 480px;
     --canvas-width: 720px;
     --controls-font-size: 64px;
+    --button-font-size: 20px; 
+    --button-padding: 12px;
 }
 
 
@@ -27,7 +29,13 @@ body {
 
 
 canvas {
+    width: 100vw;
+    max-width: 720px;
+    height: auto;
+    /* erhält Seitenverhältnis automatisch */
     display: block;
+    margin: 0 auto;
+    /* optional: zentriert das Canvas */
 }
 
 
@@ -120,8 +128,6 @@ canvas,
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    /* height: var(--canvas-height);
-    width: var(--canvas-width); */
 }
 
 
@@ -162,12 +168,23 @@ canvas,
 
 
 #startscreen-button-container .canvas-button {
-    padding: 12px;
-    font-size: 20px;
+    padding: var(--button-padding);
+    font-size: var(--button-font-size);
 }
 
 
-@media screen and (pointer: coarse) and (orientation: portrait) {
+@media screen and (hover: none) and (pointer: coarse) {
+    body {
+        background-color: black;
+    }
+
+    .bg-image {
+        display: none;
+    }
+}
+
+
+@media screen and (hover: none) and (pointer: coarse) and (orientation: portrait) {
     #front {
         display: none;
     }
@@ -183,6 +200,7 @@ canvas,
 
     canvas,
     #front,
+    #start-screen,
     #credit-container {
         width: 100%;
     }
