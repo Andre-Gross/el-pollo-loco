@@ -100,6 +100,13 @@ class Chicken extends Enemy {
     }
 
 
+    resumeGameplay() {
+        if (!this.isDead()) {
+            this.animate()
+        }
+    }
+
+
     /**
      * Sets the current animation based on the enemy's state.
      * Shows dead image if dead,
