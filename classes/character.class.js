@@ -129,6 +129,7 @@ class Character extends MovableObject {
         this.x = 70;
         this.y = this.calculateY();
         this.lastVisibleEndY = this.returnVisibleEndY();
+        this.jumpDatas = {
             i: 0,
             startFromGround: true,
             alreadyJumped: false,
