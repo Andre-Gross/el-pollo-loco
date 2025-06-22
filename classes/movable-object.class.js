@@ -21,7 +21,8 @@ class MovableObject extends DrawableObject {
     timeForFullAnimation;
     pictureForCurrentAnimation;
 
-    allIntervals = []
+    allIntervals = [];
+    allTimeouts = [];
 
     IMAGES_WALK;
 
@@ -360,6 +361,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    pushToAllTimeouts(timeout) {
+        this.allTimeouts.push(timeout);
+        allGameTimeouts.push(timeout);
+    }
+
+
     /**
      * Returns a random X coordinate within the given range for spawning.
      * 
@@ -399,6 +406,21 @@ class MovableObject extends DrawableObject {
         const instanceIndex = this.allIntervals?.indexOf(intervalId);
         if (instanceIndex !== -1) {
             this.allIntervals.splice(instanceIndex, 1);
+        }
+    }
+
+
+    removeTimeoutById(timeoutID) {
+        clearTimeout(timeoutID);
+
+        const globalIndex = allGameTimeouts.indexOf(timeoutID);
+        if (globalIndex !== -1) {
+            allGameTimeouts.splice(globalIndex, 1);
+        }
+
+        const instanceIndex = this.allTimeouts?.indexOf(timeoutID);
+        if (instanceIndex !== -1) {
+            this.allTimeouts.splice(instanceIndex, 1);
         }
     }
 

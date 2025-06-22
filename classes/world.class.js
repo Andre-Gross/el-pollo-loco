@@ -27,6 +27,7 @@ class World {
 
     checkCollisionsInterval;
     allIntervals = [];
+    allTimeouts = [];
 
 
     /**
@@ -252,6 +253,23 @@ class World {
     }
 
 
+    handleGameOver(whoDied) {
+        allGameIntervals.forEach((interval) => {
+            this.removeIntervalById(interval)
+        })
+        allGameTimeouts.forEach((timeout) => {
+            this.removeTimeoutById(timeout)
+        })
+        whoDied.die();
+        setTimeout(() => {
+            world.isGameFinished = true;
+            if (whoDied === this.level.enemies[6]) {
+                world.isGameWon = true;
+            }
+        }, 2000);
+    }
+
+
     handleGameOverByEndbossDead() {
         allGameIntervals.forEach((interval) => {
             clearInterval(interval)
@@ -304,6 +322,21 @@ class World {
         const instanceIndex = this.allIntervals?.indexOf(intervalId);
         if (instanceIndex !== -1) {
             this.allIntervals.splice(instanceIndex, 1);
+        }
+    }
+
+
+    removeTimeoutById(timeoutID) {
+        clearTimeout(timeoutID);
+
+        const globalIndex = allGameTimeouts.indexOf(timeoutID);
+        if (globalIndex !== -1) {
+            allGameTimeouts.splice(globalIndex, 1);
+        }
+
+        const instanceIndex = this.allTimeouts?.indexOf(timeoutID);
+        if (instanceIndex !== -1) {
+            this.allTimeouts.splice(instanceIndex, 1);
         }
     }
 

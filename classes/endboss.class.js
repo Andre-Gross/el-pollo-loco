@@ -267,9 +267,11 @@ class Endboss extends Enemy {
         this.handleWalkAttackAnimation();
         this.handleWalkAttackMovement();
 
-        setTimeout(() => {
+        let walkAttackTimeout = setTimeout(() => {
             this.handleWalkAttackEnd(additionalSpeed);
+            this.removeTimeoutById(walkAttackTimeout)
         }, 1000);
+        this.pushToAllTimeouts(walkAttackTimeout);
     }
 
 

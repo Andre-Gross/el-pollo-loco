@@ -190,16 +190,19 @@ class Character extends MovableObject {
         let index = 0;
         let dieInterval = setInterval(() => {
             if (index === 7) {
-                clearInterval(dieInterval);
+                this.removeIntervalById(dieInterval);
             } else {
                 let path = this.IMAGES_DEAD[index];
                 this.img = this.imgCache[path];
                 index++;
             }
         }, 2000 / this.IMAGES_DEAD.length);
-        setTimeout(() => {
+
+        let dieTimeout = setTimeout(() => {
             this.img = this.imgCache[this.IMAGES_DEAD.slice(5, 6)];
+            this.removeTimeoutById(dieTimeout);
         }, 2000)
+        this.pushToAllTimeouts(dieTimeout);
     }
 
 
@@ -520,7 +523,10 @@ class Character extends MovableObject {
         const knockBackTimeout = setTimeout(() => {
             this.removeIntervalById(knockBackInterval);
             this.animate();
+            this.removeTimeoutById(knockBackTimeout);
         }, duration)
+
+        this.pushToAllTimeouts(knockBackTimeout);
 
         this.pushToAllIntervals(this.knockBackInterval)
     }

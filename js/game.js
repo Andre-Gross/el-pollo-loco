@@ -7,6 +7,7 @@ let maxFPS = 60;
 isGameStarted = false;
 
 let allGameIntervals = [];
+let allGameTimeouts = [];
 
 
 function activateKeyboard() {
