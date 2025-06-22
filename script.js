@@ -90,9 +90,9 @@ function showRightButtons(visibleButtons) {
 
     allButtons.forEach((button) => {
         if (!visibleButtons.includes(button)) {
-            toggleDisplayNone(button, 'd-inline-block', false);
+            toggleDisplayNone(button, 'd-flex', false);
         } else {
-            toggleDisplayNone(button, 'd-inline-block', true);
+            toggleDisplayNone(button, 'd-flex', true);
         }
     })
 }
@@ -135,8 +135,7 @@ function showControls() {
 
     showRightFrontElement(controlContainer);
 
-    toggleDisplayNone(showStartScreenButton, 'd-inline-block', true);
-    toggleDisplayNone(controlsButton, 'd-inline-block', false);
+    showControlsButtons();
 }
 
 
@@ -162,8 +161,7 @@ function showCredits() {
 
     showRightFrontElement(creditsContainer);
 
-    toggleDisplayNone(showStartScreenButton, 'd-inline-block', true);
-    toggleDisplayNone(creditsButton, 'd-inline-block', false);
+    showControlsButtons();
 }
 
 

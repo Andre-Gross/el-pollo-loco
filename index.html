@@ -70,11 +70,30 @@
         </div>
         <div id="startscreen-button-container" class="button-container d-flex">
             <button id="show-start-screen-btn" class="canvas-button d-none"
-                onclick="showStartScreen()">Startscreen</button>
+                onclick="showStartScreen()">
+                <img src="assets/img/buttons/logout-white.png" alt="">
+                <p>Startscreen</p>
+            </button>
             <button id="start-game-btn" class="canvas-button" onclick="startGame()">Start Game</button>
-            <button id="restart-game-btn" class="canvas-button" onclick="restartGame()">Restart</button>
-            <button id="show-controls-btn" class="canvas-button" onclick="showControls()">Controls</button>
-            <button id="show-credits" class="canvas-button" onclick="">Credits</button>
+            <button id="show-controls-btn" class="canvas-button" onclick="showControls()">
+                <img src="assets/img/buttons/games-white.png" alt="">
+                <p>Controls</p>
+            </button>
+            <button id="show-credits-btn" class="canvas-button" onclick="showCredits()">
+                <img src="assets/img/buttons/badge-white.png" alt="White Badge">
+                <p>Credits</p>
+            </button>
+        </div>
+        <div id="ingame-button-container" class="d-none">
+            <button id="restart-game-btn" class="canvas-button" onclick="restartGame()">
+                <img src="assets/img/buttons/restart-white.png" alt="">
+            </button>
+            <button id="show-controls-btn" class="canvas-button" onclick="pauseGame()">
+                <img src="assets/img/buttons/games-white.png" alt="">
+            </button>
+            <button id="" class="canvas-button" onclick="resumeGame()">
+                <img src="assets/img/buttons/logout-white.png" alt="">
+            </button>
         </div>
     </div>
 
