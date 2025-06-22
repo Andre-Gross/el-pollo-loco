@@ -88,6 +88,7 @@ class MovableObject extends DrawableObject {
                 this.y = this.calculateY();
             }
         }, 1000 / maxFPS);
+        this.pushToAllIntervals(this.gravityInterval)
     }
 
 
