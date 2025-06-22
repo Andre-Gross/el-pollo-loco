@@ -19,6 +19,13 @@ class Character extends MovableObject {
 
     lastVisibleEndY;
 
+    jumpDatas = {
+        i: 0,
+        startFromGround: true,
+        alreadyJumped: false,
+        isActive: false
+    }
+
     IMAGES_IDLE = [
         './assets/img/2_character_pepe/1_idle/idle/I-1.png',
         './assets/img/2_character_pepe/1_idle/idle/I-2.png',
@@ -294,59 +301,66 @@ class Character extends MovableObject {
      */
     handleJumpAnimation(startFromGround = true) {
         this.removeIntervalById(this.imageInterval);
-        let i = 0;
-        let alreadyJumped = false;
-        const summitSpeedY = 5;
+
+        // Only reset jumpDatas when starting a new jump, not when resuming
+        this.jumpDatas.i = 0;
+        this.jumpDatas.startFromGround = startFromGround;
+        this.jumpDatas.alreadyJumped = false;
 
         this.jumpInterval = setInterval(() => {
-            ({ i, alreadyJumped } = this.handleJumpAnimationPhase({
-                i,
-                alreadyJumped,
-                startFromGround,
-                summitSpeedY
-            }));
+            this.jumpDatas = this.handleJumpAnimationPhase(this.jumpDatas);
+
+            // Check if animation should end (i reset to 0 means animation complete)
+            if (this.jumpDatas.i === 0 && this.jumpDatas.alreadyJumped) {
+                this.handleJumpAnimationEnd();
+            }
         }, 500 / this.picturesForCurrentAnimation.length);
 
         this.pushToAllIntervals(this.jumpInterval);
     }
 
+
     /**
      * Controls the logic of the current jump animation phase.
      * Delegates execution to specific functions based on jump state and vertical speed.
      * 
-     * @param {Object} params
-     * @param {number} params.i - The current animation frame index.
-     * @param {boolean} params.alreadyJumped - Whether the jump has already been triggered.
-     * @param {boolean} params.startFromGround - Whether the character starts the jump from the ground.
-     * @param {number} params.summitSpeedY - The threshold speed indicating the summit zone.
-     * @returns {{ i: number, alreadyJumped: boolean }} - Updated animation state.
+     * @param {Object} jumpDatas - The jump animation state object
+     * @param {number} jumpDatas.i - The current animation frame index.
+     * @param {boolean} jumpDatas.alreadyJumped - Whether the jump has already been triggered.
+     * @param {boolean} jumpDatas.startFromGround - Whether the character starts the jump from the ground.
+     * @returns {Object} - Updated jumpDatas object.
      */
-    handleJumpAnimationPhase({ i, alreadyJumped, startFromGround, summitSpeedY }) {
+    handleJumpAnimationPhase(jumpDatas) {
+        const { i, alreadyJumped, startFromGround } = jumpDatas;
+        const summitSpeedY = 5;
+
         if (i < 3 && startFromGround) {
-            return this.handleJumpAnimationStart(i);
+            return this.handleJumpAnimationStart(jumpDatas);
         } else if (i <= 3 || this.speedY > summitSpeedY) {
-            return this.handleJumpAnimationUpwards({ i, alreadyJumped });
+            return this.handleJumpAnimationUpwards(jumpDatas);
         } else if (i === 6) {
-            this.handleJumpAnimationEnd();
+            return { ...jumpDatas, i: 0 }; // Reset i to 0 to signal animation end
         } else if (this.standOnGround()) {
-            return this.handleJumpAnimationLanding(i);
+            return this.handleJumpAnimationLanding(jumpDatas);
         } else {
             this.handleJumpAnimationMidAir(summitSpeedY);
+            return jumpDatas;
         }
-        return { i, alreadyJumped };
     }
 
 
     /**
      * Handles the initial jump frames while the character is still on the ground.
      * 
-     * @param {number} i - Current animation frame index.
-     * @param {boolean} alreadyJumped - Whether the jump has already been triggered.
-     * @returns {{ i: number }} - Updated animation state.
+     * @param {Object} jumpDatas - The jump animation state object
+     * @returns {Object} - Updated jumpDatas object.
      */
-    handleJumpAnimationStart(i, alreadyJumped) {
-        this.playAnimation(this.IMAGES_JUMP.slice(0, 3), i);
-        return { i: i + 1 };
+    handleJumpAnimationStart(jumpDatas) {
+        this.playAnimation(this.IMAGES_JUMP.slice(0, 3), jumpDatas.i);
+        return {
+            ...jumpDatas,
+            i: jumpDatas.i + 1
+        };
     }
 
 
@@ -354,19 +368,25 @@ class Character extends MovableObject {
      * Handles the upwards phase of the jump after leaving the ground.
      * Triggers the actual jump and sets the appropriate image.
      * 
-     * @param {Object} params
-     * @param {number} params.i - Current animation frame index.
-     * @param {boolean} params.alreadyJumped - Whether the jump has already been triggered.
-     * @returns {{ i: number, alreadyJumped: boolean }} - Updated animation state.
+     * @param {Object} jumpDatas - The jump animation state object
+     * @returns {Object} - Updated jumpDatas object.
      */
-    handleJumpAnimationUpwards({ i, alreadyJumped }) {
+    handleJumpAnimationUpwards(jumpDatas) {
+        let { i, alreadyJumped } = jumpDatas;
+
         if (!alreadyJumped) {
             this.jump();
             alreadyJumped = true;
             i = 4;
         }
+
         this.img = this.imgCache[this.IMAGES_JUMP.slice(3, 4)];
-        return { i, alreadyJumped };
+
+        return {
+            ...jumpDatas,
+            i,
+            alreadyJumped
+        };
     }
 
 
@@ -375,7 +395,6 @@ class Character extends MovableObject {
      * Chooses the correct image depending on the vertical speed (near zero or falling).
      * 
      * @param {number} summitSpeedY - Threshold speed to determine mid-air phase.
-     *
      * @returns {void}
      */
     handleJumpAnimationMidAir(summitSpeedY) {
@@ -390,13 +409,15 @@ class Character extends MovableObject {
     /**
      * Handles the landing phase when the character touches the ground again.
      * 
-     * @param {number} i - Current animation frame index.
-     * @param {boolean} alreadyJumped - Whether the jump has already been triggered.
-     * @returns {{ i: number }} - Updated animation state.
+     * @param {Object} jumpDatas - The jump animation state object
+     * @returns {Object} - Updated jumpDatas object.
      */
-    handleJumpAnimationLanding(i, alreadyJumped) {
-        this.playAnimation(this.IMAGES_JUMP.slice(6, 8), i - 4);
-        return { i: i + 1 };
+    handleJumpAnimationLanding(jumpDatas) {
+        this.playAnimation(this.IMAGES_JUMP.slice(6, 8), jumpDatas.i - 4);
+        return {
+            ...jumpDatas,
+            i: jumpDatas.i + 1
+        };
     }
 
 
@@ -409,7 +430,65 @@ class Character extends MovableObject {
     handleJumpAnimationEnd() {
         this.removeIntervalById(this.jumpInterval);
         this.removeIntervalById(this.positionInterval);
+
+        // Reset jumpDatas to indicate animation is complete
+        this.jumpDatas.i = 0;
+        this.jumpDatas.startFromGround = true;
+        this.jumpDatas.alreadyJumped = false;
+
         this.animate();
+    }
+
+
+    /**
+     * Pauses the jump animation
+     * All state is preserved in jumpDatas for later resumption
+     *
+     * @returns {void}
+     */
+    pauseJumpAnimation() {
+        this.removeIntervalById(this.jumpInterval);
+    }
+
+    /**
+     * Resumes the jump animation from the current state in jumpDatas
+     * Only resumes if there was an active jump animation (i > 0)
+     *
+     * @returns {void}
+     */
+    resumeJumpAnimation() {
+        this.jumpInterval = setInterval(() => {
+            this.jumpDatas = this.handleJumpAnimationPhase(this.jumpDatas);
+
+            if (this.jumpDatas.i === 0 && this.jumpDatas.alreadyJumped) {
+                this.handleJumpAnimationEnd();
+            }
+        }, 500 / this.picturesForCurrentAnimation.length);
+
+        this.pushToAllIntervals(this.jumpInterval);
+    }
+
+
+    resumeGameplay() {
+        this.resumeRightAnimation();
+        this.applyGravity();
+        this.checkThrow();
+    }
+
+
+    /**
+    * Resumes the appropriate animation based on the current character state.
+    * Automatically determines whether to continue a paused jump animation
+    * or start the default idle/walking animation.
+    * 
+    * @returns {void}
+    */
+    resumeRightAnimation() {
+        if (this.jumpDatas.i > 0) {
+            this.resumeJumpAnimation();
+        } else {
+            this.animate();
+        }
     }
 
 

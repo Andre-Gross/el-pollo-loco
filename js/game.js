@@ -105,6 +105,10 @@ function backToHome() {
 }
 
 
+function resumeGame() {
+    world.checkCollisions();
+    world.character.resumeGameplay();
+}
 function startGame() {
     if (!isGameStarted) {
         startGameButton = document.getElementById('start-game-btn')
