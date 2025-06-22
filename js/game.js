@@ -128,8 +128,17 @@ function startGame() {
 
 
 function pauseGame() {
+    const endbossWalkAttack = world.level.enemies[6].attackState.walkAttack;
+    if (endbossWalkAttack.start != 0) {
+        endbossWalkAttack.duration = Date.now() - endbossWalkAttack.start;
+    }
     allGameIntervals.forEach((interval) => { clearInterval(interval) });
     allGameIntervals = [];
+
+    allGameTimeouts.forEach((timeout) => {
+        clearTimeout(timeout)
+    })
+    allGameTimeouts = [];
 }
 
 

@@ -14,6 +14,8 @@ class Endboss extends Enemy {
 
     timeForFullAnimation = 1000;
     counterWalkAttack = 0;
+    attackState = {};
+
 
     IMAGES_ALERT = [
         'assets/img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -85,6 +87,8 @@ class Endboss extends Enemy {
         this.y = this.calculateY();
 
         this.health = this.standartHealth;
+
+        this.resetAttackState();
     }
 
 
@@ -132,13 +136,15 @@ class Endboss extends Enemy {
      * 
      * @returns {void}
      */
-    handleJumpAttack() {
+    handleJumpAttack(i = this.attackState.jumpAttack.i, alreadyJumped = this.attackState.jumpAttack.alreadyJumped) {
         this.removeIntervalById(this.imageInterval);
-        let i = 0;
-        let alreadyJumped = false;
 
         this.jumpInterval = setInterval(() => {
             ({ i, alreadyJumped } = this.handleJumpAttackPhase({ i, alreadyJumped }));
+            this.attackState.jumpAttack = {
+                i: i,
+                alreadyJumped: alreadyJumped
+            }
         }, 500 / this.picturesForCurrentAnimation.length);
 
         this.pushToAllIntervals(this.jumpInterval);
@@ -250,6 +256,8 @@ class Endboss extends Enemy {
     handleJumpAttackEnd() {
         this.removeIntervalById(this.jumpInterval);
         this.animate();
+
+        this.resetAttackState();
     }
 
 
@@ -260,17 +268,18 @@ class Endboss extends Enemy {
      * 
      * @returns {void}
      */
-    handleWalkAttack() {
+    handleWalkAttack(timeForWalkAttack = 1000) {
         const additionalSpeed = 150 / maxFPS;
         this.standartSpeedXPerFrame += additionalSpeed;
 
         this.handleWalkAttackAnimation();
         this.handleWalkAttackMovement();
 
+        this.attackState.walkAttack.start = Date.now();
         let walkAttackTimeout = setTimeout(() => {
             this.handleWalkAttackEnd(additionalSpeed);
             this.removeTimeoutById(walkAttackTimeout)
-        }, 1000);
+        }, timeForWalkAttack);
         this.pushToAllTimeouts(walkAttackTimeout);
     }
 
@@ -320,6 +329,26 @@ class Endboss extends Enemy {
         this.standartSpeedXPerFrame -= additionalSpeed;
         this.removeAnimationById();
         this.animate();
+        this.resetAttackState();
+    }
+
+
+    resumeGameplay() {
+        const jump = this.attackState.jumpAttack
+        const walk = this.attackState.walkAttack
+        this.applyGravity()
+        if (jump.i > 0) {
+            this.handleJumpAttack(jump.i, jump.alreadyJumped);
+            if (jump.i > 3) {
+                this.positionInterval = setInterval(() => {
+                    this.x -= this.speedXPerFrame;
+                }, 1000 / maxFPS)
+            }
+        } else if (walk.duration > 0) {
+            this.handleWalkAttack(walk.duration);
+        } else {
+            this.animate();
+        }
     }
 
 
@@ -336,6 +365,23 @@ class Endboss extends Enemy {
         this.init();
         this.world.movableStatusbar.setPercentage(this.health);
         this.animate();
+    }
+
+
+    resetAttackState() {
+        this.attackState = {
+            currentAttack: null,
+
+            jumpAttack: {
+                i: 0,
+                alreadyJumped: false
+            },
+
+            walkAttack: {
+                start: 0,
+                duration: 0
+            }
+        }
     }
 
 
