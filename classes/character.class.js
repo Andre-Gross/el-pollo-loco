@@ -19,12 +19,7 @@ class Character extends MovableObject {
 
     lastVisibleEndY;
 
-    jumpDatas = {
-        i: 0,
-        startFromGround: true,
-        alreadyJumped: false,
-        isActive: false
-    }
+    jumpDatas = {};
 
     IMAGES_IDLE = [
         './assets/img/2_character_pepe/1_idle/idle/I-1.png',
@@ -134,6 +129,10 @@ class Character extends MovableObject {
         this.x = 70;
         this.y = this.calculateY();
         this.lastVisibleEndY = this.returnVisibleEndY();
+            i: 0,
+            startFromGround: true,
+            alreadyJumped: false,
+        }
     }
 
 
