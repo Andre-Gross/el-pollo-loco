@@ -305,7 +305,6 @@ class Character extends MovableObject {
     handleJumpAnimation(startFromGround = true) {
         this.removeIntervalById(this.imageInterval);
 
-        // Only reset jumpDatas when starting a new jump, not when resuming
         this.jumpDatas.i = 0;
         this.jumpDatas.startFromGround = startFromGround;
         this.jumpDatas.alreadyJumped = false;
@@ -313,7 +312,6 @@ class Character extends MovableObject {
         this.jumpInterval = setInterval(() => {
             this.jumpDatas = this.handleJumpAnimationPhase(this.jumpDatas);
 
-            // Check if animation should end (i reset to 0 means animation complete)
             if (this.jumpDatas.i === 0 && this.jumpDatas.alreadyJumped) {
                 this.handleJumpAnimationEnd();
             }
@@ -342,7 +340,7 @@ class Character extends MovableObject {
         } else if (i <= 3 || this.speedY > summitSpeedY) {
             return this.handleJumpAnimationUpwards(jumpDatas);
         } else if (i === 6) {
-            return { ...jumpDatas, i: 0 }; // Reset i to 0 to signal animation end
+            return { ...jumpDatas, i: 0 };
         } else if (this.standOnGround()) {
             return this.handleJumpAnimationLanding(jumpDatas);
         } else {
@@ -434,7 +432,6 @@ class Character extends MovableObject {
         this.removeIntervalById(this.jumpInterval);
         this.removeIntervalById(this.positionInterval);
 
-        // Reset jumpDatas to indicate animation is complete
         this.jumpDatas.i = 0;
         this.jumpDatas.startFromGround = true;
         this.jumpDatas.alreadyJumped = false;
@@ -514,10 +511,6 @@ class Character extends MovableObject {
                 this.moveRight(!this.otherDirection)
             }
             this.setWorldCameraPositionX();
-            // if (this.isPressedMove()) {
-            //     clearTimeout(knockBackTimeout);
-            //     this.removeIntervalById(knockBackInterval);
-            // }
         }, 1000 / maxFPS)
 
         const knockBackTimeout = setTimeout(() => {
