@@ -112,9 +112,8 @@ function resumeGame() {
 }
 function startGame() {
     if (!isGameStarted) {
-        startGameButton = document.getElementById('start-game-btn')
-        showControlsButton = document.getElementById('show-controls-btn')
-        showStartScreenButton = document.getElementById('show-start-screen-btn')
+        startScreenButtonContainer = document.getElementById('startscreen-button-container');
+        ingameButtonContainer = document.getElementById('ingame-button-container');
 
         canvas = document.getElementById('canvas');
         showRightFrontElement(canvas);
@@ -122,9 +121,8 @@ function startGame() {
         world = new World(canvas, keyboard);
         isGameStarted = true;
 
-        toggleDisplayNone(startGameButton, 'd-inline-block', false);
-        toggleDisplayNone(showControlsButton, 'd-inline-block', false);
-        toggleDisplayNone(showStartScreenButton, 'd-inline-block', false)
+        toggleDisplayNone(startScreenButtonContainer, 'd-flex', false);
+        toggleDisplayNone(ingameButtonContainer, 'd-flex', true)
     }
 }
 
