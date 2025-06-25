@@ -109,7 +109,18 @@ function backToHome() {
 function resumeGame() {
     world.checkCollisions();
     world.character.resumeGameplay();
+    world.level.enemies.forEach((enemy) => {
+        if (enemy.resumeGameplay) {
+            enemy.resumeGameplay()
+        } else {
+            enemy.animate()
+        }
+    world.movableStatusbar.setPositionInterval();
+    })
+
 }
+
+
 function startGame() {
     if (!isGameStarted) {
         startScreenButtonContainer = document.getElementById('startscreen-button-container');
