@@ -42,6 +42,8 @@ class Coin extends CollectableObjects {
 
         this.x = this.randomizeSpwanX(endOfX);
         this.y = this.randomizeSpawnY()
+
+        this.isCollected = false;
     }
 
 
