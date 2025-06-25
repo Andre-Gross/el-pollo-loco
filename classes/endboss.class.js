@@ -270,14 +270,14 @@ class Endboss extends Enemy {
      */
     handleWalkAttack(timeForWalkAttack = 1000) {
         const additionalSpeed = 150 / maxFPS;
-        this.standartSpeedXPerFrame += additionalSpeed;
+        const walkAttackSpeed = this.standartSpeedXPerFrame + additionalSpeed;
 
         this.handleWalkAttackAnimation();
-        this.handleWalkAttackMovement();
+        this.handleWalkAttackMovement(walkAttackSpeed);
 
         this.attackState.walkAttack.start = Date.now();
         let walkAttackTimeout = setTimeout(() => {
-            this.handleWalkAttackEnd(additionalSpeed);
+            this.handleWalkAttackEnd();
             this.removeTimeoutById(walkAttackTimeout)
         }, timeForWalkAttack);
         this.pushToAllTimeouts(walkAttackTimeout);
@@ -309,10 +309,13 @@ class Endboss extends Enemy {
      * 
      * @returns {void}
      */
-    handleWalkAttackMovement() {
+    handleWalkAttackMovement(speed) {
         this.alignSelfTo(world.character);
+        if (this.otherDirection) {
+            speed = -speed;
+        }
         this.positionInterval = setInterval(() => {
-            this.x -= this.speedXPerFrame;
+            this.x -= speed;
         }, 1000 / maxFPS);
         this.pushToAllIntervals(this.positionInterval);
     }
@@ -325,8 +328,7 @@ class Endboss extends Enemy {
      * @param {number} additionalSpeed - The temporary speed that was added during the attack.
      * @returns {void}
      */
-    handleWalkAttackEnd(additionalSpeed) {
-        this.standartSpeedXPerFrame -= additionalSpeed;
+    handleWalkAttackEnd() {
         this.removeAnimationById();
         this.animate();
         this.resetAttackState();
@@ -343,6 +345,7 @@ class Endboss extends Enemy {
                 this.positionInterval = setInterval(() => {
                     this.x -= this.speedXPerFrame;
                 }, 1000 / maxFPS)
+                pushToAllIntervals(this.positionInterval);
             }
         } else if (walk.duration > 0) {
             this.handleWalkAttack(walk.duration);
