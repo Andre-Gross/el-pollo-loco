@@ -80,21 +80,29 @@ function showRightFrontElement(element) {
 }
 
 
-function showRightButtons(visibleButtons) {
+function showRightButtons(visibleButtonOrButtons) {
     const allButtons = [
         document.getElementById('start-game-btn'),
         document.getElementById('show-start-screen-btn'),
         document.getElementById('show-controls-btn'),
         document.getElementById('show-credits-btn'),
+        document.getElementById('back-to-game-btn'),
     ]
 
-    allButtons.forEach((button) => {
-        if (!visibleButtons.includes(button)) {
+    if (Array.isArray(visibleButtonOrButtons)) {
+        allButtons.forEach((button) => {
+            if (!visibleButtonOrButtons.includes(button)) {
+                toggleDisplayNone(button, 'd-flex', false);
+            } else {
+                toggleDisplayNone(button, 'd-flex', true);
+            }
+        })
+    } else {
+        allButtons.forEach((button) => {
             toggleDisplayNone(button, 'd-flex', false);
-        } else {
-            toggleDisplayNone(button, 'd-flex', true);
-        }
-    })
+        });+
+        toggleDisplayNone(visibleButtonOrButtons, 'd-flex', true)
+    }
 }
 
 
@@ -154,6 +162,33 @@ function showControlsButtons() {
 }
 
 
+function toggleControlsIngame(changeToControls) {
+    const canvas = document.getElementById('canvas');
+    const controlContainer = document.getElementById('control-container');
+
+    if (changeToControls) {
+        pauseGame();
+    } else {
+        resumeGame();
+    }
+
+    toggleDisplayNone(canvas, 'd-flex', !changeToControls);
+    toggleDisplayNone(controlContainer, 'd-flex', changeToControls);
+    toggleControlsButtonsIngame(changeToControls);
+}
+
+
+function toggleControlsButtonsIngame(changeToControls) {
+    const backToGameButton = document.getElementById('back-to-game-btn');
+    const startscreenButtonContainer = document.getElementById('startscreen-button-container');
+    const ingameButtonContainer = document.getElementById('ingame-button-container');
+
+    toggleDisplayNone(ingameButtonContainer, 'd-flex', !changeToControls);
+    toggleDisplayNone(startscreenButtonContainer, 'd-flex', changeToControls);
+    showRightButtons(backToGameButton);
+}
+
+
 function showCredits() {
     const creditsContainer = document.getElementById('credits-container');
     const showStartScreenButton = document.getElementById('show-start-screen-btn')
@@ -162,21 +197,6 @@ function showCredits() {
     showRightFrontElement(creditsContainer);
 
     showControlsButtons();
-}
-
-
-function showControlsButtons() {
-    const startGameButton = document.getElementById('start-game-btn');
-    const showStartScreenButton = document.getElementById('show-start-screen-btn');
-    const showCreditsButton = document.getElementById('show-credits-btn');
-
-    visibleButtons = [
-        startGameButton,
-        showStartScreenButton,
-        showCreditsButton
-    ]
-
-    showRightButtons(visibleButtons);
 }
 
 
