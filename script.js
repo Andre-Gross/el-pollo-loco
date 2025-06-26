@@ -37,8 +37,18 @@ function checkAndSetElementSizes() {
 }
 
 
+function leaveGame() {
+    const startGameButton = document.getElementById('start-game-btn');
+    startGameButton.onclick
+    pauseGame();
+    toggleButtonContainer(false);
+    deactivateKeyboard();
+    showStartScreen();
+}
+
+
 function resetAllRootVariables(newHeight, newWidth) {
-    const baseFontSize =  newHeight / 7.5;
+    const baseFontSize = newHeight / 7.5;
     const buttonPadding = newHeight / 40;
 
     setRootVariable('--canvas-width', `${newWidth}px`);
@@ -100,8 +110,8 @@ function showRightButtons(visibleButtonOrButtons) {
     } else {
         allButtons.forEach((button) => {
             toggleDisplayNone(button, 'd-flex', false);
-        });+
-        toggleDisplayNone(visibleButtonOrButtons, 'd-flex', true)
+        }); +
+            toggleDisplayNone(visibleButtonOrButtons, 'd-flex', true)
     }
 }
 
@@ -159,6 +169,15 @@ function showControlsButtons() {
     ]
 
     showRightButtons(visibleButtons);
+}
+
+
+function toggleButtonContainer(toggleToIngameButtonContainer) {
+    const startscreenButtonContainer = document.getElementById('startscreen-button-container');
+    const ingameButtonContainer = document.getElementById('ingame-button-container');
+
+    toggleDisplayNone(startscreenButtonContainer, 'd-flex', !toggleToIngameButtonContainer);
+    toggleDisplayNone(ingameButtonContainer, 'd-flex', toggleToIngameButtonContainer);
 }
 
 

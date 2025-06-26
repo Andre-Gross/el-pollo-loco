@@ -115,26 +115,27 @@ function resumeGame() {
         } else {
             enemy.animate()
         }
-    world.movableStatusbar.setPositionInterval();
+        world.movableStatusbar.setPositionInterval();
     })
 
 }
 
 
 function startGame() {
-    if (!isGameStarted) {
-        startScreenButtonContainer = document.getElementById('startscreen-button-container');
-        ingameButtonContainer = document.getElementById('ingame-button-container');
+    startScreenButtonContainer = document.getElementById('startscreen-button-container');
+    ingameButtonContainer = document.getElementById('ingame-button-container');
+    canvas = document.getElementById('canvas');
 
-        canvas = document.getElementById('canvas');
-        showRightFrontElement(canvas);
-        activateKeyboard();
+    if (!isGameStarted) {
         world = new World(canvas, keyboard);
         isGameStarted = true;
-
-        toggleDisplayNone(startScreenButtonContainer, 'd-flex', false);
-        toggleDisplayNone(ingameButtonContainer, 'd-flex', true)
+    } else {
+        world.restart()
     }
+
+    showRightFrontElement(canvas);
+    activateKeyboard();
+    toggleButtonContainer(true);
 }
 
 
