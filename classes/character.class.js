@@ -545,6 +545,7 @@ class Character extends MovableObject {
      */
     restart() {
         this.removeAllIntervals();
+        this.applyGravity()
         this.setSleepTimer();
         this.init();
         this.animate();
