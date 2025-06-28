@@ -103,6 +103,9 @@ function backToHome() {
     toggleDisplayNone(startGameButton, 'd-inline-block', true);
     toggleDisplayNone(showControlsButton, 'd-inline-block', true);
     toggleDisplayNone(showStartScreenButton, 'd-inline-block', true)
+
+    world.isGameFinished = false;
+    world.isGameWon = false;
 }
 
 

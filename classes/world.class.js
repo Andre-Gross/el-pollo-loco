@@ -367,6 +367,8 @@ class World {
         this.fixedStatusbars.forEach((sb) => {
             sb.restart();
         })
+        world.isGameFinished = false;
+        world.isGameWon = false;
         // this.movableStatusbar.restart();
     }
 
