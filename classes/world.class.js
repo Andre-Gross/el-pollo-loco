@@ -153,7 +153,7 @@ class World {
                         if (this.character.jumpInterval) {
                             this.character.removeAllIntervals();
                             this.character.animate();
-                            this.isJumpAllowed = false;
+                            this.character.applyGravity();
                         }
                         this.enemyHitCharacter(enemy);
                     }
