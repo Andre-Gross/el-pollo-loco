@@ -534,6 +534,7 @@ class Character extends MovableObject {
         this.removeIntervalById(this.positionInterval);
         this.removeIntervalById(this.imageInterval);
         this.removeIntervalById(this.jumpInterval);
+        this.removeIntervalById(this.gravityInterval)
     }
 
 
