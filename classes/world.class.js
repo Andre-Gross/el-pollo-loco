@@ -369,7 +369,7 @@ class World {
         })
         world.isGameFinished = false;
         world.isGameWon = false;
-        // this.movableStatusbar.restart();
+        this.movableStatusbar.setPositionInterval()
     }
 
 

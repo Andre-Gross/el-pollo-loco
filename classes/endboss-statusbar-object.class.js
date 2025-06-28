@@ -29,19 +29,6 @@ class EndbossStatusbar extends Statusbar {
     }
 
 
-    setPositionInterval() {
-        this.positionInterval = setInterval(() => {
-            if (this.world) {
-                const endbossDatas = this.returnEndbossDatas();
-
-                this.y = this.calculateY(endbossDatas);
-                this.x = this.calculateX(endbossDatas);
-            }
-        }, 1000 / maxFPS)
-        this.pushToAllIntervals(this.positionInterval);
-    }
-
-
     calculateX(endbossDatas) {
         if (endbossDatas.otherDirection) {
             return endbossDatas.returnVisibleStartX();
@@ -62,6 +49,19 @@ class EndbossStatusbar extends Statusbar {
      */
     returnEndbossDatas() {
         return world.level.enemies.find(item => item instanceof Endboss) || null;
+    }
+
+
+    setPositionInterval() {
+        this.positionInterval = setInterval(() => {
+            if (this.world) {
+                const endbossDatas = this.returnEndbossDatas();
+
+                this.y = this.calculateY(endbossDatas);
+                this.x = this.calculateX(endbossDatas);
+            }
+        }, 1000 / maxFPS)
+        this.pushToAllIntervals(this.positionInterval);
     }
 
 }
