@@ -279,6 +279,7 @@ class World {
             world.isGameFinished = true;
             world.isGameWon = true;
         }, 2000);
+        showFinishedGameButtons();
     }
 
 
@@ -290,6 +291,7 @@ class World {
         setTimeout(() => {
             world.isGameFinished = true;
         }, 2000);
+        showFinishedGameButtons();
     }
 
 

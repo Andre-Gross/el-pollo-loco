@@ -74,6 +74,10 @@
                 <img src="assets/img/buttons/logout-white.png" alt="">
                 <p>Startscreen</p>
             </button>
+            <button id="restart-game-btn" class="canvas-button" onclick="world.restart()">
+                <img src="assets/img/buttons/restart-white.png" alt="arrow as circle">
+                <p>Restart Game</p>
+            </button>
             <button id="start-game-btn" class="canvas-button" onclick="startGame()">
                 <img src="assets/img/buttons/play-white.png" alt="play sign">
                 <p>Start Game</p>
@@ -90,10 +94,14 @@
                 <img src="assets/img/buttons/badge-white.png" alt="White Badge">
                 <p>Credits</p>
             </button>
+            <button id="show-leave-game-btn" class="canvas-button d-none" onclick="showStartScreen()">
+                <img src="assets/img/buttons/logout-white.png" alt="">
+                <p>Leave Game</p>
+            </button>
         </div>
         <div id="ingame-button-container" class="d-none">
-            <button id="restart-game-btn" class="canvas-button" onclick="world.restart()">
-                <img src="assets/img/buttons/restart-white.png" alt="">
+            <button id="restart-game-btn-ingame" class="canvas-button" onclick="world.restart()">
+                <img src="assets/img/buttons/restart-white.png" alt="arrow as circle">
             </button>
             <button id="show-controls-btn-ingame" class="canvas-button" onclick="toggleControlsIngame(true)">
                 <img src="assets/img/buttons/games-white.png" alt="">

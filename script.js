@@ -71,6 +71,23 @@ function setSizeOfSingleContainer(element, height = canvasHeight, width = canvas
 }
 
 
+function showFinishedGameButtons() {
+    const restartGameBtn = document.getElementById('restart-game-btn');
+    const leaveGameBtn = document.getElementById('show-leave-game-btn');
+
+    const visibleButtons = [
+        restartGameBtn,
+        leaveGameBtn
+    ]
+
+    showRightButtons(visibleButtons);
+
+    setTimeout(() => {
+        toggleButtonContainer(false);
+    }, 2000)
+}
+
+
 function showRightFrontElement(element) {
     const canvas = document.getElementById('canvas');
     const controlContainer = document.getElementById('control-container');
@@ -92,11 +109,13 @@ function showRightFrontElement(element) {
 
 function showRightButtons(visibleButtonOrButtons) {
     const allButtons = [
+        document.getElementById('restart-game-btn'),
         document.getElementById('start-game-btn'),
         document.getElementById('show-start-screen-btn'),
         document.getElementById('show-controls-btn'),
         document.getElementById('show-credits-btn'),
         document.getElementById('back-to-game-btn'),
+        document.getElementById('show-leave-game-btn'),
     ]
 
     if (Array.isArray(visibleButtonOrButtons)) {
