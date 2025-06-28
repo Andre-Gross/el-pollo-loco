@@ -346,6 +346,8 @@ class World {
      * throwable objects, coins, the character and status bars.
      */
     restart() {
+        this.checkCollisions();
+
         this.level.enemies.forEach((enemy) => {
             enemy.restart()
         });
