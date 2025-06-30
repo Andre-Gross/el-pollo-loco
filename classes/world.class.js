@@ -374,6 +374,7 @@ class World {
         world.isGameFinished = false;
         world.isGameWon = false;
         this.movableStatusbar.setPositionInterval()
+        toggleButtonContainer(true);
     }
 
 
