@@ -182,7 +182,7 @@ class Character extends MovableObject {
      * @returns {boolean} True if 5 seconds have passed since the last activity.
      */
     checkTimeToSleep() {
-        return Date.now() - this.sleepTimer > 5000;
+        return Date.now() - this.sleepTimer > 10000;
     }
 
 
