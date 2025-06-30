@@ -277,6 +277,8 @@ class ThrowableObject extends CollectableObjects {
 
         this.animate()
         this.handleCollidingWithEnemy();
+
+        this.world.character.setSleepTimer();
     }
 }
 
