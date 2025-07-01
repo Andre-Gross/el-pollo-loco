@@ -229,8 +229,6 @@ function toggleControlsButtonsIngame(changeToControls) {
 
 function showCredits() {
     const creditsContainer = document.getElementById('credits-container');
-    const showStartScreenButton = document.getElementById('show-start-screen-btn')
-    const creditsButton = document.getElementById('show-credits-btn');
 
     showRightFrontElement(creditsContainer);
 
