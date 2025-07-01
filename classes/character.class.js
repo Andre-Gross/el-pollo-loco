@@ -117,6 +117,7 @@ class Character extends MovableObject {
 
         this.animate();
         this.checkThrow();
+        this.registerStopWalkingListener()
     }
 
 
@@ -529,6 +530,24 @@ class Character extends MovableObject {
 
         this.pushToAllIntervals(this.knockBackInterval)
     }
+
+
+    /**
+     * Registers a keyup event listener that checks whether all movement keys
+     * (ArrowLeft, ArrowRight, A, D) are released. If none are pressed and the
+     * current sound is the walking sound, it stops playback.
+     */
+    registerStopWalkingListener() {
+        window.addEventListener('keyup', () => {
+            const k = this.world.keyboard;
+            const noMovement = !k.ARROW_LEFT && !k.ARROW_RIGHT && !k.A && !k.D;
+
+            if (noMovement && this.currentAudio === this.SOUND_WALKING) {
+                this.stopCurrentSound();
+            }
+        });
+    }
+
 
     /**
      * Stops all running animation and movement intervals.
