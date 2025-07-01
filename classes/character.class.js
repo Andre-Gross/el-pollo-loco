@@ -79,6 +79,9 @@ class Character extends MovableObject {
         './assets/img/2_character_pepe/5_dead/D-57.png',
     ];
 
+
+    SOUND_WALKING = new Audio('./assets/sounds/character/ch-running_cut.mp3')
+
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
     sleepTimer = Date.now();
@@ -614,6 +617,7 @@ class Character extends MovableObject {
             this.setSleepTimer();
         } else if (this.isPressedRight() || this.isPressedLeft()) {
             this.playAnimationAndSetSleepTimer(1000, this.IMAGES_WALK);
+            this.playOrSwitchSound(this.SOUND_WALKING);
         } else if (this.checkTimeToSleep()) {
             this.playRightAnimation(2000, this.IMAGES_SLEEP);
         } else {

@@ -14,6 +14,7 @@ class MovableObject extends DrawableObject {
 
     otherDirection = false;
     currentImage = 0;
+    currentAudio = null;
     currentAnimation;
     positionInterval;
     gravityInterval;
@@ -338,6 +339,30 @@ class MovableObject extends DrawableObject {
             this.resetAnimationImages(time, imageSet)
         }
         this.playAnimation(imageSet, index)
+    }
+
+
+    /**
+     * Plays a new audio sound if it's not already playing.
+     * If the passed audio is already playing, it continues.
+     * Otherwise, it stops the current audio and plays the new one.
+     * 
+     * @param {HTMLAudioElement} newAudio - The audio element to play
+     */
+    playOrSwitchSound(newAudio) {
+        if (this.currentAudio === newAudio) {
+            if (!newAudio.paused) {
+                return;
+            }
+            newAudio.play();
+        } else {
+            if (this.currentAudio) {
+                this.currentAudio.pause();
+                this.currentAudio.currentTime = 0;
+            }
+            this.currentAudio = newAudio;
+            newAudio.play();
+        }
     }
 
 
