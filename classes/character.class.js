@@ -83,6 +83,7 @@ class Character extends MovableObject {
     SOUND_WALKING = new Audio('./assets/sounds/character/ch-running_cut.mp3');
     SOUND_JUMP = new Audio('./assets/sounds/character/ch_jump.mp3');
     SOUND_SNORING = new Audio('./assets/sounds/character/ch_snoring.mp3');
+    SOUND_GET_HIT = new Audio('./assets/sounds/character/char_get-hit.mp3')
 
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
@@ -635,6 +636,7 @@ class Character extends MovableObject {
     setAnimation() {
         if (this.isHurt()) {
             this.playAnimationAndSetSleepTimer(1000, this.IMAGES_HURT);
+            this.playOrSwitchSound(this.SOUND_GET_HIT);
         } else if (this.isPressedUp() && this.isJumpAllowed) {
             this.handleJumpAnimation();
             this.setSleepTimer();
