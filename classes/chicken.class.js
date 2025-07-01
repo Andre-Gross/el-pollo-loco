@@ -23,7 +23,9 @@ class Chicken extends Enemy {
         './assets/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
     ];
 
-    IMAGE_DEAD = './assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
+    IMAGE_DEAD = './assets/img/3_enemies_chicken/chicken_normal/2_dead/dead.png';
+
+    SOUND_DIE = new Audio('./assets/sounds/chicken/chick-die-by-char-landing_cut.mp3');
 
 
     /**
@@ -96,6 +98,7 @@ class Chicken extends Enemy {
         this.hit(damage);
         if (this.health === 0) {
             this.removeIntervalById(this.positionInterval);
+            this.playOrSwitchSound(this.SOUND_DIE);
         }
     }
 
