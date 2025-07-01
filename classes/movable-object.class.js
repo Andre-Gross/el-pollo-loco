@@ -588,4 +588,22 @@ class MovableObject extends DrawableObject {
     returnVisibleHeight() {
         return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
     }
+
+
+    /**
+     * Stops the currently playing audio, if any.
+     *
+     * This method pauses the current audio playback, resets its playback position
+     * to the beginning, and clears the reference to the current audio element.
+     * 
+     * Call this when you want to immediately stop any active audio, for example
+     * before playing a different sound or when cleaning up.
+     */
+    stopCurrentSound() {
+        if (this.currentAudio) {
+            this.currentAudio.pause();
+            this.currentAudio.currentTime = 0;
+            this.currentAudio = null;
+        }
+    }
 }

@@ -81,6 +81,7 @@ class Character extends MovableObject {
 
 
     SOUND_WALKING = new Audio('./assets/sounds/character/ch-running_cut.mp3')
+    SOUND_JUMP = new Audio('./assets/sounds/character/ch_jump.mp3')
 
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
@@ -380,6 +381,8 @@ class Character extends MovableObject {
 
         if (!alreadyJumped) {
             this.jump();
+            this.stopCurrentSound();
+            this.playOrSwitchSound(this.SOUND_JUMP);
             alreadyJumped = true;
             i = 4;
         }
