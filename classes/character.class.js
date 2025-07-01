@@ -80,8 +80,9 @@ class Character extends MovableObject {
     ];
 
 
-    SOUND_WALKING = new Audio('./assets/sounds/character/ch-running_cut.mp3')
-    SOUND_JUMP = new Audio('./assets/sounds/character/ch_jump.mp3')
+    SOUND_WALKING = new Audio('./assets/sounds/character/ch-running_cut.mp3');
+    SOUND_JUMP = new Audio('./assets/sounds/character/ch_jump.mp3');
+    SOUND_SNORING = new Audio('./assets/sounds/character/ch_snoring.mp3');
 
     timeForFullAnimation = 1000;
     picturesForCurrentAnimation = this.IMAGES_IDLE;
@@ -642,6 +643,7 @@ class Character extends MovableObject {
             this.playOrSwitchSound(this.SOUND_WALKING);
         } else if (this.checkTimeToSleep()) {
             this.playRightAnimation(2000, this.IMAGES_SLEEP);
+            this.playOrSwitchSound(this.SOUND_SNORING);
         } else {
             this.playRightAnimation(1000, this.IMAGES_IDLE);
         }
