@@ -16,6 +16,10 @@ class Endboss extends Enemy {
     counterWalkAttack = 0;
     attackState = {};
 
+    SOUND_GET_HIT = new Audio('./assets/sounds/endboss/eb_get_hit_cut.mp3');
+    SOUND_LANDING = new Audio('./assets/sounds/endboss/eb_landing_cut.mp3');
+    SOUND_JUMP = new Audio('./assets/sounds/endboss/eb_jump_cut.mp3');
+    SOUND_WALKING = new Audio('./assets/sounds/endboss/eb_walking_edited.mp3');
 
     IMAGES_ALERT = [
         'assets/img/4_enemie_boss_chicken/2_alert/G5.png',
@@ -201,6 +205,7 @@ class Endboss extends Enemy {
     handleJumpAttackLeap({ i, alreadyJumped }) {
         if (!alreadyJumped) {
             this.jump(13);
+            this.playOrSwitchSound(this.SOUND_JUMP);
             this.alignSelfTo(world.character);
             this.positionInterval = setInterval(() => {
                 this.x -= this.speedXPerFrame;
@@ -244,6 +249,7 @@ class Endboss extends Enemy {
         this.removeIntervalById(this.positionInterval);
         this.alignSelfTo(world.character);
         this.playAnimation(this.IMAGES_ATTACK.slice(6, 8), i - 4);
+        this.playOrSwitchSound(this.SOUND_LANDING);
         return { i: i + 1 };
     }
 
@@ -274,11 +280,13 @@ class Endboss extends Enemy {
 
         this.handleWalkAttackAnimation();
         this.handleWalkAttackMovement(walkAttackSpeed);
+        this.playOrSwitchSound(this.SOUND_WALKING);
 
         this.attackState.walkAttack.start = Date.now();
         let walkAttackTimeout = setTimeout(() => {
             this.handleWalkAttackEnd();
             this.removeTimeoutById(walkAttackTimeout)
+            this.stopCurrentSound();
         }, timeForWalkAttack);
         this.pushToAllTimeouts(walkAttackTimeout);
     }
@@ -428,6 +436,7 @@ class Endboss extends Enemy {
     setAnimation() {
         if (this.isHurt()) {
             this.playRightAnimation(600, this.IMAGES_HURT);
+            this.playOrSwitchSound(this.SOUND_GET_HIT);
         } else if (this.shallAttack()) {
             this.handleAttackDecision();
         } else {
