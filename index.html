@@ -56,6 +56,50 @@
                 T = Throw Bottle (if collected)
             </p>
         </div>
+        <div class="w-100 d-flex pos-absolute">
+            <div id="startscreen-button-container" class="w-100 d-flex">
+                <button id="show-start-screen-btn" class="canvas-button d-none" onclick="showStartScreen()">
+                    <img src="assets/img/buttons/logout-white.png" alt="">
+                    <p>Startscreen</p>
+                </button>
+                <button id="restart-game-btn" class="canvas-button" onclick="world.restart()">
+                    <img src="assets/img/buttons/restart-white.png" alt="arrow as circle">
+                    <p>Restart Game</p>
+                </button>
+                <button id="start-game-btn" class="canvas-button" onclick="startGame()">
+                    <img src="assets/img/buttons/play-white.png" alt="play sign">
+                    <p>Start Game</p>
+                </button>
+                <button id="show-controls-btn" class="canvas-button d-none" onclick="showControls()">
+                    <img src="assets/img/buttons/games-white.png" alt="">
+                    <p>Controls</p>
+                </button>
+                <button id="back-to-game-btn" class="canvas-button d-none" onclick="toggleControlsIngame(false)">
+                    <img src="assets/img/buttons/play-white.png" alt="play sign">
+                    <p>Back to Game</p>
+                </button>
+                <button id="show-credits-btn" class="canvas-button" onclick="showCredits()">
+                    <img src="assets/img/buttons/badge-white.png" alt="White Badge">
+                    <p>Credits</p>
+                </button>
+                <button id="show-leave-game-btn" class="canvas-button d-none" onclick="showStartScreen()">
+                    <img src="assets/img/buttons/logout-white.png" alt="">
+                    <p>Leave Game</p>
+                </button>
+            </div>
+            <div id="ingame-menu-button-container" class="d-none">
+                <button id="restart-game-btn-ingame" class="canvas-button" onclick="world.restart()">
+                    <img src="assets/img/buttons/restart-white.png" alt="arrow as circle">
+                </button>
+                <button id="show-controls-btn-ingame" class="canvas-button" onclick="toggleControlsIngame(true)">
+                    <img src="assets/img/buttons/games-white.png" alt="">
+                </button>
+                <button id="leave-game-btn" class="canvas-button" onclick="leaveGame()">
+                    <img src="assets/img/buttons/logout-white.png" alt="">
+                </button>
+            </div>
+
+        </div>
         <div id="credits-container" class="d-none">
             <h2>Images</h2>
             <a href="https://www.flaticon.com/free-icons/play-button" title="play button icons">Play button icons
@@ -99,47 +143,6 @@
             <a href="https://freesound.org/people/ryandeschamps/sounds/332451/">ouchie.mp3</a> by <a
                 href="https://freesound.org/people/ryandeschamps/">ryandeschamps</a> | License: <a
                 href="http://creativecommons.org/publicdomain/zero/1.0/">Creative Commons 0</a>
-        </div>
-        <div id="startscreen-button-container" class="button-container d-flex">
-            <button id="show-start-screen-btn" class="canvas-button d-none" onclick="showStartScreen()">
-                <img src="assets/img/buttons/logout-white.png" alt="">
-                <p>Startscreen</p>
-            </button>
-            <button id="restart-game-btn" class="canvas-button" onclick="world.restart()">
-                <img src="assets/img/buttons/restart-white.png" alt="arrow as circle">
-                <p>Restart Game</p>
-            </button>
-            <button id="start-game-btn" class="canvas-button" onclick="startGame()">
-                <img src="assets/img/buttons/play-white.png" alt="play sign">
-                <p>Start Game</p>
-            </button>
-            <button id="show-controls-btn" class="canvas-button d-none" onclick="showControls()">
-                <img src="assets/img/buttons/games-white.png" alt="">
-                <p>Controls</p>
-            </button>
-            <button id="back-to-game-btn" class="canvas-button d-none" onclick="toggleControlsIngame(false)">
-                <img src="assets/img/buttons/play-white.png" alt="play sign">
-                <p>Back to Game</p>
-            </button>
-            <button id="show-credits-btn" class="canvas-button" onclick="showCredits()">
-                <img src="assets/img/buttons/badge-white.png" alt="White Badge">
-                <p>Credits</p>
-            </button>
-            <button id="show-leave-game-btn" class="canvas-button d-none" onclick="showStartScreen()">
-                <img src="assets/img/buttons/logout-white.png" alt="">
-                <p>Leave Game</p>
-            </button>
-        </div>
-        <div id="ingame-button-container" class="d-none">
-            <button id="restart-game-btn-ingame" class="canvas-button" onclick="world.restart()">
-                <img src="assets/img/buttons/restart-white.png" alt="arrow as circle">
-            </button>
-            <button id="show-controls-btn-ingame" class="canvas-button" onclick="toggleControlsIngame(true)">
-                <img src="assets/img/buttons/games-white.png" alt="">
-            </button>
-            <button id="leave-game-btn" class="canvas-button" onclick="leaveGame()">
-                <img src="assets/img/buttons/logout-white.png" alt="">
-            </button>
         </div>
     </div>
 

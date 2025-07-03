@@ -126,7 +126,7 @@ function resumeGame() {
 
 function startGame() {
     startScreenButtonContainer = document.getElementById('startscreen-button-container');
-    ingameButtonContainer = document.getElementById('ingame-button-container');
+    ingameButtonContainer = document.getElementById('ingame-menu-button-container');
     canvas = document.getElementById('canvas');
 
     if (!isGameStarted) {

@@ -193,7 +193,7 @@ function showControlsButtons() {
 
 function toggleButtonContainer(toggleToIngameButtonContainer) {
     const startscreenButtonContainer = document.getElementById('startscreen-button-container');
-    const ingameButtonContainer = document.getElementById('ingame-button-container');
+    const ingameButtonContainer = document.getElementById('ingame-menu-button-container');
 
     toggleDisplayNone(startscreenButtonContainer, 'd-flex', !toggleToIngameButtonContainer);
     toggleDisplayNone(ingameButtonContainer, 'd-flex', toggleToIngameButtonContainer);
@@ -219,7 +219,7 @@ function toggleControlsIngame(changeToControls) {
 function toggleControlsButtonsIngame(changeToControls) {
     const backToGameButton = document.getElementById('back-to-game-btn');
     const startscreenButtonContainer = document.getElementById('startscreen-button-container');
-    const ingameButtonContainer = document.getElementById('ingame-button-container');
+    const ingameButtonContainer = document.getElementById('ingame-menu-button-container');
 
     toggleDisplayNone(ingameButtonContainer, 'd-flex', !changeToControls);
     toggleDisplayNone(startscreenButtonContainer, 'd-flex', changeToControls);
