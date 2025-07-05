@@ -262,7 +262,25 @@ function toggleControlsIngame(changeToControls) {
 
 function toggleControlsButtonsIngame(changeToControls) {
     const backToGameButton = document.getElementById('back-to-game-btn');
-    showRightButtons(backToGameButton);
+
+    if (changeToControls) {
+        showRightButtons(backToGameButton);
+    } else {
+        const restartGameBtnIngame = document.getElementById('restart-game-btn-ingame');
+        const showControlsBtnIngame = document.getElementById('show-controls-btn-ingame');
+        const leaveGameBtn = document.getElementById('leave-game-btn');
+
+
+        const visibleButtons = [
+            restartGameBtnIngame,
+            showControlsBtnIngame,
+            leaveGameBtn,
+            returnRightVolumeButton()
+        ];
+
+        showRightButtons(visibleButtons);
+    }
+
 }
 
 
@@ -310,6 +328,7 @@ function toggleDisplayMobileTouchButtons(shallVisible) {
 
     toggleDisplayNone(mobileTouchButtons, 'd-flex', shallVisible);
 }
+
 
 
 function toggleMute(shallMute) {
