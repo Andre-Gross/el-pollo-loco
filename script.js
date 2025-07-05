@@ -188,28 +188,32 @@ function showControlsButtons() {
     const showStartScreenButton = document.getElementById('show-start-screen-btn');
     const showCreditsButton = document.getElementById('show-credits-btn');
 
-    visibleButtons = [
+    const visibleButtons = [
         startGameButton,
         showStartScreenButton,
-        showCreditsButton
+        showCreditsButton,
+        returnRightVolumeButton()
     ]
 
     showRightButtons(visibleButtons);
 }
 
 
-function toggleButtonContainer(toggleToIngameButtonContainer) {
-    const startscreenButtonContainer = document.getElementById('startscreen-button-container');
-    const ingameButtonContainer = document.getElementById('ingame-menu-button-container');
+function returnRightVolumeButton() {
+    const volumeOffBtn = document.getElementById('ur-volume-off-btn');
+    const volumeOnBtn = document.getElementById('ur-volume-on-btn');
 
-    toggleDisplayNone(startscreenButtonContainer, 'd-flex', !toggleToIngameButtonContainer);
-    toggleDisplayNone(ingameButtonContainer, 'd-flex', toggleToIngameButtonContainer);
+    if (isGameMuted) {
+        return volumeOffBtn;
+    } else {
+        return volumeOnBtn;
+    }
 }
 
 
 function toggleControlsIngame(changeToControls) {
     const canvas = document.getElementById('canvas');
-    const controlContainer = document.getElementById('control-container');
+    const controlsContainer = document.getElementById('control-container');
 
     if (changeToControls) {
         pauseGame();
@@ -218,18 +222,12 @@ function toggleControlsIngame(changeToControls) {
     }
 
     toggleDisplayNone(canvas, 'd-flex', !changeToControls);
-    toggleDisplayNone(controlContainer, 'd-flex', changeToControls);
     toggleControlsButtonsIngame(changeToControls);
 }
 
 
 function toggleControlsButtonsIngame(changeToControls) {
     const backToGameButton = document.getElementById('back-to-game-btn');
-    const startscreenButtonContainer = document.getElementById('startscreen-button-container');
-    const ingameButtonContainer = document.getElementById('ingame-menu-button-container');
-
-    toggleDisplayNone(ingameButtonContainer, 'd-flex', !changeToControls);
-    toggleDisplayNone(startscreenButtonContainer, 'd-flex', changeToControls);
     showRightButtons(backToGameButton);
 }
 
