@@ -224,7 +224,7 @@ canvas,
 }
 
 
-#startscreen-button-container {
+#bottom-button-container {
     position: fixed;
     bottom: 5%;
     justify-content: center;
