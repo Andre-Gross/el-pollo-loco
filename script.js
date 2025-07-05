@@ -222,6 +222,7 @@ function toggleControlsIngame(changeToControls) {
     }
 
     toggleDisplayNone(canvas, 'd-flex', !changeToControls);
+    toggleDisplayNone(controlsContainer, 'd-flex', changeToControls);
     toggleControlsButtonsIngame(changeToControls);
 }
 
