@@ -8,7 +8,40 @@ let backgroundHeightFactor = calculateBackgroundHeightFactor();
 let savedViewportHeigth;
 let savedViewportWidth;
 
+const backgroundMusic = new Audio('./assets/acoustic-mexican-guitar.mp3')
 let isGameMuted = false;
+
+
+/**
+ * Starts playing background music and restarts it automatically if it ends or errors.
+ * @param {HTMLAudioElement} audio - The audio element to play.
+ */
+function playBackgroundMusic(audio = backgroundMusic) {
+    audio.loop = false;
+    audio.play().catch((e) => console.warn('Autoplay prevented:', e));
+    audio.volume = 0.1;
+
+    audio.addEventListener('ended', () => {
+        audio.currentTime = 0;
+        audio.play();
+    });
+
+    audio.addEventListener('error', () => {
+        console.error('Audio error occurred. Restarting...');
+        audio.currentTime = 0;
+        audio.play();
+    });
+}
+
+
+/**
+ * Mutes or unmutes the background music without stopping it.
+ * @param {HTMLAudioElement} audio - The audio element to mute/unmute.
+ * @param {boolean} mute - Whether the audio should be muted.
+ */
+function toggleMuteBackgroundMusic(audio, shallMute) {
+    audio.muted = shallMute;
+}
 
 
 function calculateBackgroundHeightFactor() {
@@ -280,6 +313,13 @@ function toggleDisplayMobileTouchButtons(shallVisible) {
 }
 
 
+function toggleMute(shallMute) {
+    toggleMuteBackgroundMusic(backgroundMusic, shallMute);
+    world.toggleMute(shallMute);
+    isGameMuted = shallMute;
+}
+
+
 window.addEventListener('load', () => {
     checkAndSetElementSizes();
 });
@@ -287,4 +327,9 @@ window.addEventListener('load', () => {
 
 window.addEventListener('resize', () => {
     checkAndSetElementSizes();
+})
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    playBackgroundMusic();
 })
