@@ -15,6 +15,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     currentImage = 0;
     currentAudio = null;
+    isObjectMuted = false;
     currentAnimation;
     positionInterval;
     gravityInterval;
@@ -310,6 +311,14 @@ class MovableObject extends DrawableObject {
     }
 
 
+    toggleMute(shallMute) {
+        if (this.currentAudio) {
+            this.currentAudio.muted = shallMute;
+        }
+        this.isObjectMuted = shallMute;
+    }
+
+
     /**
      * Updates the object's image to the current frame in the animation sequence.
      * 
@@ -362,6 +371,9 @@ class MovableObject extends DrawableObject {
             }
             this.currentAudio = newAudio;
             newAudio.play();
+        }
+        if (this.isObjectMuted) {
+            this.toggleMute(this.isObjectMuted);
         }
     }
 

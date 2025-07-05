@@ -295,6 +295,27 @@ class World {
     }
 
 
+    toggleMute(shallMute) {
+        const volumeOffBtn = document.getElementById('ur-volume-off-btn');
+        const volumeOnBtn = document.getElementById('ur-volume-on-btn');
+
+        isGameMuted = shallMute;
+
+        this.character.toggleMute(shallMute);
+
+        this.level.enemies.forEach((enemy) => {
+            enemy.toggleMute(shallMute);
+        })
+
+        this.level.throwableObjects.forEach((TO) => {
+            TO.toggleMute(shallMute);
+        })
+
+        toggleDisplayNone(volumeOffBtn, 'd-flex', shallMute);
+        toggleDisplayNone(volumeOnBtn, 'd-flex', !shallMute);
+    }
+
+
     /**
      * Adds an interval ID to both the local and global interval lists
      * for centralized management and cleanup.

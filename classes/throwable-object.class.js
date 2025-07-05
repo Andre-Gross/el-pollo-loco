@@ -154,11 +154,11 @@ class ThrowableObject extends CollectableObjects {
                     this.removeAllIntervals();
                     this.speedY = 0;
                     this.setSplashAnimation();
-                    this.splashSound.play();
                     setTimeout(() => {
                         this.height = 0;
                         this.width = 0;
                     }, this.splashTimeFullAnimation - (this.splashTimeFullAnimation / this.IMAGES_SPLASH.length));
+                    this.playSound(this.splashSound);
                     if (this.isCollidingLivingEnemy(enemy)) {
                         enemy.getHit(20);
                     }
@@ -215,6 +215,15 @@ class ThrowableObject extends CollectableObjects {
         this.removeAnimationById();
         this.removeIntervalById(this.throwInterval);
         this.removeIntervalById(this.gravityInterval);
+    }
+
+
+    playSound() {
+        this.currentAudio = this.splashSound;
+        this.splashSound.play();
+        if (this.isObjectMuted) {
+            this.toggleMute(this.isObjectMuted);
+        }
     }
 
 
