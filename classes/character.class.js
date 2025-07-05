@@ -707,7 +707,7 @@ class Character extends MovableObject {
      * @returns {void}
      */
     setWorldCameraPositionX() {
-        this.world.camera_x = -this.x + 70;
+        this.world.camera_x = -this.x + 100;
     }
 
 

@@ -204,6 +204,53 @@ canvas,
 }
 
 
+#mobile-touch-buttons {
+    width: 90%;
+    position: fixed;
+    left: 5%;
+    bottom: 5%;
+    justify-content: space-between;
+    align-items: center;
+    gap: calc(var(--base-font-size) / 4 * 3)
+}
+
+
+#throw-bottle-btn {
+    padding: calc(2 * var(--button-padding));
+}
+
+#throw-bottle-btn img {
+    width: calc(2 * var(--button-font-size));
+    height: calc(2 * var(--button-font-size));
+}
+
+
+#direction-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#direction-buttons button {
+    width: max-content;
+    display: flex;
+}
+
+
+#horizontal-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+
+.blind-button {
+    opacity: 0;
+}
+
+
 #portrait-notice {
     display: none;
     width: 100vw;

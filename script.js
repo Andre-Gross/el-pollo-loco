@@ -45,6 +45,7 @@ function leaveGame() {
     pauseGame();
     toggleButtonContainer(false);
     deactivateKeyboard();
+    touchControls.deactivate();
     showStartScreen();
 }
 
@@ -269,6 +270,13 @@ function toggleDisplayNone(
             eleClass.add("d-none");
         }
     }
+}
+
+
+function toggleDisplayMobileTouchButtons(shallVisible) {
+    const mobileTouchButtons = document.getElementById('mobile-touch-buttons')
+
+    toggleDisplayNone(mobileTouchButtons, 'd-flex', shallVisible);
 }
 
 
