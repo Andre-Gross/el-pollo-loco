@@ -18,6 +18,9 @@ let isGameMuted = false;
  */
 function playBackgroundMusic(audio = backgroundMusic) {
     audio.loop = false;
+    if (isGameMuted) {
+        toggleMuteBackgroundMusic(audio, true)
+    }
     audio.play().catch((e) => console.warn('Autoplay prevented:', e));
     audio.volume = 0.1;
 
@@ -30,6 +33,7 @@ function playBackgroundMusic(audio = backgroundMusic) {
         console.error('Audio error occurred. Restarting...');
         audio.currentTime = 0;
         audio.play();
+
     });
 }
 
@@ -333,8 +337,50 @@ function toggleDisplayMobileTouchButtons(shallVisible) {
 
 function toggleMute(shallMute) {
     toggleMuteBackgroundMusic(backgroundMusic, shallMute);
-    world.toggleMute(shallMute);
+    if (world) {
+        world.toggleMute(shallMute);
+    }
     isGameMuted = shallMute;
+    saveGameMutedState();
+}
+
+
+/**
+ * Saves the isGameMuted value to localStorage.
+ * @param {boolean} isMuted - Indicates whether the game is muted.
+ */
+function saveGameMutedState(isMuted = isGameMuted) {
+    localStorage.setItem('isGameMuted', JSON.stringify(isMuted));
+}
+
+
+/**
+ * Loads the isGameMuted value from localStorage.
+ * @returns {boolean} The stored mute state. Defaults to false.
+ */
+function loadGameMutedState() {
+    const value = localStorage.getItem('isGameMuted');
+    return value !== null ? JSON.parse(value) : false;
+}
+
+
+/**
+ * Executes a callback function on the first user interaction (click, keyboard, or touch).
+ * @param {Function} callback - The function to be executed on first interaction.
+ */
+function onFirstUserInteraction(callback) {
+    function handler() {
+        callback();
+
+        // Remove event listeners after first interaction
+        document.removeEventListener('click', handler);
+        document.removeEventListener('keydown', handler);
+        document.removeEventListener('touchstart', handler);
+    }
+
+    document.addEventListener('click', handler);
+    document.addEventListener('keydown', handler);
+    document.addEventListener('touchstart', handler);
 }
 
 
@@ -349,5 +395,11 @@ window.addEventListener('resize', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    playBackgroundMusic();
+    isGameMuted = loadGameMutedState();
+    backgroundMusic.muted = isGameMuted;
+    toggleMute(isGameMuted);
+
+    onFirstUserInteraction(() => {
+        playBackgroundMusic();
+    });
 })
