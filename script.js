@@ -8,6 +8,8 @@ let backgroundHeightFactor = calculateBackgroundHeightFactor();
 let savedViewportHeigth;
 let savedViewportWidth;
 
+let isGameMuted = false;
+
 
 function calculateBackgroundHeightFactor() {
     return canvasHeight / backgroundImgOriginalHeight;
@@ -116,7 +118,12 @@ function showRightButtons(visibleButtonOrButtons) {
         document.getElementById('show-credits-btn'),
         document.getElementById('back-to-game-btn'),
         document.getElementById('show-leave-game-btn'),
-    ]
+        document.getElementById('ur-volume-off-btn'),
+        document.getElementById('ur-volume-on-btn'),
+        document.getElementById('restart-game-btn-ingame'),
+        document.getElementById('show-controls-btn-ingame'),
+        document.getElementById('leave-game-btn')
+    ];
 
     if (Array.isArray(visibleButtonOrButtons)) {
         allButtons.forEach((button) => {
@@ -154,12 +161,20 @@ function showStartScreenButtons() {
     const startGameButton = document.getElementById('start-game-btn');
     const showControlsButton = document.getElementById('show-controls-btn');
     const showCreditsButton = document.getElementById('show-credits-btn');
+    const volumeOffBtn = document.getElementById('ur-volume-off-btn');
+    const volumeOnBtn = document.getElementById('ur-volume-on-btn');
 
     visibleButtons = [
         startGameButton,
         showControlsButton,
         showCreditsButton
     ]
+
+    if (isGameMuted) {
+        visibleButtons.push(volumeOffBtn)
+    } else {
+        visibleButtons.push(volumeOnBtn)
+    }
 
     showRightButtons(visibleButtons);
 }
