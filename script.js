@@ -76,7 +76,6 @@ function leaveGame() {
     const startGameButton = document.getElementById('start-game-btn');
     startGameButton.onclick
     pauseGame();
-    toggleButtonContainer(false);
     deactivateKeyboard();
     touchControls.deactivate();
     showStartScreen();
