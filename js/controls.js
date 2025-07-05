@@ -97,8 +97,8 @@ const touchControls = (function () {
         const startFn = () => keyboard[key] = true;
         const endFn = () => keyboard[key] = false;
 
-        element.addEventListener('touchstart', startFn);
-        element.addEventListener('touchend', endFn);
+        element.addEventListener('touchstart', startFn, { passive: true });
+        element.addEventListener('touchend', endFn, { passive: true });
 
         listeners.push({ element, startFn, endFn });
     }
