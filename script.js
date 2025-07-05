@@ -82,10 +82,9 @@ function showFinishedGameButtons() {
         leaveGameBtn
     ]
 
-    showRightButtons(visibleButtons);
 
     setTimeout(() => {
-        toggleButtonContainer(false);
+        showRightButtons(visibleButtons);
     }, 2000)
 }
 
@@ -161,20 +160,13 @@ function showStartScreenButtons() {
     const startGameButton = document.getElementById('start-game-btn');
     const showControlsButton = document.getElementById('show-controls-btn');
     const showCreditsButton = document.getElementById('show-credits-btn');
-    const volumeOffBtn = document.getElementById('ur-volume-off-btn');
-    const volumeOnBtn = document.getElementById('ur-volume-on-btn');
 
-    visibleButtons = [
+    const visibleButtons = [
         startGameButton,
         showControlsButton,
-        showCreditsButton
-    ]
-
-    if (isGameMuted) {
-        visibleButtons.push(volumeOffBtn)
-    } else {
-        visibleButtons.push(volumeOnBtn)
-    }
+        showCreditsButton,
+        returnRightVolumeButton()
+    ];
 
     showRightButtons(visibleButtons);
 }

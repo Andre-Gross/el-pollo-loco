@@ -100,9 +100,15 @@ function backToHome() {
     pauseGame();
     world = null;
 
-    toggleDisplayNone(startGameButton, 'd-inline-block', true);
-    toggleDisplayNone(showControlsButton, 'd-inline-block', true);
-    toggleDisplayNone(showStartScreenButton, 'd-inline-block', true)
+    const visibleButtons = [
+        startGameButton,
+        showControlsButton,
+        showStartScreenButton,
+        returnRightVolumeButton()
+    ]
+
+    showRightButtons(visibleButtons);
+
 
     world.isGameFinished = false;
     world.isGameWon = false;
@@ -125,9 +131,11 @@ function resumeGame() {
 
 
 function startGame() {
-    startScreenButtonContainer = document.getElementById('startscreen-button-container');
-    ingameButtonContainer = document.getElementById('ingame-menu-button-container');
     canvas = document.getElementById('canvas');
+    const restartGameBtnIngame = document.getElementById('restart-game-btn-ingame');
+    const showControlsBtnIngame = document.getElementById('show-controls-btn-ingame');
+    const leaveGameBtn = document.getElementById('leave-game-btn');
+
 
     if (!isGameStarted) {
         world = new World(canvas, keyboard);
@@ -138,7 +146,14 @@ function startGame() {
 
     showRightFrontElement(canvas);
     activateKeyboard();
-    toggleButtonContainer(true);
+
+    const visibleButtons = [
+        restartGameBtnIngame,
+        showControlsBtnIngame,
+        leaveGameBtn,
+        returnRightVolumeButton()
+    ];
+    showRightButtons(visibleButtons);
 }
 
 
