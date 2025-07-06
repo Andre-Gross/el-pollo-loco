@@ -170,7 +170,7 @@ canvas,
 
 
 .d-none {
-    display: none;
+    display: none !important;
 }
 
 

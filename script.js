@@ -83,6 +83,7 @@ function leaveGame() {
     deactivateKeyboard();
     touchControls.deactivate();
     showStartScreen();
+    toggleDisplayMobileTouchButtons(false);
 }
 
 
