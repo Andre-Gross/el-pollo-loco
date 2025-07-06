@@ -9,7 +9,8 @@ class BackgroundObject extends MovableObject {
      * @param {number} [position=0] - Relative horizontal position (0 = first, 1 = second, etc.).
      */
     constructor(imagePath, position = 0) {
-        super().loadImage(imagePath);
+        super();
+        this.loadImage(imagePath);
         this.position = position;
 
         this.setSize();

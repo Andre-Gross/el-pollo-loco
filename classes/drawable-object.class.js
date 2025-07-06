@@ -76,6 +76,14 @@ class DrawableObject {
      * @param {string} path - The file path or URL of the image to load.
      */    
     loadImage(path) {
+        if (!path) {
+            console.warn(
+                `loadImage called with invalid path: "${path}" in instance of ${this.constructor.name}`,
+                this,
+                new Error().stack // zeigt dir den Stacktrace
+            );
+            return;
+        }
         this.img = new Image();
         this.img.src = path;
         this.imgCache[path] = this.img;

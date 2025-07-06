@@ -16,8 +16,8 @@ class Cloud extends BackgroundObject {
      * @param {number} [x=0] - Initial horizontal position for the cloud.
      */
     constructor(x = 0) {
-        super();
-        this.loadImage('./assets/img/5_background/layers/4_clouds/full.png')
+        super('./assets/img/5_background/layers/4_clouds/full.png');
+        // this.loadImage('./assets/img/5_background/layers/4_clouds/full.png')
 
         this.standardX  = x
         this.init(x);
