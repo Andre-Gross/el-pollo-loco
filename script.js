@@ -353,12 +353,18 @@ function toggleDisplayMobileTouchButtons(shallVisible) {
 
 
 function toggleMute(shallMute) {
+    const volumeOffBtn = document.getElementById('ur-volume-off-btn');
+    const volumeOnBtn = document.getElementById('ur-volume-on-btn');
+
     toggleMuteBackgroundMusic(backgroundMusic, shallMute);
     if (world) {
         world.toggleMute(shallMute);
     }
     isGameMuted = shallMute;
     saveGameMutedState();
+
+    toggleDisplayNone(volumeOffBtn, 'd-flex', shallMute);
+    toggleDisplayNone(volumeOnBtn, 'd-flex', !shallMute);
 }
 
 
