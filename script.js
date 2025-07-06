@@ -293,7 +293,23 @@ function showCredits() {
 
     showRightFrontElement(creditsContainer);
 
-    showControlsButtons();
+    showCreditsButtons();
+}
+
+
+function showCreditsButtons() {
+    const startGameButton = document.getElementById('start-game-btn');
+    const showStartScreenButton = document.getElementById('show-start-screen-btn');
+    const showControlsButton = document.getElementById('show-controls-btn');
+
+    const visibleButtons = [
+        startGameButton,
+        showStartScreenButton,
+        showControlsButton,
+        returnRightVolumeButton()
+    ]
+
+    showRightButtons(visibleButtons);
 }
 
 
