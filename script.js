@@ -328,7 +328,7 @@ function toggleDisplayNone(
 
 
 function toggleDisplayMobileTouchButtons(shallVisible) {
-    const mobileTouchButtons = document.getElementById('mobile-touch-buttons')
+    const mobileTouchButtons = document.getElementById('mobile-touch-buttons-container')
 
     toggleDisplayNone(mobileTouchButtons, 'd-flex', shallVisible);
 }

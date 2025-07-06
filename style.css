@@ -204,7 +204,7 @@ canvas,
 }
 
 
-#mobile-touch-buttons {
+#mobile-touch-buttons-container {
     display: none;
     width: 90%;
     position: fixed;
@@ -290,7 +290,7 @@ canvas,
         display: none;
     }
 
-    #mobile-touch-buttons {
+    #mobile-touch-buttons-container {
         display: flex;
     }
 }
