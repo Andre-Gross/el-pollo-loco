@@ -17,7 +17,6 @@ class Cloud extends BackgroundObject {
      */
     constructor(x = 0) {
         super('./assets/img/5_background/layers/4_clouds/full.png');
-        // this.loadImage('./assets/img/5_background/layers/4_clouds/full.png')
 
         this.standardX  = x
         this.init(x);
