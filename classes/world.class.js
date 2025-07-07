@@ -306,9 +306,6 @@ class World {
         this.level.throwableObjects.forEach((TO) => {
             TO.toggleMute(shallMute);
         })
-
-        toggleDisplayNone(volumeOffBtn, 'd-flex', shallMute);
-        toggleDisplayNone(volumeOnBtn, 'd-flex', !shallMute);
     }
 
 
