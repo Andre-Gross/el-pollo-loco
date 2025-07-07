@@ -1,20 +1,25 @@
 class BackgroundObject extends MovableObject {
     y = 0;
     position;
-    
+
 
     /**
      * Creates a background object at a given position with a given image.
      * @param {string} imagePath - The path to the background image.
      * @param {number} [position=0] - Relative horizontal position (0 = first, 1 = second, etc.).
      */
-    constructor(imagePath, position = 0) {
+    constructor(imagePath, position = 0, x = null) {
         super();
         this.loadImage(imagePath);
         this.position = position;
 
         this.setSize();
-        this.setPositionOfObject();
+
+        if (x === null) {
+            this.setPositionOfObject();
+        } else {
+            this.x = x;
+        }
     }
 
 
