@@ -159,7 +159,8 @@ function showRightButtons(visibleButtonOrButtons) {
         document.getElementById('ur-volume-on-btn'),
         document.getElementById('restart-game-btn-ingame'),
         document.getElementById('show-controls-btn-ingame'),
-        document.getElementById('leave-game-btn')
+        document.getElementById('leave-game-btn'),
+        document.getElementById('impressum-btn'),
     ];
 
     if (Array.isArray(visibleButtonOrButtons)) {
@@ -198,11 +199,13 @@ function showStartScreenButtons() {
     const startGameButton = document.getElementById('start-game-btn');
     const showControlsButton = document.getElementById('show-controls-btn');
     const showCreditsButton = document.getElementById('show-credits-btn');
+    const impressumButton = document.getElementById('impressum-btn');
 
     const visibleButtons = [
         startGameButton,
         showControlsButton,
         showCreditsButton,
+        impressumButton,
         returnRightVolumeButton()
     ];
 
