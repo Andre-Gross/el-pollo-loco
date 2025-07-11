@@ -1,7 +1,9 @@
 :root {
     --base-font-size: 64px;
+    --standart-font-color: white;
     --button-font-size: calc(var(--base-font-size) / 3.2);
     --button-padding: 12px;
+    --button-bg-color: #2c9be3;
     --canvas-height: 480px;
     --canvas-width: 720px;
     --controls-font-size: var(--base-font-size);
@@ -84,7 +86,7 @@ canvas,
     border: none;
     border-radius: 9999px;
     padding: var(--button-padding);
-    background-color: #2c9be3;
+    background-color: var(--button-bg-color);
 
     display: flex;
     flex-direction: row;
@@ -92,7 +94,7 @@ canvas,
     gap: calc(var(--base-font-size) / 8);
 
     font-family: 'zabars', Arial, sans-serif;
-    color: white;
+    color: var(--standart-font-color);
     font-size: var(--button-font-size);
 
     cursor: pointer;
@@ -131,7 +133,7 @@ canvas,
     align-items: start;
 
     font-size: var(--controls-font-size);
-    color: white;
+    color: var(--standart-font-color);
 }
 
 
