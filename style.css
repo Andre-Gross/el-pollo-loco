@@ -362,6 +362,10 @@ canvas,
     #mobile-touch-buttons-container {
         display: flex;
     }
+
+    .overflow-scroll-mobile {
+        overflow: scroll;
+    }
 }
 
 
