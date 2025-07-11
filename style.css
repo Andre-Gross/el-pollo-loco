@@ -218,6 +218,14 @@ canvas,
 }
 
 
+#return-btn-container {
+    width: 100%;
+    padding-top: 5%;
+    display: flex;
+    justify-content: center;
+}
+
+
 @supports not selector(::-webkit-scrollbar) {
     #credits-container {
         scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
