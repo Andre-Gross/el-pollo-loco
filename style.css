@@ -77,6 +77,22 @@ canvas,
 }
 
 
+.bg-image-impressum {
+    height: 100%;
+    width: 100%;
+
+    background-image: url('./assets/img/5_background/complete_background.png');
+
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-fit: cover
+}
+
+
 .pos-absolute {
     position: absolute;
 }
