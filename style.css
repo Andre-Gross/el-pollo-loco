@@ -151,18 +151,77 @@ canvas,
 
 #credits-container {
     padding: var(--credits-padding);
+    padding-bottom: calc(var(--credits-padding));
+
+    box-sizing: border-box;
+    width: var(--canvas-width);
+    height: var(--canvas-height);
 
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 
     font-size: var(--credits-font-size);
+    color: var(--standart-font-color);
+
+    overflow-y: scroll;
+    --sb-track-color: #232E33;
+    --sb-thumb-color: #2c9be3;
+    --sb-size: 8px;
 }
 
 
 #credits-container a {
     padding-bottom: calc(var(--credits-padding) / 2);
-    color: white;
+    color: var(--standart-font-color);
+}
+
+
+#credits-container h2 {
+    margin-top: var(--base-font-size);
+    margin-bottom: calc(0.25 * var(--base-font-size));
+}
+
+
+#credits-container h2:first-child {
+    margin-top: 0;
+}
+
+
+#credits-container p {
+    margin: 0;
+}
+
+
+#credits-container ul {
+    margin: 0;
+}
+
+
+#credits-container ul:last-child {
+    margin-bottom: calc(2 * var(--button-padding) + var(--button-font-size) + 5%);
+}
+
+
+#credits-container::-webkit-scrollbar {
+    width: var(--sb-size);
+}
+
+
+#credits-container::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 4px;
+}
+
+
+#credits-container::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 4px;
+}
+
+
+@supports not selector(::-webkit-scrollbar) {
+    #credits-container {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+    }
 }
 
 
