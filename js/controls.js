@@ -83,7 +83,7 @@ const touchControls = (function () {
     function getTouchMappings() {
         const bottleBtn = document.getElementById('throw-bottle-btn');
         const [arrowUpBtn, arrowLeftBtn, arrowRightBtn] =
-            document.querySelectorAll('#direction-buttons button');
+            document.querySelectorAll('#direction-buttons button:not(.blind-button)');
 
         return [
             { element: bottleBtn, key: 'T' },
