@@ -29,6 +29,8 @@ class World {
     allIntervals = [];
     allTimeouts = [];
 
+    isDeveloperMode = true;
+
 
     /**
      * Constructs the game world.
@@ -88,7 +90,7 @@ class World {
         if (mo.otherDirection) {
             this.flipCtxBack(mo)
         }
-        if (mo.isObjectWithFrame()) {
+        if (mo.isObjectWithFrame() && this.isDeveloperMode) {
             mo.drawFrame(this.ctx);
         }
     }
