@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    standartHealth = 100000;
+    standartHealth = 100000000;
 
     collectedItems = {};
 

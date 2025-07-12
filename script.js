@@ -3,7 +3,7 @@ let canvasWidth = 1920 * canvasHeight / 1080;
 
 const backgroundImgOriginalHeight = 1080;
 const backgroundImgOriginalWidth = 3840;
-let backgroundHeightFactor = calculateBackgroundHeightFactor();
+const backgroundHeightFactor = calculateBackgroundHeightFactor();
 
 let savedViewportHeigth;
 let savedViewportWidth;

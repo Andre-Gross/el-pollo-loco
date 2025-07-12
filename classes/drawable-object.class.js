@@ -42,8 +42,8 @@ class DrawableObject {
      * 
      * @returns {number} The calculated width of the object.
      */    
-    calculateWidth(width = this.originalImgWidth) {
-        return width * this.height / this.originalImgHeight
+    calculateWidth() {
+        return this.originalImgWidth * this.height / this.originalImgHeight
     }
 
 
@@ -52,7 +52,7 @@ class DrawableObject {
      * at the object's current position with its current dimensions.
      * 
      * @param {CanvasRenderingContext2D} ctx - The canvas 2D rendering context.
-     */    
+     */
     draw(ctx) {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
     }
@@ -63,7 +63,7 @@ class DrawableObject {
      * are drawn with frames (Character, Chicken, Endboss, ThrowableObject).
      * 
      * @returns {boolean} True if the object has a frame, otherwise false.
-     */    
+     */
     isObjectWithFrame() {
         return this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject
     }
@@ -74,7 +74,7 @@ class DrawableObject {
      * Sets the loaded image as the current image for this object.
      * 
      * @param {string} path - The file path or URL of the image to load.
-     */    
+     */
     loadImage(path) {
         if (!path) {
             console.warn(
@@ -95,7 +95,7 @@ class DrawableObject {
      * Does not change the current image of the object.
      * 
      * @param {string[]} arr - An array of file paths or URLs to images.
-     */    
+     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -110,9 +110,9 @@ class DrawableObject {
      * which is the ratio of the object's current height to its original image height.
      * 
      * @returns {Object} The scaled image offsets with properties: left, top, right, bottom.
-     */    
+     */
     scaleImgOffset() {
-        const heightFactor =  this.height / this.originalImgHeight
+        const heightFactor = this.height / this.originalImgHeight
         return {
             left: this.imgOffsetOriginal.left * heightFactor,
             top: this.imgOffsetOriginal.top * heightFactor,
@@ -125,7 +125,7 @@ class DrawableObject {
     /**
      * Sets the object's height and width by calculating them based on
      * original image dimensions and scaling factors.
-     */    
+     */
     setSizes() {
         this.height = this.calculateHeight();
         this.width = this.calculateWidth();
