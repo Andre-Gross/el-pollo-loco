@@ -1,3 +1,7 @@
+const MIN_WIDTH = 720;
+const MIN_HEIGHT = 480;
+const ASPECT_RATIO = MIN_WIDTH / MIN_HEIGHT;
+
 let canvasHeight = 480;
 let canvasWidth = 1920 * canvasHeight / 1080;
 
@@ -57,21 +61,18 @@ function calculateBackgroundHeightFactor() {
 
 
 function checkAndSetElementSizes() {
-    const minWidth = 720;
-    const minHeight = 480;
-    const aspectRatio = minWidth / minHeight;
 
     let width = window.innerWidth;
     let height = window.innerHeight;
 
 
-    if (width < minWidth || height < minHeight) {
+    if (width < MIN_WIDTH || height < MIN_HEIGHT) {
         let newWidth = width;
-        let newHeight = width / aspectRatio;
+        let newHeight = width / ASPECT_RATIO;
 
         if (newHeight > height) {
             newHeight = height;
-            newWidth = height * aspectRatio;
+            newWidth = height * ASPECT_RATIO;
         }
 
         resetAllRootVariables(newHeight, newWidth);
