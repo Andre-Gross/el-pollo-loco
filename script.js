@@ -12,6 +12,23 @@ const backgroundMusic = new Audio('./assets/acoustic-mexican-guitar.mp3')
 let isGameMuted = false;
 
 
+const allButtons = [
+    document.getElementById('restart-game-btn'),
+    document.getElementById('start-game-btn'),
+    document.getElementById('show-start-screen-btn'),
+    document.getElementById('show-controls-btn'),
+    document.getElementById('show-credits-btn'),
+    document.getElementById('back-to-game-btn'),
+    document.getElementById('show-leave-game-btn'),
+    document.getElementById('ur-volume-off-btn'),
+    document.getElementById('ur-volume-on-btn'),
+    document.getElementById('restart-game-btn-ingame'),
+    document.getElementById('show-controls-btn-ingame'),
+    document.getElementById('leave-game-btn'),
+    document.getElementById('impressum-btn'),
+];
+
+
 /**
  * Starts playing background music and restarts it automatically if it ends or errors.
  * @param {HTMLAudioElement} audio - The audio element to play.
@@ -147,22 +164,6 @@ function showRightFrontElement(element) {
 
 
 function showRightButtons(visibleButtonOrButtons) {
-    const allButtons = [
-        document.getElementById('restart-game-btn'),
-        document.getElementById('start-game-btn'),
-        document.getElementById('show-start-screen-btn'),
-        document.getElementById('show-controls-btn'),
-        document.getElementById('show-credits-btn'),
-        document.getElementById('back-to-game-btn'),
-        document.getElementById('show-leave-game-btn'),
-        document.getElementById('ur-volume-off-btn'),
-        document.getElementById('ur-volume-on-btn'),
-        document.getElementById('restart-game-btn-ingame'),
-        document.getElementById('show-controls-btn-ingame'),
-        document.getElementById('leave-game-btn'),
-        document.getElementById('impressum-btn'),
-    ];
-
     if (Array.isArray(visibleButtonOrButtons)) {
         allButtons.forEach((button) => {
             if (!visibleButtonOrButtons.includes(button)) {
