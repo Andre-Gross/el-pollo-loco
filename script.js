@@ -150,19 +150,16 @@ function showRightFrontElement(element) {
 
 
 function showRightButtons(visibleButtonOrButtons) {
-    if (Array.isArray(visibleButtonOrButtons)) {
-        allButtons.forEach((button) => {
-            if (!visibleButtonOrButtons.includes(button)) {
-                toggleDisplayNone(button, 'd-flex', false);
-            } else {
-                toggleDisplayNone(button, 'd-flex', true);
-            }
-        })
-    } else {
-        allButtons.forEach((button) => {
+    allButtons.forEach((button) => {
+        if (Array.isArray(visibleButtonOrButtons)) {
+            toggleDisplayNone(button, 'd-flex', visibleButtonOrButtons.includes(button));
+        } else {
             toggleDisplayNone(button, 'd-flex', false);
-        }); +
-            toggleDisplayNone(visibleButtonOrButtons, 'd-flex', true)
+        }
+    });
+
+    if (!Array.isArray(visibleButtonOrButtons)) {
+        toggleDisplayNone(visibleButtonOrButtons, 'd-flex', true);
     }
 }
 
