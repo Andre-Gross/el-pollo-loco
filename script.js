@@ -12,21 +12,7 @@ const backgroundMusic = new Audio('./assets/acoustic-mexican-guitar.mp3')
 let isGameMuted = false;
 
 
-const allButtons = [
-    document.getElementById('restart-game-btn'),
-    document.getElementById('start-game-btn'),
-    document.getElementById('show-start-screen-btn'),
-    document.getElementById('show-controls-btn'),
-    document.getElementById('show-credits-btn'),
-    document.getElementById('back-to-game-btn'),
-    document.getElementById('show-leave-game-btn'),
-    document.getElementById('ur-volume-off-btn'),
-    document.getElementById('ur-volume-on-btn'),
-    document.getElementById('restart-game-btn-ingame'),
-    document.getElementById('show-controls-btn-ingame'),
-    document.getElementById('leave-game-btn'),
-    document.getElementById('impressum-btn'),
-];
+let allButtons = [];
 
 
 /**
@@ -422,6 +408,24 @@ window.addEventListener('resize', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    allButtons = [
+        document.getElementById('restart-game-btn'),
+        document.getElementById('start-game-btn'),
+        document.getElementById('show-start-screen-btn'),
+        document.getElementById('show-controls-btn'),
+        document.getElementById('show-credits-btn'),
+        document.getElementById('back-to-game-btn'),
+        document.getElementById('show-leave-game-btn'),
+        document.getElementById('ur-volume-off-btn'),
+        document.getElementById('ur-volume-on-btn'),
+        document.getElementById('restart-game-btn-ingame'),
+        document.getElementById('show-controls-btn-ingame'),
+        document.getElementById('leave-game-btn'),
+        document.getElementById('impressum-btn'),
+    ];
+
+    showStartScreen();
+
     isGameMuted = loadGameMutedState();
     backgroundMusic.muted = isGameMuted;
     toggleMute(isGameMuted);
