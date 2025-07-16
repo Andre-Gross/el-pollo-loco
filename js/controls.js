@@ -1,51 +1,41 @@
-function activateKeyboard() {
-    activateKeyDown();
-    activateKeyUp();
+const keyMap = {
+    d: 'D',
+    ArrowRight: 'ARROW_RIGHT',
+    a: 'A',
+    ArrowLeft: 'ARROW_LEFT',
+    w: 'W',
+    ' ': 'SPACE',
+    ArrowUp: 'ARROW_UP',
+    t: 'T'
+};
+
+
+/**
+ * Handles setting key state for keydown or keyup event.
+ * @param {KeyboardEvent} event - The keyboard event.
+ * @param {boolean} isPressed - True if key is pressed, false if released.
+ */
+function handleKeyEvent(event, isPressed) {
+    const mappedKey = keyMap[event.key];
+    if (mappedKey) {
+        keyboard[mappedKey] = isPressed;
+    }
 }
 
 
 function handleKeyDown(event) {
-    let key = event.key;
-
-    if (key === 'd') {
-        keyboard.D = true;
-    } else if (key === 'ArrowRight') {
-        keyboard.ARROW_RIGHT = true;
-    } else if (key === 'a') {
-        keyboard.A = true;
-    } else if (key === 'ArrowLeft') {
-        keyboard.ARROW_LEFT = true;
-    } else if (key === 'w') {
-        keyboard.W = true;
-    } else if (key === ' ') {
-        keyboard.SPACE = true;
-    } else if (key === 'ArrowUp') {
-        keyboard.ARROW_UP = true;
-    } else if (key === 't') {
-        keyboard.T = true;
-    }
+    handleKeyEvent(event, true);
 }
 
-function handleKeyUp(event) {
-    let key = event.key;
 
-    if (key === 'd') {
-        keyboard.D = false;
-    } else if (key === 'ArrowRight') {
-        keyboard.ARROW_RIGHT = false;
-    } else if (key === 'a') {
-        keyboard.A = false;
-    } else if (key === 'ArrowLeft') {
-        keyboard.ARROW_LEFT = false;
-    } else if (key === 'w') {
-        keyboard.W = false;
-    } else if (key === ' ') {
-        keyboard.SPACE = false;
-    } else if (key === 'ArrowUp') {
-        keyboard.ARROW_UP = false;
-    } else if (key === 't') {
-        keyboard.T = false;
-    }
+function handleKeyUp(event) {
+    handleKeyEvent(event, false);
+}
+
+
+function activateKeyboard() {
+    activateKeyDown();
+    activateKeyUp();
 }
 
 
