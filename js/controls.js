@@ -23,50 +23,86 @@ function handleKeyEvent(event, isPressed) {
 }
 
 
+/**
+ * Keydown event handler that marks a key as pressed.
+ * @param {KeyboardEvent} event - The keyboard event.
+ */
 function handleKeyDown(event) {
     handleKeyEvent(event, true);
 }
 
 
+/**
+ * Keyup event handler that marks a key as released.
+ * @param {KeyboardEvent} event - The keyboard event.
+ */
 function handleKeyUp(event) {
     handleKeyEvent(event, false);
 }
 
 
+/**
+ * Activates keyboard input by setting up keydown and keyup listeners.
+ */
 function activateKeyboard() {
     activateKeyDown();
     activateKeyUp();
 }
 
 
+/**
+ * Adds the keydown event listener.
+ */
 function activateKeyDown() {
     document.addEventListener('keydown', handleKeyDown);
 }
 
 
+/**
+ * Adds the keyup event listener.
+ */
 function activateKeyUp() {
     document.addEventListener('keyup', handleKeyUp);
 }
 
 
+
+/**
+ * Deactivates all keyboard input by removing event listeners.
+ */
 function deactivateKeyboard() {
     deactivateKeyDown();
     deactivateKeyUp();
 }
 
+
+/**
+ * Removes the keydown event listener.
+ */
 function deactivateKeyDown() {
     document.removeEventListener('keydown', handleKeyDown);
 }
 
 
+/**
+ * Removes the keyup event listener.
+ */
 function deactivateKeyUp() {
     document.removeEventListener('keyup', handleKeyUp);
 }
 
 
+/**
+ * Touch control module to simulate keyboard input on mobile devices.
+ */
 const touchControls = (function () {
     let listeners = [];
 
+
+    /**
+     * Maps touchable UI buttons to keyboard keys.
+     * @returns {Object[]} Array of mapping objects with element and key.
+     */
     function getTouchMappings() {
         const bottleBtn = document.getElementById('throw-bottle-btn');
         const [arrowUpBtn, arrowLeftBtn, arrowRightBtn] =
@@ -80,6 +116,11 @@ const touchControls = (function () {
         ];
     }
 
+
+    /**
+     * Attaches touchstart and touchend listeners to an element for a given key.
+     * @param {{ element: HTMLElement, key: string }} mapping - The mapping object.
+     */    
     function createAndAttachListeners({ element, key }) {
         const startFn = () => keyboard[key] = true;
         const endFn = () => keyboard[key] = false;
@@ -90,11 +131,19 @@ const touchControls = (function () {
         listeners.push({ element, startFn, endFn });
     }
 
+
+    /**
+     * Activates touch controls by attaching listeners to relevant buttons.
+     */
     function activate() {
         const mappings = getTouchMappings();
         mappings.forEach(createAndAttachListeners);
     }
 
+
+    /**
+     * Removes all previously attached touch listeners.
+     */
     function removeListeners() {
         listeners.forEach(({ element, startFn, endFn }) => {
             element.removeEventListener('touchstart', startFn);
@@ -102,6 +151,10 @@ const touchControls = (function () {
         });
     }
 
+
+    /**
+     * Deactivates touch controls and clears all listeners.
+     */
     function deactivate() {
         removeListeners();
         listeners = [];
