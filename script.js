@@ -456,7 +456,6 @@ function onFirstUserInteraction(callback) {
     function handler() {
         callback();
 
-        // Remove event listeners after first interaction
         document.removeEventListener('click', handler);
         document.removeEventListener('keydown', handler);
         document.removeEventListener('touchstart', handler);
