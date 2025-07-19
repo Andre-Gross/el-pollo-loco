@@ -26,6 +26,8 @@ class MovableObject extends DrawableObject {
     allIntervals = [];
     allTimeouts = [];
 
+    imgOffsetCanvas = {}
+
     IMAGES_WALK;
 
 
@@ -311,6 +313,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * Mutes or unmutes the current object's audio, if available.
+     * Also sets the internal mute state.
+     *
+     * @param {boolean} shallMute - Whether to mute (true) or unmute (false) the object.
+     */
     toggleMute(shallMute) {
         if (this.currentAudio) {
             this.currentAudio.muted = shallMute;
@@ -398,6 +406,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * Adds a timeout ID to both the instance-specific and global timeout lists
+     * so it can be cleared later if needed.
+     *
+     * @param {number} timeout - The ID returned by setTimeout().
+     */
     pushToAllTimeouts(timeout) {
         this.allTimeouts.push(timeout);
         allGameTimeouts.push(timeout);
@@ -447,6 +461,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * Removes a timeout by its ID from both the global and instance-specific timeout lists.
+     * Ensures the timeout is cleared and no longer tracked.
+     *
+     * @param {number} timeoutID - The ID of the timeout to remove.
+     */
     removeTimeoutById(timeoutID) {
         clearTimeout(timeoutID);
 
