@@ -251,6 +251,20 @@ class Character extends MovableObject {
 
 
     /**
+     * Indicates that this object displays a hitbox using animation frames.
+     * 
+     * This is used for debugging or collision detection visuals.
+     * Overrides the base method to enable hitbox rendering for this object.
+     * 
+     * @returns {boolean} Always returns `true`.
+     */
+    isObjectWithFrame() {
+        return true
+    }
+
+
+
+    /**
      * Checks if the player is pressing the left movement key.
      *
      * @returns {boolean} True if left arrow or A key is pressed.
