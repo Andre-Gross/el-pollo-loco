@@ -25,8 +25,8 @@ class HealthStatusbar extends Statusbar {
 
 
     /**
-     * Resets the health bar to the character’s current health value.
-     */    
+     * Resets the health bar percentage to the character’s current health.
+     */
     restart() {
         this.percentage = this.world.character.health;
         this.setPercentage(this.percentage);
