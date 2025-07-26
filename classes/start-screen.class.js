@@ -21,7 +21,7 @@ class StartScreen extends DrawableObject {
         super()
         this.loadImages(this.IMAGES);
 
-        if (Math.random > 0.5) {
+        if (Math.random() > 0.5) {
             this.img = this.imgCache[this.IMAGES[0]];
         } else {
             this.img = this.imgCache[this.IMAGES[1]];
