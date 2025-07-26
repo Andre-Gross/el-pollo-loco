@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
     groundLevel = this.calculateGroundLevel();
 
     speedXPerSecond;
-    standartSpeedXPerFrame;
+    standardSpeedXPerFrame;
     speedXPerFrame;
     speedY = 0;
     acceleration = 0.35;
@@ -72,10 +72,10 @@ class MovableObject extends DrawableObject {
             this.speedXPerFrame = 0;
         } else if (middleOfThis >= middleOfObject) {
             this.otherDirection = false;
-            this.speedXPerFrame = this.standartSpeedXPerFrame
+            this.speedXPerFrame = this.standardSpeedXPerFrame
         } else {
             this.otherDirection = true;
-            this.speedXPerFrame = -this.standartSpeedXPerFrame
+            this.speedXPerFrame = -this.standardSpeedXPerFrame
         }
     }
 
@@ -425,7 +425,7 @@ class MovableObject extends DrawableObject {
      * @param {number} [startOfX=200] - Lower bound for spawn X.
      * @returns {number} Random X coordinate within range.
      */
-    randomizeSpwanX(endOfX, startOfX = 200) {
+    randomizeSpawnX(endOfX, startOfX = 200) {
         return startOfX + Math.random() * (endOfX - 800)
     }
 

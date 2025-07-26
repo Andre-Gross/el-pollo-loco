@@ -93,7 +93,7 @@ class ThrowableObject extends CollectableObjects {
      * @param {number} [endOfX=this.endOfX] - The maximum x boundary for spawning.
      */
     init(endOfX = this.endOfX) {
-        this.x = this.randomizeSpwanX(endOfX);
+        this.x = this.randomizeSpawnX(endOfX);
         this.y = this.calculateY();
     }
 

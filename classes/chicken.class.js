@@ -1,5 +1,5 @@
 class Chicken extends Enemy {
-    standartHealth = 10;
+    standardHealth = 10;
 
     originalImgHeight = 243;
     originalImgWidth = 248;

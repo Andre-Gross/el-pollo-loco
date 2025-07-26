@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-    STANDART_HEALTH = 100000000;
+    STANDARD_HEALTH = 100000000;
     DIE_ANIMATION_DURATION_MS = 2000;
     CHECK_THROW_INTERVAL_MS = 1000 / maxFPS;
     JUMP_ANIMATION_DURATION_MS = 500;
@@ -128,7 +128,7 @@ class Character extends MovableObject {
      * @returns {void}
      */
     init() {
-        this.health = this.STANDART_HEALTH;
+        this.health = this.STANDARD_HEALTH;
         this.setCollectedItems();
 
         this.x = 70;
@@ -713,7 +713,7 @@ class Character extends MovableObject {
         }
     }
 
-    
+
     /**
      * Moves the character left or right based on input,
      * while ensuring they stay within the level bounds.

@@ -90,7 +90,7 @@ class Endboss extends Enemy {
         this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.y = this.calculateY();
 
-        this.health = this.standartHealth;
+        this.health = this.standardHealth;
 
         this.resetAttackState();
     }
@@ -276,7 +276,7 @@ class Endboss extends Enemy {
      */
     handleWalkAttack(timeForWalkAttack = 1000) {
         const additionalSpeed = 150 / maxFPS;
-        const walkAttackSpeed = this.standartSpeedXPerFrame + additionalSpeed;
+        const walkAttackSpeed = this.standardSpeedXPerFrame + additionalSpeed;
 
         this.handleWalkAttackAnimation();
         this.handleWalkAttackMovement(walkAttackSpeed);
