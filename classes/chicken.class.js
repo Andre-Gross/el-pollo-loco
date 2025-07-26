@@ -1,4 +1,7 @@
 class Chicken extends Enemy {
+    static DEFAULT_DAMAGE = 10;
+    static WALK_ANIMATION_INTERVAL_MS = 600;
+
     standardHealth = 10;
 
     originalImgHeight = 243;
@@ -71,10 +74,12 @@ class Chicken extends Enemy {
      * @returns void
      */
     addPositionInterval() {
-        this.positionInterval = setInterval(() => {
-            this.alignSelfTo(world.character)
+        const updatePosition = () => {
+            this.alignSelfTo(world.character);
             this.x -= this.speedXPerFrame;
-        }, 1000 / maxFPS);
+        };
+
+        this.positionInterval = setInterval(updatePosition, 1000 / maxFPS);
         this.pushToAllIntervals(this.positionInterval);
     }
 
@@ -94,12 +99,23 @@ class Chicken extends Enemy {
      * @param damage - The amount of damage to apply (default is 10).
      * @returns void
      */
-    getHit(damage = 10) {
+    getHit(damage = Chicken.DEFAULT_DAMAGE) {
         this.hit(damage);
         if (this.health === 0) {
             this.removeIntervalById(this.positionInterval);
+            this.removeIntervalById(this.gravityInterval);
             this.playOrSwitchSound(this.SOUND_DIE);
         }
+    }
+
+
+    /**
+     * Checks if the chicken is currently idle (not moving horizontally).
+     * 
+     * @returns {boolean} Returns `true` if the horizontal speed per frame is zero; otherwise, `false`.
+     */
+    isIdle() {
+        return this.speedXPerFrame === 0;
     }
 
 
@@ -116,6 +132,10 @@ class Chicken extends Enemy {
     }
 
 
+    /**
+     * Resumes the chicken's animation if not dead.
+     * @returns {void}
+     */
     resumeGameplay() {
         if (!this.isDead()) {
             this.animate()
@@ -133,7 +153,7 @@ class Chicken extends Enemy {
     setAnimation() {
         if (this.isDead()) {
             this.img = this.imgCache[this.IMAGE_DEAD];
-        } else if (this.speedXPerFrame === 0) {
+        } else if (this.isIdle()) {
             this.img = this.imgCache[this.IMAGES_WALK[0]];
         } else {
             this.playAnimation(this.IMAGES_WALK)
