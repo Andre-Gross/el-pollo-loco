@@ -546,7 +546,7 @@ class Character extends MovableObject {
         this.knockBackInterval = setInterval(() => {
             if (hitFromRight && this.x > 0) {
                 this.moveLeft(this.otherDirection)
-            } else if (this.x < this.world.level.level_end_x) {
+            } else if (this.x < this.world.level.levelEndX) {
                 this.moveRight(!this.otherDirection)
             }
             this.setWorldCameraPositionX();
@@ -722,7 +722,7 @@ class Character extends MovableObject {
      * @returns {void}
      */
     setPositionLeftAndRight() {
-        if (this.isPressedRight() && this.x < this.world.level.level_end_x) {
+        if (this.isPressedRight() && this.x < this.world.level.levelEndX) {
             this.moveRight();
         } else if (this.isPressedLeft() && this.x > 0) {
             this.moveLeft();
