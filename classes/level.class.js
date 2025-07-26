@@ -10,12 +10,12 @@ class Level {
     /**
      * Creates a new Level instance.
      * 
-     * @param {number} level_end_x - The x-coordinate marking the end of the level.
-     * @param {Array} enemies - Array of enemy objects present in the level.
-     * @param {Array} backgroundObjects - Array of background objects for the level.
-     * @param {Array} clouds - Array of cloud objects for the level.
-     * @param {Array} coins - Array of collectible coin objects in the level.
-     * @param {Array} throwableObjects - Array of throwable objects available in the level.
+     * @param {number} levelEndX - The x-coordinate marking the end of the level.
+     * @param {Array<Enemy>} enemies - Array of enemy objects present in the level.
+     * @param {Array<DrawableObject>} backgroundObjects - Array of background objects for the level.
+     * @param {Array<Cloud>} clouds - Array of cloud objects for the level.
+     * @param {Array<Coin>} coins - Array of collectible coin objects in the level.
+     * @param {Array<ThrowableObject>} throwableObjects - Array of throwable objects available in the level.
      */    
     constructor(levelEndX, enemies, backgroundObjects, clouds, coins, throwableObjects) {
         this.levelEndX= levelEndX;
