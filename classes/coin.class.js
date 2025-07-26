@@ -1,4 +1,4 @@
-class Coin extends CollectableObjects {
+class Coin extends CollectableObject {
 
     BASE_Y_OFFSET = 200;
 

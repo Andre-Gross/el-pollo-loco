@@ -1,8 +1,8 @@
-class CollectableObjects extends MovableObject {
 
     x;
     y;
 
+class CollectableObject extends MovableObject {
 
     /**
      * Handles the collection of this object.

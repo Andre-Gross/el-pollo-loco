@@ -1,4 +1,4 @@
-class ThrowableObject extends CollectableObjects {
+class ThrowableObject extends CollectableObject {
 
     originalImgHeight = 400;
     originalImgWidth = 400;
