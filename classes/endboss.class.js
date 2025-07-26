@@ -65,7 +65,8 @@ class Endboss extends Enemy {
      * Loads all relevant images, sets initial properties, sizes, speed, and applies gravity.
      */
     constructor() {
-        super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
+        super()
+        this.loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_DEAD);
@@ -449,7 +450,7 @@ class Endboss extends Enemy {
     shallAttack(probabilityOfAttackInPercent = 5) {
         const character = world.character;
         if (this.calculateDistanceTo(character) < this.speedXPerSecond * 2) {
-            return Math.random() > (100 - probabilityOfAttackInPercent) / 100
+            return Math.random() > (100 - probabilityOfAttackInPercent) / 100;
         }
         return false;
     }
@@ -464,8 +465,8 @@ class Endboss extends Enemy {
      */
     shallJumpAttack() {
         if (this.calculateDistanceTo(world.character) < this.speedXPerSecond) {
-            if (this.counterWalkAttack >= 2 || Math.random() > 0.5) {
-                this.counterWalkAttack = 0;
+            if (this.walkAttackCounter >= 2 || Math.random() > 0.5) {
+                this.walkAttackCounter = 0;
                 return true
             }
         }
