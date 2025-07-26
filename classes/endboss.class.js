@@ -1,4 +1,5 @@
 class Endboss extends Enemy {
+    STANDARD_HEALTH = 100;
 
     originalImgHeight = 1217;
     originalImgWidth = 1045;
@@ -13,7 +14,7 @@ class Endboss extends Enemy {
     };
 
     timeForFullAnimation = 1000;
-    counterWalkAttack = 0;
+    walkAttackCounter = 0;
     attackState = {};
 
     SOUND_GET_HIT = new Audio('./assets/sounds/endboss/eb_get_hit_cut.mp3');
@@ -90,7 +91,7 @@ class Endboss extends Enemy {
         this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.y = this.calculateY();
 
-        this.health = this.standardHealth;
+        this.health = this.STANDARD_HEALTH;
 
         this.resetAttackState();
     }
