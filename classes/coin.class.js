@@ -13,7 +13,7 @@ class Coin extends CollectableObject {
         bottom: 104
     };
 
-    img = './assets/img/8_coin/coin_2.png'
+    img = './assets/img/8_coin/coin_2.png';
 
 
     /**
