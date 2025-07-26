@@ -1,7 +1,3 @@
-
-    x;
-    y;
-
 class CollectableObject extends MovableObject {
 
     /**
@@ -45,10 +41,8 @@ class CollectableObject extends MovableObject {
 
 
     /**
-     * Initializes the position of the collectable object.
-     * Marks the object as not collected.
-     * Sets the x coordinate to a randomized spawn position based on the given endOfX boundary.
-     * Sets the y coordinate by calling calculateY.
+     * Initializes the collectable object's position.
+     * Inherits default size and positioning from MovableObject.
      * 
      * @param {number} [endOfX=this.endOfX] - The maximum x position boundary for spawning.
      */
