@@ -215,15 +215,26 @@ class Endboss extends Enemy {
             this.jump(13);
             this.playOrSwitchSound(this.SOUND_JUMP);
             this.alignSelfTo(world.character);
-            this.positionInterval = setInterval(() => {
-                this.x -= this.speedXPerFrame;
-            }, 1000 / maxFPS);
-            this.pushToAllIntervals(this.positionInterval);
+            this.startPositionInterval(-this.speedXPerFrame);
             alreadyJumped = true;
             i = 4;
         }
         this.img = this.imgCache[this.IMAGES_ATTACK.slice(3, 4)];
         return { i, alreadyJumped };
+    }
+
+
+    /**
+     * Starts the horizontal position interval moving the boss.
+     *
+     * @param {number} speed - Speed per frame (positive or negative).
+     * @returns {void}
+     */
+    startPositionInterval(speed) {
+        this.positionInterval = setInterval(() => {
+            this.x += speed;
+        }, 1000 / maxFPS);
+        this.pushToAllIntervals(this.positionInterval);
     }
 
 
