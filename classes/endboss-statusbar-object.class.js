@@ -1,4 +1,5 @@
 class EndbossStatusbar extends Statusbar {
+    OFFSET_Y = 200;
 
     position = 3;
     percentage = 100;
@@ -29,6 +30,11 @@ class EndbossStatusbar extends Statusbar {
     }
 
 
+    /**
+     * Calculates the X position of the status bar based on endboss direction.
+     * @param {Endboss} endbossDatas - The endboss instance to track.
+     * @returns {number} The calculated X coordinate.
+     */
     calculateX(endbossDatas) {
         if (endbossDatas.otherDirection) {
             return endbossDatas.returnVisibleStartX();
@@ -38,30 +44,48 @@ class EndbossStatusbar extends Statusbar {
     }
 
 
+    /**
+     * Calculates the Y position of the status bar.
+     * @param {Endboss} endbossDatas - The endboss instance to track.
+     * @returns {number} The calculated Y coordinate.
+     */
     calculateY(endbossDatas) {
         return endbossDatas.returnVisibleStartY() - (200 * backgroundHeightFactor);
     }
 
 
     /**
-     * Returns the first object in world.enemies that is an instance of the Endboss class.
+     * Finds the first Endboss object in the current level.
      * @returns {Endboss|null} The matching Endboss object, or null if none is found.
      */
-    returnEndbossDatas() {
+    findEndboss() {
         return world.level.enemies.find(item => item instanceof Endboss) || null;
     }
 
 
+    /**
+     * Updates the status bar's position based on the endboss's current location.
+     */
     setPositionInterval() {
         this.positionInterval = setInterval(() => {
             if (this.world) {
-                const endbossDatas = this.returnEndbossDatas();
+                const endboss = this.findEndboss();
+                if (!endboss) return;
 
-                this.y = this.calculateY(endbossDatas);
-                this.x = this.calculateX(endbossDatas);
+                this.updatePosition(endboss);
             }
         }, 1000 / maxFPS)
         this.pushToAllIntervals(this.positionInterval);
+    }
+
+
+    /**
+     * Updates the X and Y position of the status bar based on the given endboss.
+     * @param {Endboss} endboss - The endboss to track.
+     */
+    updatePosition(endboss) {
+        this.y = this.calculateY(endboss);
+        this.x = this.calculateX(endboss);
     }
 
 }
