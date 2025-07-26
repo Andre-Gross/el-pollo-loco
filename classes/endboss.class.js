@@ -451,6 +451,7 @@ class Endboss extends Enemy {
         if (this.calculateDistanceTo(character) < this.speedXPerSecond * 2) {
             return Math.random() > (100 - probabilityOfAttackInPercent) / 100
         }
+        return false;
     }
 
 
