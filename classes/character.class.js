@@ -553,7 +553,7 @@ class Character extends MovableObject {
         }, 1000 / maxFPS)
 
         const knockBackTimeout = setTimeout(() => {
-            this.removeIntervalById(knockBackInterval);
+            this.removeIntervalById(this.knockBackInterval);
             this.animate();
             this.removeTimeoutById(knockBackTimeout);
         }, duration)
