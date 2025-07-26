@@ -4,7 +4,7 @@ class Level {
     clouds;
     coins;
     throwableObjects;
-    level_end_x;
+    levelEndX;
 
 
     /**
@@ -17,8 +17,8 @@ class Level {
      * @param {Array} coins - Array of collectible coin objects in the level.
      * @param {Array} throwableObjects - Array of throwable objects available in the level.
      */    
-    constructor(level_end_x, enemies, backgroundObjects, clouds, coins, throwableObjects) {
-        this.level_end_x = level_end_x;
+    constructor(levelEndX, enemies, backgroundObjects, clouds, coins, throwableObjects) {
+        this.levelEndX= levelEndX;
         this.enemies = enemies;
         this.backgroundObjects = backgroundObjects;
         this.clouds = clouds;
