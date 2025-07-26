@@ -111,6 +111,13 @@ class Endboss extends Enemy {
     }
 
 
+    /**
+     * Handles the death of the Endboss.
+     * Stops all movement, plays the death animation and sound, 
+     * and sets the final state to dead.
+     * 
+     * @returns {void}
+     */
     die() {
         const timeToDie = 900;
 
@@ -356,6 +363,12 @@ class Endboss extends Enemy {
     }
 
 
+    /**
+     * Resumes the Endboss's behavior after being paused or interrupted.
+     * Continues animations, gravity, sounds, and attack checks.
+     * 
+     * @returns {void}
+     */
     resumeGameplay() {
         const jump = this.attackState.jumpAttack
         const walk = this.attackState.walkAttack
@@ -392,6 +405,12 @@ class Endboss extends Enemy {
     }
 
 
+    /**
+     * Resets the Endboss's attack state to its default values.
+     * This is typically called after an attack has finished or was interrupted.
+     * 
+     * @returns {void}
+     */
     resetAttackState() {
         this.attackState = {
             currentAttack: null,
