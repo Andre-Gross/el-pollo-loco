@@ -10,9 +10,10 @@ class OverlayObject extends DrawableObject {
 
         this.loadImage(imageData.imagePath);
         this.originalImgHeight = imageData.originalHeight;
+        this.originalImgWidth = imageData.originalWidth;
         this.sizeFactor = imageData.sizeFactor;
-        this.height = this.calculateHeight(imageData.originalWidth);
-        this.width = this.calculateWidth(imageData.originalWidth);
+        this.height = this.calculateHeight();
+        this.width = this.calculateWidth();
 
         this.x = (canvasWidth - this.width) / 2;
         this.y = (canvasHeight - this.height) / 2;
