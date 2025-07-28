@@ -55,9 +55,9 @@ class Cloud extends BackgroundObject {
      * Initializes the cloud's horizontal position.
      * Uses the provided x or defaults to the stored standard x.
      * 
-     * @param {number} [x=this.standartX] - Horizontal position to initialize.
+     * @param {number} [x=this.standardX] - Horizontal position to initialize.
      */
-    init(x = this.standardX ) {
+    init(x = this.standardX) {
         this.x = this.calculateX(x);
     }
 }
