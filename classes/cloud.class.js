@@ -1,4 +1,6 @@
 class Cloud extends BackgroundObject {
+    CLOUD_X_OFFSET_RANGE = 500
+
     height = canvasHeight;
     originalWidth = 3840
     width = (this.originalWidth * this.height / backgroundImgOriginalHeight);
@@ -45,7 +47,7 @@ class Cloud extends BackgroundObject {
      * @returns {number} - Calculated horizontal position.
      */    
     calculateX(x) {
-        return x + (Math.random() * 500 * backgroundHeightFactor);
+        return x + (Math.random() * this.CLOUD_X_OFFSET_RANGE * backgroundHeightFactor);
     }
 
 
