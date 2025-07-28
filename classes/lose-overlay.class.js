@@ -28,6 +28,9 @@ class LoseOverlay extends OverlayObject {
     ]
 
 
+    /**
+     * Constructs a new LoseOverlay and initializes it.
+     */
     constructor() {
         super()
         this.init();
