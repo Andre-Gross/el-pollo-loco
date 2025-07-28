@@ -1,8 +1,4 @@
 class LoseOverlay extends OverlayObject {
-    height = 0;
-    width = 0;
-
-
     imageDatas = [
         {
             imagePath: './assets/img/You won, you lost/Game over A.png',
