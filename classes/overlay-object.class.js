@@ -2,6 +2,9 @@ class OverlayObject extends DrawableObject {
     sizeFactor = 2;
 
 
+    /**
+     * Initializes the overlay by choosing an image and calculating size and position.
+     */
     init() {
         const imageData = this.choosePicture();
 
@@ -16,6 +19,12 @@ class OverlayObject extends DrawableObject {
     }
 
 
+    /**
+     * Randomly selects an image data object from the available imageDatas array.
+     * The imageDatas property must be defined in subclasses.
+     * 
+     * @returns {{imagePath: string, originalWidth: number, originalHeight: number, sizeFactor: number}} The selected image data.
+     */
     choosePicture() {
         let num = Math.random() * 4;
         num = Math.round(num);
