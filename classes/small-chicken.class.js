@@ -52,7 +52,7 @@ class SmallChicken extends Chicken {
      * @returns {void}
      */
     init(endOfX = this.endOfX) {
-        this.health = this.standardHealth;
+        this.health = SmallChicken.STANDARD_HEALTH;
         this.x = this.randomizeSpawnX(endOfX, this.minSpawnX);
     }
 
