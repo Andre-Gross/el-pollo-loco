@@ -3,7 +3,8 @@ class OverlayObject extends DrawableObject {
 
 
     /**
-     * Initializes the overlay by choosing an image and calculating size and position.
+     * Initializes the overlay image by loading the selected image,
+     * setting original dimensions and calculating scaled size and position.
      */
     init() {
         const imageData = this.choosePicture();
