@@ -1,8 +1,4 @@
 class WinOverlay extends OverlayObject {
-        height = 0;
-    width = 0;
-
-
     imageDatas = [
         {
             imagePath: './assets/img/You won, you lost/You Win A.png',
