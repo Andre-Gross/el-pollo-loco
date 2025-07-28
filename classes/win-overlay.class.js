@@ -28,6 +28,9 @@ class WinOverlay extends OverlayObject {
     ]
 
 
+    /**
+     * Constructs a new WinOverlay and initializes it.
+     */
     constructor() {
         super()
         this.init();
