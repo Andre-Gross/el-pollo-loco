@@ -1,5 +1,5 @@
 class SmallChicken extends Chicken {
-    standartHealth = 5;
+    static STANDARD_HEALTH = 5;
 
     originalImgHeight = 210;
     originalImgWidth = 236;
@@ -43,6 +43,17 @@ class SmallChicken extends Chicken {
         this.setSpeedX();
 
         this.init(endOfX);
+    }
+
+
+    /**
+     * Initializes or resets the enemy's health and spawn position.
+     * @param {number} [endOfX=this.endOfX] - The maximum X-coordinate for spawning.
+     * @returns {void}
+     */
+    init(endOfX = this.endOfX) {
+        this.health = SmallChicken.STANDARD_HEALTH;
+        this.x = this.randomizeSpawnX(endOfX, this.minSpawnX);
     }
 
 

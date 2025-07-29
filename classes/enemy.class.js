@@ -1,18 +1,25 @@
 class Enemy extends MovableObject {
-    
+    minSpawnX = 400;
+
+
+    /**
+     * Initializes or resets the enemy's health and spawn position.
+     * @param {number} [endOfX=this.endOfX] - The maximum X-coordinate for spawning.
+     * @returns {void}
+     */
     init(endOfX = this.endOfX) {
-        this.health = this.standartHealth;
-        this.x = this.randomizeSpwanX(endOfX, 400);
+        this.health = this.standardHealth;
+        this.x = this.randomizeSpawnX(endOfX, this.minSpawnX);
     }
 
 
     /**
-     * Sets the horizontal movement speed per frame.
-     * Initializes standard and current speed.
-     * @returns void
+     * Sets the horizontal movement speed per frame based on speed per second.
+     * @param {number} [speedXPerSecond=this.speedXPerSecond] - Speed in pixels per second.
+     * @returns {void}
      */
     setSpeedX(speedXPerSecond = this.speedXPerSecond) {
-        this.standartSpeedXPerFrame = this.calculateSpeedPerFrame(speedXPerSecond);
-        this.speedXPerFrame = this.standartSpeedXPerFrame;
+        this.standardSpeedXPerFrame = this.calculateSpeedPerFrame(speedXPerSecond);
+        this.speedXPerFrame = this.standardSpeedXPerFrame;
     }
 }

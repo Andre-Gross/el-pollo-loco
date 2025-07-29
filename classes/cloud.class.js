@@ -1,4 +1,6 @@
 class Cloud extends BackgroundObject {
+    CLOUD_X_OFFSET_RANGE = 500
+
     height = canvasHeight;
     originalWidth = 3840
     width = (this.originalWidth * this.height / backgroundImgOriginalHeight);
@@ -45,7 +47,7 @@ class Cloud extends BackgroundObject {
      * @returns {number} - Calculated horizontal position.
      */    
     calculateX(x) {
-        return x + (Math.random() * 500 * backgroundHeightFactor);
+        return x + (Math.random() * this.CLOUD_X_OFFSET_RANGE * backgroundHeightFactor);
     }
 
 
@@ -53,9 +55,9 @@ class Cloud extends BackgroundObject {
      * Initializes the cloud's horizontal position.
      * Uses the provided x or defaults to the stored standard x.
      * 
-     * @param {number} [x=this.standartX] - Horizontal position to initialize.
+     * @param {number} [x=this.standardX] - Horizontal position to initialize.
      */
-    init(x = this.standardX ) {
+    init(x = this.standardX) {
         this.x = this.calculateX(x);
     }
 }

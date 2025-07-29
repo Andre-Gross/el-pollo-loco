@@ -1,40 +1,48 @@
-class CollectableObjects extends MovableObject {
-
-    x;
-    y;
-
+class CollectableObject extends MovableObject {
 
     /**
      * Handles the collection of this object.
-     * Marks the object as collected, hides it by setting size to zero,
-     * updates the character's collected items count,
-     * and updates the corresponding status bar's percentage.
      * 
      * @param {string} idOfStatusbar - The key to identify which status bar to update.
      * @param {string} item - The item type key that was collected (e.g. 'coins').
      * @param {number} valuePerItem - The value percentage each collected item contributes.
      */
     collecting(idOfStatusbar, item, valuePerItem) {
-        const statusbar = this.world.fixedStatusbars[idOfStatusbar];
-        const character = this.world.character;
-        let percentage
+        this.markAsCollected();
+        this.updateCollectedItems(item, valuePerItem, idOfStatusbar);
+    }
 
+
+    /**
+     * Marks the object as collected and hides it.
+     */
+    markAsCollected() {
         this.isCollected = true;
         this.height = 0;
         this.width = 0;
+    }
+
+
+    /**
+     * Updates the character's collected item count and status bar.
+     * 
+     * @param {string} item - Key of the item collected.
+     * @param {number} valuePerItem - Percentage value of each item.
+     * @param {string} idOfStatusbar - The status bar to update.
+     */
+    updateCollectedItems(item, valuePerItem, idOfStatusbar) {
+        const statusbar = this.world.fixedStatusbars[idOfStatusbar];
+        const character = this.world.character;
 
         character.collectedItems[item]++;
-        percentage = character.collectedItems[item] * valuePerItem;
-
+        const percentage = character.collectedItems[item] * valuePerItem;
         statusbar.setPercentage(percentage);
     }
 
 
     /**
-     * Initializes the position of the collectable object.
-     * Marks the object as not collected.
-     * Sets the x coordinate to a randomized spawn position based on the given endOfX boundary.
-     * Sets the y coordinate by calling calculateY.
+     * Initializes the collectable object's position.
+     * Inherits default size and positioning from MovableObject.
      * 
      * @param {number} [endOfX=this.endOfX] - The maximum x position boundary for spawning.
      */

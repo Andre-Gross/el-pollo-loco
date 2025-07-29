@@ -21,7 +21,7 @@ class Statusbar extends MovableObject {
      * @param {number} currentValue - The current value.
      * @param {number} maxValue - The maximum value.
      * @returns {number} Percentage value (0–100).
-     */    
+     */
     calculatePercentage(currentValue, maxValue) {
         return currentValue / maxValue * 100;
     }
@@ -31,7 +31,7 @@ class Statusbar extends MovableObject {
      * Calculates the Y position of the status bar based on its vertical position index.
      * @param {number} position - The vertical position index.
      * @returns {number} The Y offset for the status bar.
-     */    
+     */
     calculateY(position) {
         return position * (this.height - 5)
     }
@@ -40,7 +40,7 @@ class Statusbar extends MovableObject {
     /**
      * Determines the image index based on the current percentage.
      * @returns {number} Image index (0–5) corresponding to the percentage level.
-     */    
+     */
     resolveImageIndex() {
         if (this.percentage >= 100) {
             return 5;
@@ -61,7 +61,7 @@ class Statusbar extends MovableObject {
     /**
      * Updates the status bar image according to the new percentage.
      * @param {number} percentage - The current fill level in percent.
-     */    
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let imagePath = this.IMAGES[this.resolveImageIndex()];

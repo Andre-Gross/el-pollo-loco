@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
     groundLevel = this.calculateGroundLevel();
 
     speedXPerSecond;
-    standartSpeedXPerFrame;
+    standardSpeedXPerFrame;
     speedXPerFrame;
     speedY = 0;
     acceleration = 0.35;
@@ -25,6 +25,8 @@ class MovableObject extends DrawableObject {
 
     allIntervals = [];
     allTimeouts = [];
+
+    imgOffsetCanvas = {}
 
     IMAGES_WALK;
 
@@ -70,10 +72,10 @@ class MovableObject extends DrawableObject {
             this.speedXPerFrame = 0;
         } else if (middleOfThis >= middleOfObject) {
             this.otherDirection = false;
-            this.speedXPerFrame = this.standartSpeedXPerFrame
+            this.speedXPerFrame = this.standardSpeedXPerFrame
         } else {
             this.otherDirection = true;
-            this.speedXPerFrame = -this.standartSpeedXPerFrame
+            this.speedXPerFrame = -this.standardSpeedXPerFrame
         }
     }
 
@@ -311,6 +313,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * Mutes or unmutes the current object's audio, if available.
+     * Also sets the internal mute state.
+     *
+     * @param {boolean} shallMute - Whether to mute (true) or unmute (false) the object.
+     */
     toggleMute(shallMute) {
         if (this.currentAudio) {
             this.currentAudio.muted = shallMute;
@@ -398,6 +406,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * Adds a timeout ID to both the instance-specific and global timeout lists
+     * so it can be cleared later if needed.
+     *
+     * @param {number} timeout - The ID returned by setTimeout().
+     */
     pushToAllTimeouts(timeout) {
         this.allTimeouts.push(timeout);
         allGameTimeouts.push(timeout);
@@ -411,7 +425,7 @@ class MovableObject extends DrawableObject {
      * @param {number} [startOfX=200] - Lower bound for spawn X.
      * @returns {number} Random X coordinate within range.
      */
-    randomizeSpwanX(endOfX, startOfX = 200) {
+    randomizeSpawnX(endOfX, startOfX = 200) {
         return startOfX + Math.random() * (endOfX - 800)
     }
 
@@ -447,6 +461,12 @@ class MovableObject extends DrawableObject {
     }
 
 
+    /**
+     * Removes a timeout by its ID from both the global and instance-specific timeout lists.
+     * Ensures the timeout is cleared and no longer tracked.
+     *
+     * @param {number} timeoutID - The ID of the timeout to remove.
+     */
     removeTimeoutById(timeoutID) {
         clearTimeout(timeoutID);
 

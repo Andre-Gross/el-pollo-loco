@@ -1,4 +1,4 @@
-class Coin extends CollectableObjects {
+class Coin extends CollectableObject {
 
     BASE_Y_OFFSET = 200;
 
@@ -13,7 +13,7 @@ class Coin extends CollectableObjects {
         bottom: 104
     };
 
-    img = './assets/img/8_coin/coin_2.png'
+    img = './assets/img/8_coin/coin_2.png';
 
 
     /**
@@ -34,16 +34,16 @@ class Coin extends CollectableObjects {
 
 
     /**
-     * Initializes the coin by setting its size and random position.
-     * @param {number} [endOfX=this.endOfX] - The optional X-bound for random placement.
+     * Calculates a randomized Y position for a coin.
+     * Overrides the default vertical logic from CollectableObject.
+     * 
+     * @returns {number}
      */
-    init(endOfX = this.endOfX) {
-        this.setSizes();
-
-        this.x = this.randomizeSpwanX(endOfX);
-        this.y = this.randomizeSpawnY()
-
-        this.isCollected = false;
+    calculateY() {
+        const startY = this.BASE_Y_OFFSET * backgroundHeightFactor;
+        return startY + Math.random() * (
+            this.groundLevel - startY - this.imgOffsetCanvas.top - this.returnVisibleHeight()
+        );
     }
 
 

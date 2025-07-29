@@ -1,4 +1,7 @@
 class World {
+    GAME_OVER_DELAY_MS = 2000;
+    COIN_VALUE = 20;
+
     height = 480;
 
     character = new Character();
@@ -136,7 +139,7 @@ class World {
     checkCollisionsCharacterCoins() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin) && !coin.isCollected) {
-                coin.collecting(1, 'coins', 20);
+                coin.collecting(1, 'coins', this.COIN_VALUE);
             }
         })
     }
@@ -183,40 +186,74 @@ class World {
 
 
     /**
-     * The main draw loop.
-     * Clears canvas, draws all visible objects depending on game state,
-     * and re-requests the next animation frame.
+     * Main rendering loop of the game.
+     * Clears the canvas, renders game or start screen depending on state,
+     * and schedules the next frame.
      */
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.clearCanvas();
         this.ctx.translate(this.camera_x, 0);
 
         if (isGameStarted) {
-            this.addGameObjects();
-
-            this.ctx.translate(-this.camera_x, 0);
-            this.addObjectToMap(this.fixedStatusbars);
-
-            if (this.isGameFinished) {
-                this.ctx.fillStyle = 'rgba(0, 0, 139, 0.5)';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                if (this.isGameWon) {
-                    this.addToMap(this.overlays.win);
-                } else {
-                    this.addToMap(this.overlays.lose);
-                }
-            }
-
+            this.drawGame();
         } else {
-            this.addToMap(this.startScreen);
-            this.ctx.translate(-this.camera_x, 0);
+            this.drawStartScreen();
         }
 
+        this.scheduleNextFrame();
+    }
 
-        let self = this;
-        requestAnimationFrame(() => {
-            self.draw()
-        });
+
+    /**
+     * Clears the entire canvas.
+     * Typically called before redrawing a new frame.
+     */
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+
+    /**
+     * Draws all game elements when the game is running.
+     * Includes background, characters, and overlays if the game has finished.
+     */
+    drawGame() {
+        this.addGameObjects();
+        this.ctx.translate(-this.camera_x, 0);
+        this.addObjectToMap(this.fixedStatusbars);
+
+        if (this.isGameFinished) {
+            this.drawEndOverlay();
+        }
+    }
+
+
+    /**
+     * Draws the start screen image to the canvas.
+     * Only called when the game has not yet started.
+     */
+    drawStartScreen() {
+        this.addToMap(this.startScreen);
+        this.ctx.translate(-this.camera_x, 0);
+    }
+
+
+    /**
+     * Draws a transparent dark overlay and either the win or lose screen,
+     * depending on whether the game was won.
+     */
+    drawEndOverlay() {
+        this.ctx.fillStyle = 'rgba(0, 0, 139, 0.5)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        const overlay = this.isGameWon ? this.overlays.win : this.overlays.lose;
+        this.addToMap(overlay);
+    }
+
+    /**
+     * Requests the next animation frame and continues the game loop.
+     */
+    scheduleNextFrame() {
+        requestAnimationFrame(() => this.draw());
     }
 
 
@@ -256,48 +293,33 @@ class World {
     }
 
 
-    handleGameOver(whoDied) {
-        allGameIntervals.forEach((interval) => {
-            this.removeIntervalById(interval)
-        })
-        allGameTimeouts.forEach((timeout) => {
-            this.removeTimeoutById(timeout)
-        })
+    /**
+     * Handles the game over sequence.
+     * Stops all game intervals and timeouts, triggers the death animation
+     * of the given entity, sets the game over state after a delay, and
+     * optionally marks the game as won.
+     * 
+     * @param {MovableObject} whoDied - The character or enemy that triggered the game over.
+     * @param {boolean} isWin - Whether the game was won (true) or lost (false).
+     */
+    handleGameOver(whoDied, isWin) {
+        allGameIntervals.forEach(clearInterval);
+        allGameTimeouts.forEach(clearTimeout);
         whoDied.die();
+
         setTimeout(() => {
             world.isGameFinished = true;
-            if (whoDied === this.level.enemies[6]) {
-                world.isGameWon = true;
-            }
-        }, 2000);
+            world.isGameWon = isWin;
+            showFinishedGameButtons();
+        }, this.GAME_OVER_DELAY_MS);
     }
 
 
-    handleGameOverByEndbossDead() {
-        allGameIntervals.forEach((interval) => {
-            clearInterval(interval)
-        })
-        this.level.enemies[6].die();
-        setTimeout(() => {
-            world.isGameFinished = true;
-            world.isGameWon = true;
-        }, 2000);
-        showFinishedGameButtons();
-    }
-
-
-    handleGameOverByPlayerDead() {
-        allGameIntervals.forEach((interval) => {
-            clearInterval(interval)
-        })
-        this.character.die();
-        setTimeout(() => {
-            world.isGameFinished = true;
-        }, 2000);
-        showFinishedGameButtons();
-    }
-
-
+    /**
+     * Toggles the mute state for the character, enemies, and throwable objects.
+     * 
+     * @param {boolean} shallMute - Whether to mute (true) or unmute (false) the sounds.
+     */
     toggleMute(shallMute) {
         this.character.toggleMute(shallMute);
 
@@ -344,6 +366,11 @@ class World {
     }
 
 
+    /**
+     * Clears a timeout and removes it from both the global and local timeout lists.
+     * 
+     * @param {number} timeoutID - The ID of the timeout to remove.
+     */
     removeTimeoutById(timeoutID) {
         clearTimeout(timeoutID);
 
@@ -360,36 +387,37 @@ class World {
 
 
     /**
-     * Restarts the game state by resetting all enemies, clouds,
-     * throwable objects, coins, the character and status bars.
+     * Restarts the game by reinitializing all entities and state.
+     * Resets enemies, items, character and status bars.
+     * Also reinitializes collision checks and statusbar intervals.
      */
     restart() {
         this.checkCollisions();
 
-        this.level.enemies.forEach((enemy) => {
-            enemy.restart()
-        });
-
-        this.level.clouds.forEach((cloud) => {
-            cloud.restart()
-        });
-
-        this.level.throwableObjects.forEach((to) => {
-            to.restart()
-        });
-
-        this.level.coins.forEach((coin) => {
-            coin.restart()
-        });
+        this.resetEntities([
+            this.level.enemies,
+            this.level.clouds,
+            this.level.throwableObjects,
+            this.level.coins,
+            this.fixedStatusbars
+        ]);
 
         this.character.restart();
 
-        this.fixedStatusbars.forEach((sb) => {
-            sb.restart();
-        })
         world.isGameFinished = false;
         world.isGameWon = false;
-        this.movableStatusbar.setPositionInterval()
+
+        this.movableStatusbar.setPositionInterval();
+    }
+
+
+    /**
+     * Iterates over multiple arrays of game entities and calls their restart method.
+     * 
+     * @param {Array<Object[]>} arrays - An array of arrays containing game entities.
+     */
+    resetEntities(arrays) {
+        arrays.forEach(array => array.forEach(e => e.restart()));
     }
 
 

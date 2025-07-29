@@ -1,3 +1,7 @@
+const MIN_WIDTH = 720;
+const MIN_HEIGHT = 480;
+const ASPECT_RATIO = MIN_WIDTH / MIN_HEIGHT;
+
 let canvasHeight = 480;
 let canvasWidth = 1920 * canvasHeight / 1080;
 
@@ -10,6 +14,9 @@ let savedViewportWidth;
 
 const backgroundMusic = new Audio('./assets/acoustic-mexican-guitar.mp3')
 let isGameMuted = false;
+
+
+let allButtons = [];
 
 
 /**
@@ -48,27 +55,31 @@ function toggleMuteBackgroundMusic(audio, shallMute) {
 }
 
 
+/**
+ * Calculates the factor to scale the background image height relative to the canvas height.
+ * @returns {number} The scaling factor for the background height.
+ */
 function calculateBackgroundHeightFactor() {
     return canvasHeight / backgroundImgOriginalHeight;
 }
 
 
+/**
+ * Checks the viewport size and adjusts root CSS variables accordingly if below minimum dimensions.
+ */
 function checkAndSetElementSizes() {
-    const minWidth = 720;
-    const minHeight = 480;
-    const aspectRatio = minWidth / minHeight;
 
     let width = window.innerWidth;
     let height = window.innerHeight;
 
 
-    if (width < minWidth || height < minHeight) {
+    if (width < MIN_WIDTH || height < MIN_HEIGHT) {
         let newWidth = width;
-        let newHeight = width / aspectRatio;
+        let newHeight = width / ASPECT_RATIO;
 
         if (newHeight > height) {
             newHeight = height;
-            newWidth = height * aspectRatio;
+            newWidth = height * ASPECT_RATIO;
         }
 
         resetAllRootVariables(newHeight, newWidth);
@@ -76,6 +87,9 @@ function checkAndSetElementSizes() {
 }
 
 
+/**
+ * Handles the game leaving procedure: pauses game, disables input, shows start screen, hides mobile buttons.
+ */
 function leaveGame() {
     const startGameButton = document.getElementById('start-game-btn');
     startGameButton.onclick
@@ -87,6 +101,11 @@ function leaveGame() {
 }
 
 
+/**
+ * Resets CSS root variables related to canvas size and UI scaling.
+ * @param {number} newHeight - New canvas height.
+ * @param {number} newWidth - New canvas width.
+ */
 function resetAllRootVariables(newHeight, newWidth) {
     const baseFontSize = newHeight / 7.5;
     const buttonPadding = newHeight / 40;
@@ -98,6 +117,12 @@ function resetAllRootVariables(newHeight, newWidth) {
 }
 
 
+/**
+ * Sets a CSS root variable on the specified element.
+ * @param {string} variableName - The name of the CSS variable (with or without --).
+ * @param {string} value - The value to assign to the variable.
+ * @param {HTMLElement} [element=document.documentElement] - The element on which to set the variable.
+ */
 function setRootVariable(variableName, value, element = document.documentElement) {
     const cssVarName = variableName.startsWith('--') ? variableName : `--${variableName}`;
 
@@ -105,12 +130,21 @@ function setRootVariable(variableName, value, element = document.documentElement
 }
 
 
+/**
+ * Sets the width and height attributes of a given canvas or container element.
+ * @param {HTMLElement} element - The element to resize.
+ * @param {number} [height=canvasHeight] - Height in pixels.
+ * @param {number} [width=canvasWidth] - Width in pixels.
+ */
 function setSizeOfSingleContainer(element, height = canvasHeight, width = canvasWidth) {
     element.height = height;
     element.width = width;
 }
 
 
+/**
+ * Shows the game finish buttons (restart and leave) after a delay.
+ */
 function showFinishedGameButtons() {
     const restartGameBtn = document.getElementById('restart-game-btn');
     const leaveGameBtn = document.getElementById('show-leave-game-btn');
@@ -120,13 +154,16 @@ function showFinishedGameButtons() {
         leaveGameBtn
     ]
 
-
     setTimeout(() => {
         showRightButtons(visibleButtons);
     }, 2000)
 }
 
 
+/**
+ * Shows the specified front UI element and hides others.
+ * @param {HTMLElement} element - The element to show in front.
+ */
 function showRightFrontElement(element) {
     const canvas = document.getElementById('canvas');
     const controlContainer = document.getElementById('control-container');
@@ -146,40 +183,28 @@ function showRightFrontElement(element) {
 }
 
 
+/**
+ * Shows only the specified button(s) and hides all others.
+ * @param {HTMLElement|HTMLElement[]} visibleButtonOrButtons - Button or array of buttons to show.
+ */
 function showRightButtons(visibleButtonOrButtons) {
-    const allButtons = [
-        document.getElementById('restart-game-btn'),
-        document.getElementById('start-game-btn'),
-        document.getElementById('show-start-screen-btn'),
-        document.getElementById('show-controls-btn'),
-        document.getElementById('show-credits-btn'),
-        document.getElementById('back-to-game-btn'),
-        document.getElementById('show-leave-game-btn'),
-        document.getElementById('ur-volume-off-btn'),
-        document.getElementById('ur-volume-on-btn'),
-        document.getElementById('restart-game-btn-ingame'),
-        document.getElementById('show-controls-btn-ingame'),
-        document.getElementById('leave-game-btn'),
-        document.getElementById('impressum-btn'),
-    ];
-
-    if (Array.isArray(visibleButtonOrButtons)) {
-        allButtons.forEach((button) => {
-            if (!visibleButtonOrButtons.includes(button)) {
-                toggleDisplayNone(button, 'd-flex', false);
-            } else {
-                toggleDisplayNone(button, 'd-flex', true);
-            }
-        })
-    } else {
-        allButtons.forEach((button) => {
+    allButtons.forEach((button) => {
+        if (Array.isArray(visibleButtonOrButtons)) {
+            toggleDisplayNone(button, 'd-flex', visibleButtonOrButtons.includes(button));
+        } else {
             toggleDisplayNone(button, 'd-flex', false);
-        }); +
-            toggleDisplayNone(visibleButtonOrButtons, 'd-flex', true)
+        }
+    });
+
+    if (!Array.isArray(visibleButtonOrButtons)) {
+        toggleDisplayNone(visibleButtonOrButtons, 'd-flex', true);
     }
 }
 
 
+/**
+ * Displays the start screen with a randomized background image.
+ */
 function showStartScreen() {
     startScreen = document.getElementById('start-screen');
 
@@ -195,6 +220,9 @@ function showStartScreen() {
 }
 
 
+/**
+ * Shows buttons related to the start screen.
+ */
 function showStartScreenButtons() {
     const startGameButton = document.getElementById('start-game-btn');
     const showControlsButton = document.getElementById('show-controls-btn');
@@ -213,6 +241,9 @@ function showStartScreenButtons() {
 }
 
 
+/**
+ * Displays the controls overlay screen.
+ */
 function showControls() {
     controlContainer = document.getElementById('control-container');
     showStartScreenButton = document.getElementById('show-start-screen-btn')
@@ -224,6 +255,9 @@ function showControls() {
 }
 
 
+/**
+ * Shows buttons for the controls overlay screen.
+ */
 function showControlsButtons() {
     const startGameButton = document.getElementById('start-game-btn');
     const showStartScreenButton = document.getElementById('show-start-screen-btn');
@@ -240,6 +274,10 @@ function showControlsButtons() {
 }
 
 
+/**
+ * Returns the currently appropriate volume button element based on mute state.
+ * @returns {HTMLElement} The volume on or off button element.
+ */
 function returnRightVolumeButton() {
     const volumeOffBtn = document.getElementById('ur-volume-off-btn');
     const volumeOnBtn = document.getElementById('ur-volume-on-btn');
@@ -252,6 +290,10 @@ function returnRightVolumeButton() {
 }
 
 
+/**
+ * Toggles the ingame controls screen visibility and updates UI accordingly.
+ * @param {boolean} changeToControls - If true, show controls; otherwise, show game.
+ */
 function toggleControlsIngame(changeToControls) {
     const canvas = document.getElementById('canvas');
     const controlsContainer = document.getElementById('control-container');
@@ -268,6 +310,10 @@ function toggleControlsIngame(changeToControls) {
 }
 
 
+/**
+ * Shows or hides buttons relevant to ingame controls screen.
+ * @param {boolean} changeToControls - Whether controls screen is active.
+ */
 function toggleControlsButtonsIngame(changeToControls) {
     const backToGameButton = document.getElementById('back-to-game-btn');
 
@@ -277,7 +323,6 @@ function toggleControlsButtonsIngame(changeToControls) {
         const restartGameBtnIngame = document.getElementById('restart-game-btn-ingame');
         const showControlsBtnIngame = document.getElementById('show-controls-btn-ingame');
         const leaveGameBtn = document.getElementById('leave-game-btn');
-
 
         const visibleButtons = [
             restartGameBtnIngame,
@@ -292,6 +337,9 @@ function toggleControlsButtonsIngame(changeToControls) {
 }
 
 
+/**
+ * Displays the credits overlay screen.
+ */
 function showCredits() {
     const creditsContainer = document.getElementById('credits-container');
 
@@ -301,6 +349,9 @@ function showCredits() {
 }
 
 
+/**
+ * Shows buttons for the credits overlay screen.
+ */
 function showCreditsButtons() {
     const startGameButton = document.getElementById('start-game-btn');
     const showStartScreenButton = document.getElementById('show-start-screen-btn');
@@ -318,10 +369,10 @@ function showCreditsButtons() {
 
 
 /**
- * Toggles the display of an element based on the specified mode.
- * @param {HTMLElement} element - The DOM element to toggle.
- * @param {string} displayMode - The CSS class to apply when visible (default: "d-block").
- * @param {boolean|string} shallVisible - Whether the element should be visible or hidden, or toggle state if undefined.
+ * Toggles display of an element between visible (with specified class) or hidden ('d-none').
+ * @param {HTMLElement} element - The element to toggle.
+ * @param {string} [displayMode="d-block"] - CSS class to apply when visible.
+ * @param {boolean|string} [shallVisible=""] - True to show, false to hide, empty to toggle.
  */
 function toggleDisplayNone(
     element,
@@ -347,6 +398,10 @@ function toggleDisplayNone(
 }
 
 
+/**
+ * Toggles visibility of the mobile touch button container.
+ * @param {boolean} shallVisible - True to show, false to hide.
+ */
 function toggleDisplayMobileTouchButtons(shallVisible) {
     const mobileTouchButtons = document.getElementById('mobile-touch-buttons-container')
 
@@ -354,7 +409,10 @@ function toggleDisplayMobileTouchButtons(shallVisible) {
 }
 
 
-
+/**
+ * Mutes or unmutes the background music and updates UI accordingly.
+ * @param {boolean} shallMute - Whether to mute the background music.
+ */
 function toggleMute(shallMute) {
     const volumeOffBtn = document.getElementById('ur-volume-off-btn');
     const volumeOnBtn = document.getElementById('ur-volume-on-btn');
@@ -372,8 +430,8 @@ function toggleMute(shallMute) {
 
 
 /**
- * Saves the isGameMuted value to localStorage.
- * @param {boolean} isMuted - Indicates whether the game is muted.
+ * Saves the current mute state of the game to localStorage.
+ * @param {boolean} [isMuted=isGameMuted] - Mute state to save.
  */
 function saveGameMutedState(isMuted = isGameMuted) {
     localStorage.setItem('isGameMuted', JSON.stringify(isMuted));
@@ -381,8 +439,8 @@ function saveGameMutedState(isMuted = isGameMuted) {
 
 
 /**
- * Loads the isGameMuted value from localStorage.
- * @returns {boolean} The stored mute state. Defaults to false.
+ * Loads the mute state from localStorage.
+ * @returns {boolean} The saved mute state or false if none saved.
  */
 function loadGameMutedState() {
     const value = localStorage.getItem('isGameMuted');
@@ -391,14 +449,13 @@ function loadGameMutedState() {
 
 
 /**
- * Executes a callback function on the first user interaction (click, keyboard, or touch).
- * @param {Function} callback - The function to be executed on first interaction.
+ * Runs a callback function after the first user interaction (click, keydown, or touch).
+ * @param {Function} callback - Function to execute on first user interaction.
  */
 function onFirstUserInteraction(callback) {
     function handler() {
         callback();
 
-        // Remove event listeners after first interaction
         document.removeEventListener('click', handler);
         document.removeEventListener('keydown', handler);
         document.removeEventListener('touchstart', handler);
@@ -421,6 +478,24 @@ window.addEventListener('resize', () => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    allButtons = [
+        document.getElementById('restart-game-btn'),
+        document.getElementById('start-game-btn'),
+        document.getElementById('show-start-screen-btn'),
+        document.getElementById('show-controls-btn'),
+        document.getElementById('show-credits-btn'),
+        document.getElementById('back-to-game-btn'),
+        document.getElementById('show-leave-game-btn'),
+        document.getElementById('ur-volume-off-btn'),
+        document.getElementById('ur-volume-on-btn'),
+        document.getElementById('restart-game-btn-ingame'),
+        document.getElementById('show-controls-btn-ingame'),
+        document.getElementById('leave-game-btn'),
+        document.getElementById('impressum-btn'),
+    ];
+
+    showStartScreen();
+
     isGameMuted = loadGameMutedState();
     backgroundMusic.muted = isGameMuted;
     toggleMute(isGameMuted);

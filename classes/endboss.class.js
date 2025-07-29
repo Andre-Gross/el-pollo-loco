@@ -1,4 +1,5 @@
 class Endboss extends Enemy {
+    STANDARD_HEALTH = 100;
 
     originalImgHeight = 1217;
     originalImgWidth = 1045;
@@ -13,7 +14,7 @@ class Endboss extends Enemy {
     };
 
     timeForFullAnimation = 1000;
-    counterWalkAttack = 0;
+    walkAttackCounter = 0;
     attackState = {};
 
     SOUND_GET_HIT = new Audio('./assets/sounds/endboss/eb_get_hit_cut.mp3');
@@ -64,7 +65,8 @@ class Endboss extends Enemy {
      * Loads all relevant images, sets initial properties, sizes, speed, and applies gravity.
      */
     constructor() {
-        super().loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
+        super()
+        this.loadImage('assets/img/4_enemie_boss_chicken/2_alert/G5.png');
         this.loadImages(this.IMAGES_ALERT);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_DEAD);
@@ -90,7 +92,7 @@ class Endboss extends Enemy {
         this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.y = this.calculateY();
 
-        this.health = this.standartHealth;
+        this.health = this.STANDARD_HEALTH;
 
         this.resetAttackState();
     }
@@ -111,6 +113,13 @@ class Endboss extends Enemy {
     }
 
 
+    /**
+     * Handles the death of the Endboss.
+     * Stops all movement, plays the death animation and sound, 
+     * and sets the final state to dead.
+     * 
+     * @returns {void}
+     */
     die() {
         const timeToDie = 900;
 
@@ -129,7 +138,7 @@ class Endboss extends Enemy {
         this.hit(damage);
         this.world.movableStatusbar.setPercentage(this.health);
         if (this.health <= 0) {
-            world.handleGameOverByEndbossDead();
+            world.handleGameOver(this, true);
         }
     }
 
@@ -207,15 +216,26 @@ class Endboss extends Enemy {
             this.jump(13);
             this.playOrSwitchSound(this.SOUND_JUMP);
             this.alignSelfTo(world.character);
-            this.positionInterval = setInterval(() => {
-                this.x -= this.speedXPerFrame;
-            }, 1000 / maxFPS);
-            this.pushToAllIntervals(this.positionInterval);
+            this.startPositionInterval(-this.speedXPerFrame);
             alreadyJumped = true;
             i = 4;
         }
         this.img = this.imgCache[this.IMAGES_ATTACK.slice(3, 4)];
         return { i, alreadyJumped };
+    }
+
+
+    /**
+     * Starts the horizontal position interval moving the boss.
+     *
+     * @param {number} speed - Speed per frame (positive or negative).
+     * @returns {void}
+     */
+    startPositionInterval(speed) {
+        this.positionInterval = setInterval(() => {
+            this.x += speed;
+        }, 1000 / maxFPS);
+        this.pushToAllIntervals(this.positionInterval);
     }
 
 
@@ -276,7 +296,7 @@ class Endboss extends Enemy {
      */
     handleWalkAttack(timeForWalkAttack = 1000) {
         const additionalSpeed = 150 / maxFPS;
-        const walkAttackSpeed = this.standartSpeedXPerFrame + additionalSpeed;
+        const walkAttackSpeed = this.standardSpeedXPerFrame + additionalSpeed;
 
         this.handleWalkAttackAnimation();
         this.handleWalkAttackMovement(walkAttackSpeed);
@@ -343,6 +363,25 @@ class Endboss extends Enemy {
     }
 
 
+    /**
+     * Indicates that this object displays a hitbox using animation frames.
+     * 
+     * This is used for debugging or collision detection visuals.
+     * Overrides the base method to enable hitbox rendering for this object.
+     * 
+     * @returns {boolean} Always returns `true`.
+     */
+    isObjectWithFrame() {
+        return true
+    }
+
+
+    /**
+     * Resumes the Endboss's behavior after being paused or interrupted.
+     * Continues animations, gravity, sounds, and attack checks.
+     * 
+     * @returns {void}
+     */
     resumeGameplay() {
         const jump = this.attackState.jumpAttack
         const walk = this.attackState.walkAttack
@@ -379,6 +418,12 @@ class Endboss extends Enemy {
     }
 
 
+    /**
+     * Resets the Endboss's attack state to its default values.
+     * This is typically called after an attack has finished or was interrupted.
+     * 
+     * @returns {void}
+     */
     resetAttackState() {
         this.attackState = {
             currentAttack: null,
@@ -405,8 +450,9 @@ class Endboss extends Enemy {
     shallAttack(probabilityOfAttackInPercent = 5) {
         const character = world.character;
         if (this.calculateDistanceTo(character) < this.speedXPerSecond * 2) {
-            return Math.random() > (100 - probabilityOfAttackInPercent) / 100
+            return Math.random() > (100 - probabilityOfAttackInPercent) / 100;
         }
+        return false;
     }
 
 
@@ -419,8 +465,8 @@ class Endboss extends Enemy {
      */
     shallJumpAttack() {
         if (this.calculateDistanceTo(world.character) < this.speedXPerSecond) {
-            if (this.counterWalkAttack >= 2 || Math.random() > 0.5) {
-                this.counterWalkAttack = 0;
+            if (this.walkAttackCounter >= 2 || Math.random() > 0.5) {
+                this.walkAttackCounter = 0;
                 return true
             }
         }

@@ -14,10 +14,9 @@ class DrawableObject {
         right: 0,
         bottom: 0
     };
-    imgOffsetCanvas = {}
 
     img;
-    imgCache = [];
+    imgCache = {};
     currentImage = 0;
 
     x;
@@ -25,15 +24,16 @@ class DrawableObject {
 
 
     /**
-     * Calculates the height of the object based on the original image height,
-     * a global background height scaling factor, and the object's size factor.
+     * Calculates the height of the object based on a given base height,
+     * the global background scaling factor, and the object's size factor.
+     * Child classes can override the base height by passing a parameter.
      * 
-     * @returns {number} The calculated height of the object.
+     * @param {number} [height=this.originalImgHeight] - Base height to calculate from.
+     * @returns {number} The calculated height.
      */
     calculateHeight(height = this.originalImgHeight) {
         return height * backgroundHeightFactor * this.sizeFactor
     }
-
 
 
     /**
@@ -41,7 +41,7 @@ class DrawableObject {
      * and the original image dimensions to maintain aspect ratio.
      * 
      * @returns {number} The calculated width of the object.
-     */    
+     */
     calculateWidth() {
         return this.originalImgWidth * this.height / this.originalImgHeight
     }
@@ -59,13 +59,15 @@ class DrawableObject {
 
 
     /**
-     * Checks if this object is an instance of one of the types that
-     * are drawn with frames (Character, Chicken, Endboss, ThrowableObject).
+     * Indicates whether the object uses animation frames to display a hitbox.
      * 
-     * @returns {boolean} True if the object has a frame, otherwise false.
+     * Returns `false` by default. Should be overridden in subclasses where 
+     * frame-based hitbox rendering is used.
+     * 
+     * @returns {boolean} `true` if the object displays a hitbox using animation frames, otherwise `false`.
      */
     isObjectWithFrame() {
-        return this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject
+        return false
     }
 
 

@@ -1,5 +1,9 @@
 class Character extends MovableObject {
-    standartHealth = 100000000;
+    STANDARD_HEALTH = 100000000;
+    DIE_ANIMATION_DURATION_MS = 2000;
+    CHECK_THROW_INTERVAL_MS = 1000 / maxFPS;
+    JUMP_ANIMATION_DURATION_MS = 500;
+    SUMMIT_SPEED_Y = 5;
 
     collectedItems = {};
 
@@ -94,13 +98,7 @@ class Character extends MovableObject {
 
 
     /**
-     * Creates a new character instance.
-     *
-     * Loads all necessary images for different animations,
-     * sets initial sizes and image offsets,
-     * initializes character state,
-     * applies gravity,
-     * starts animation and input checking.
+     * Creates a new character instance and initializes all required values.
      */
     constructor() {
         super().loadImage('./assets/img/2_character_pepe/2_walk/W-21.png');
@@ -130,7 +128,7 @@ class Character extends MovableObject {
      * @returns {void}
      */
     init() {
-        this.health = this.standartHealth;
+        this.health = this.STANDARD_HEALTH;
         this.setCollectedItems();
 
         this.x = 70;
@@ -168,7 +166,7 @@ class Character extends MovableObject {
                 this.searchAndThrowBottle();
                 this.world.keyboard.T = false;
             }
-        }, 1000 / maxFPS);
+        }, this.CHECK_THROW_INTERVAL_MS / maxFPS);
         this.pushToAllIntervals(this.checkThrowInterval);
     }
 
@@ -193,22 +191,27 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * Starts the character's death animation by cycling through the death image sequence.
+     * After the animation is completed, a static final frame is shown.
+     * All intervals and timeouts are tracked for later cleanup.
+     */
     die() {
         let index = 0;
         let dieInterval = setInterval(() => {
-            if (index === 7) {
+            if (index === this.IMAGES_DEAD.length) {
                 this.removeIntervalById(dieInterval);
             } else {
                 let path = this.IMAGES_DEAD[index];
                 this.img = this.imgCache[path];
                 index++;
             }
-        }, 2000 / this.IMAGES_DEAD.length);
+        }, this.DIE_ANIMATION_DURATION_MS / this.IMAGES_DEAD.length);
 
         let dieTimeout = setTimeout(() => {
             this.img = this.imgCache[this.IMAGES_DEAD.slice(5, 6)];
             this.removeTimeoutById(dieTimeout);
-        }, 2000)
+        }, this.DIE_ANIMATION_DURATION_MS)
         this.pushToAllTimeouts(dieTimeout);
     }
 
@@ -229,11 +232,15 @@ class Character extends MovableObject {
         world.fixedStatusbars[0].setPercentage(this.health);
 
         if (this.health <= 0) {
-            world.handleGameOverByPlayerDead();
+            world.handleGameOver(this, false);
         }
     }
 
 
+    /**
+     * Enables jumping once the character is detected to be standing on the ground.
+     * Continuously checks ground status and clears the interval once jumping is allowed.
+     */
     allowJump() {
         let allowJumpInterval = setInterval(() => {
             if (this.standOnGround()) {
@@ -245,8 +252,26 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * Checks whether the character is jumping onto the given movable object from above.
+     * @param {MovableObject} mo - The movable object to check against.
+     * @returns {boolean} True if the character is falling onto the object from above.
+     */
     isJumpOn(mo) {
         return this.returnVisibleEndY() > mo.returnVisibleStartY() && this.lastVisibleEndY < mo.returnVisibleStartY();
+    }
+
+
+    /**
+     * Indicates that this object displays a hitbox using animation frames.
+     * 
+     * This is used for debugging or collision detection visuals.
+     * Overrides the base method to enable hitbox rendering for this object.
+     * 
+     * @returns {boolean} Always returns `true`.
+     */
+    isObjectWithFrame() {
+        return true
     }
 
 
@@ -322,7 +347,7 @@ class Character extends MovableObject {
             if (this.jumpDatas.i === 0 && this.jumpDatas.alreadyJumped) {
                 this.handleJumpAnimationEnd();
             }
-        }, 500 / this.picturesForCurrentAnimation.length);
+        }, this.JUMP_ANIMATION_DURATION_MS / this.picturesForCurrentAnimation.length);
 
         this.pushToAllIntervals(this.jumpInterval);
     }
@@ -340,18 +365,17 @@ class Character extends MovableObject {
      */
     handleJumpAnimationPhase(jumpDatas) {
         const { i, alreadyJumped, startFromGround } = jumpDatas;
-        const summitSpeedY = 5;
 
         if (i < 3 && startFromGround) {
             return this.handleJumpAnimationStart(jumpDatas);
-        } else if (i <= 3 || this.speedY > summitSpeedY) {
+        } else if (i <= 3 || this.speedY > this.SUMMIT_SPEED_Y) {
             return this.handleJumpAnimationUpwards(jumpDatas);
         } else if (i === 6) {
             return { ...jumpDatas, i: 0 };
         } else if (this.standOnGround()) {
             return this.handleJumpAnimationLanding(jumpDatas);
         } else {
-            this.handleJumpAnimationMidAir(summitSpeedY);
+            this.handleJumpAnimationMidAir();
             return jumpDatas;
         }
     }
@@ -404,13 +428,13 @@ class Character extends MovableObject {
      * Handles the mid-air phase between ascent and descent.
      * Chooses the correct image depending on the vertical speed (near zero or falling).
      * 
-     * @param {number} summitSpeedY - Threshold speed to determine mid-air phase.
+     * @param {number} this.SUMMIT_SPEED_Y - Threshold speed to determine mid-air phase.
      * @returns {void}
      */
-    handleJumpAnimationMidAir(summitSpeedY) {
-        if (this.speedY < summitSpeedY && this.speedY > -summitSpeedY) {
+    handleJumpAnimationMidAir() {
+        if (this.speedY < this.SUMMIT_SPEED_Y && this.speedY > -this.SUMMIT_SPEED_Y) {
             this.img = this.imgCache[this.IMAGES_JUMP.slice(4, 5)];
-        } else if (this.speedY < -summitSpeedY) {
+        } else if (this.speedY < -this.SUMMIT_SPEED_Y) {
             this.img = this.imgCache[this.IMAGES_JUMP.slice(5, 6)];
         }
     }
@@ -459,6 +483,7 @@ class Character extends MovableObject {
         this.removeIntervalById(this.jumpInterval);
     }
 
+
     /**
      * Resumes the jump animation from the current state in jumpDatas
      * Only resumes if there was an active jump animation (i > 0)
@@ -472,12 +497,17 @@ class Character extends MovableObject {
             if (this.jumpDatas.i === 0 && this.jumpDatas.alreadyJumped) {
                 this.handleJumpAnimationEnd();
             }
-        }, 500 / this.picturesForCurrentAnimation.length);
+        }, this.JUMP_ANIMATION_DURATION_MS / this.picturesForCurrentAnimation.length);
 
         this.pushToAllIntervals(this.jumpInterval);
     }
 
 
+    /**
+     * Resumes core gameplay behavior after a pause or interruption.
+     * Restarts the rightward movement animation, reapplies gravity,
+     * and re-enables the ability to throw objects.
+     */
     resumeGameplay() {
         this.resumeRightAnimation();
         this.applyGravity();
@@ -513,17 +543,17 @@ class Character extends MovableObject {
     knockBack(hitFromRight, duration) {
         this.jump(3)
         this.removeAnimationById();
-        const knockBackInterval = setInterval(() => {
+        this.knockBackInterval = setInterval(() => {
             if (hitFromRight && this.x > 0) {
                 this.moveLeft(this.otherDirection)
-            } else if (this.x < this.world.level.level_end_x) {
+            } else if (this.x < this.world.level.levelEndX) {
                 this.moveRight(!this.otherDirection)
             }
             this.setWorldCameraPositionX();
         }, 1000 / maxFPS)
 
         const knockBackTimeout = setTimeout(() => {
-            this.removeIntervalById(knockBackInterval);
+            this.removeIntervalById(this.knockBackInterval);
             this.animate();
             this.removeTimeoutById(knockBackTimeout);
         }, duration)
@@ -683,6 +713,7 @@ class Character extends MovableObject {
         }
     }
 
+
     /**
      * Moves the character left or right based on input,
      * while ensuring they stay within the level bounds.
@@ -691,7 +722,7 @@ class Character extends MovableObject {
      * @returns {void}
      */
     setPositionLeftAndRight() {
-        if (this.isPressedRight() && this.x < this.world.level.level_end_x) {
+        if (this.isPressedRight() && this.x < this.world.level.levelEndX) {
             this.moveRight();
         } else if (this.isPressedLeft() && this.x > 0) {
             this.moveLeft();

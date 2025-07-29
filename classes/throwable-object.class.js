@@ -1,13 +1,19 @@
-class ThrowableObject extends CollectableObjects {
+class ThrowableObject extends CollectableObject {
+    static THROW_JUMP_SPEED = 5;
+    static THROW_SIZE_FACTOR = 0.4;
+    static SPLASH_ANIMATION_DURATION = 600;
+    static GRAVITY_ACCELERATION = 0.1;
+    static THROW_SPEED_X_PER_SECOND = 300;
+
 
     originalImgHeight = 400;
     originalImgWidth = 400;
-    sizeFactor = 0.4;
+    sizeFactor = ThrowableObject.THROW_SIZE_FACTOR;
 
-    speedXPerSecond = 300;
+    speedXPerSecond = ThrowableObject.THROW_SPEED_X_PER_SECOND;
     speedXPerFrame = this.speedXPerSecond / maxFPS;
-    speedY = 5;
-    acceleration = 0.1;
+    speedY = ThrowableObject.THROW_JUMP_SPEED;
+    acceleration = ThrowableObject.GRAVITY_ACCELERATION;
 
     imgOffsetOriginal = {};
 
@@ -29,7 +35,7 @@ class ThrowableObject extends CollectableObjects {
 
     isThrown = false;
     throwInterval;
-    splashTimeFullAnimation = 600
+    splashTimeFullAnimation = ThrowableObject.SPLASH_ANIMATION_DURATION;
 
     IMAGES_GROUND = [
         './assets/img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
@@ -69,10 +75,8 @@ class ThrowableObject extends CollectableObjects {
 
     /**
      * Resets the throwable object to its initial state.
-     * Marks it as not collected and not thrown,
-     * clears all active intervals,
-     * resets size and chooses a start image,
-     * then re-initializes position.
+     * Clears intervals, resets size and state flags,
+     * and reinitializes position.
      */
     restart() {
         this.isCollected = false;
@@ -93,16 +97,15 @@ class ThrowableObject extends CollectableObjects {
      * @param {number} [endOfX=this.endOfX] - The maximum x boundary for spawning.
      */
     init(endOfX = this.endOfX) {
-        this.x = this.randomizeSpwanX(endOfX);
+        this.x = this.randomizeSpawnX(endOfX);
         this.y = this.calculateY();
     }
 
 
     /**
      * Starts the animation of the throwable object.
-     * Sets up intervals to update the x position based on the character's direction,
-     * cycles through throw images for animation,
-     * and stores all intervals for later management.
+     * Animates horizontal movement and rotation depending on character direction.
+     * Stores intervals for later cleanup.
      */
     animate() {
         const character = this.world.character;
@@ -142,10 +145,9 @@ class ThrowableObject extends CollectableObjects {
 
 
     /**
-     * Checks for collisions with enemies and ground continuously.
-     * If collision with a living enemy or ground is detected,
-     * stops all intervals, stops vertical movement,
-     * starts splash animation, and deals damage to the enemy if hit.
+     * Checks collision with enemies and ground repeatedly.
+     * On collision, stops movement, plays splash animation and sound,
+     * and deals damage to enemy if hit.
      */
     handleCollidingWithEnemy() {
         this.throwInterval = setInterval(() => {
@@ -154,17 +156,20 @@ class ThrowableObject extends CollectableObjects {
                     this.removeAllIntervals();
                     this.speedY = 0;
                     this.setSplashAnimation();
+
                     setTimeout(() => {
                         this.height = 0;
                         this.width = 0;
                     }, this.splashTimeFullAnimation - (this.splashTimeFullAnimation / this.IMAGES_SPLASH.length));
+
                     this.playSound(this.splashSound);
+
                     if (this.isCollidingLivingEnemy(enemy)) {
                         enemy.getHit(20);
                     }
                 }
             })
-        })
+        }, 1000 / maxFPS)
         this.pushToAllIntervals(this.throwInterval);
     }
 
@@ -208,6 +213,19 @@ class ThrowableObject extends CollectableObjects {
 
 
     /**
+     * Indicates that this object displays a hitbox using animation frames.
+     * 
+     * This is used for debugging or collision detection visuals.
+     * Overrides the base method to enable hitbox rendering for this object.
+     * 
+     * @returns {boolean} Always returns `true`.
+     */
+    isObjectWithFrame() {
+        return true
+    }
+
+
+    /**
      * Removes all active intervals related to animations and movement,
      * including throw and gravity intervals.
      */
@@ -218,12 +236,14 @@ class ThrowableObject extends CollectableObjects {
     }
 
 
+    /**
+     * Plays the splash sound effect.
+     * Respects object's mute state.
+     */ 
     playSound() {
         this.currentAudio = this.splashSound;
         this.splashSound.play();
-        if (this.isObjectMuted) {
-            this.toggleMute(this.isObjectMuted);
-        }
+        this.splashSound.muted = this.isObjectMuted;
     }
 
 
@@ -237,15 +257,6 @@ class ThrowableObject extends CollectableObjects {
         this.y = character.returnVisibleMiddleYOfObject();
         this.height = this.originalImgHeight * backgroundHeightFactor * 0.4;
         this.width = this.originalImgWidth * this.height / this.originalImgHeight;
-    }
-
-
-    /**
-     * Sets the object's size by calculating height and width according to scaling.
-     */
-    setSizes() {
-        this.height = this.calculateHeight();
-        this.width = this.calculateWidth();
     }
 
 
@@ -273,15 +284,14 @@ class ThrowableObject extends CollectableObjects {
 
 
     /**
-     * Initiates the throwing action:
-     * sets initial position and size, marks as thrown,
-     * makes the object jump, applies gravity,
+     * Initiates the throwing action.
+     * Sets initial position, size, jump and gravity,
      * starts animation and collision handling.
      */
     throw() {
         this.setCoordinatesAndSizes();
         this.isThrown = true;
-        this.jump(5);
+        this.jump(ThrowableObject.THROW_JUMP_SPEED);
         this.applyGravity();
 
         this.animate()
