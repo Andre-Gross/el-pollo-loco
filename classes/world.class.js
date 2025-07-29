@@ -383,30 +383,25 @@ class World {
     restart() {
         this.checkCollisions();
 
-        this.level.enemies.forEach((enemy) => {
-            enemy.restart()
-        });
-
-        this.level.clouds.forEach((cloud) => {
-            cloud.restart()
-        });
-
-        this.level.throwableObjects.forEach((to) => {
-            to.restart()
-        });
-
-        this.level.coins.forEach((coin) => {
-            coin.restart()
-        });
+        this.resetEntities([
+            this.level.enemies,
+            this.level.clouds,
+            this.level.throwableObjects,
+            this.level.coins,
+            this.fixedStatusbars
+        ]);
 
         this.character.restart();
 
-        this.fixedStatusbars.forEach((sb) => {
-            sb.restart();
-        })
         world.isGameFinished = false;
         world.isGameWon = false;
-        this.movableStatusbar.setPositionInterval()
+
+        this.movableStatusbar.setPositionInterval();
+    }
+
+
+    resetEntities(arrays) {
+        arrays.forEach(array => array.forEach(e => e.restart()));
     }
 
 
