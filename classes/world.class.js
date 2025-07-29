@@ -292,6 +292,15 @@ class World {
     }
 
 
+    /**
+     * Handles the game over sequence.
+     * Stops all game intervals and timeouts, triggers the death animation
+     * of the given entity, sets the game over state after a delay, and
+     * optionally marks the game as won.
+     * 
+     * @param {MovableObject} whoDied - The character or enemy that triggered the game over.
+     * @param {boolean} isWin - Whether the game was won (true) or lost (false).
+     */
     handleGameOver(whoDied, isWin) {
         allGameIntervals.forEach(clearInterval);
         allGameTimeouts.forEach(clearTimeout);
