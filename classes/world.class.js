@@ -1,5 +1,6 @@
 class World {
-    GAME_OVER_DELAY_MS = 2000
+    GAME_OVER_DELAY_MS = 2000;
+    COIN_VALUE = 20;
 
     height = 480;
 
@@ -138,7 +139,7 @@ class World {
     checkCollisionsCharacterCoins() {
         this.level.coins.forEach((coin) => {
             if (this.character.isColliding(coin) && !coin.isCollected) {
-                coin.collecting(1, 'coins', 20);
+                coin.collecting(1, 'coins', this.COIN_VALUE);
             }
         })
     }
