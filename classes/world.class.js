@@ -183,40 +183,74 @@ class World {
 
 
     /**
-     * The main draw loop.
-     * Clears canvas, draws all visible objects depending on game state,
-     * and re-requests the next animation frame.
+     * Main rendering loop of the game.
+     * Clears the canvas, renders game or start screen depending on state,
+     * and schedules the next frame.
      */
     draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+        this.clearCanvas();
         this.ctx.translate(this.camera_x, 0);
 
         if (isGameStarted) {
-            this.addGameObjects();
-
-            this.ctx.translate(-this.camera_x, 0);
-            this.addObjectToMap(this.fixedStatusbars);
-
-            if (this.isGameFinished) {
-                this.ctx.fillStyle = 'rgba(0, 0, 139, 0.5)';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                if (this.isGameWon) {
-                    this.addToMap(this.overlays.win);
-                } else {
-                    this.addToMap(this.overlays.lose);
-                }
-            }
-
+            this.drawGame();
         } else {
-            this.addToMap(this.startScreen);
-            this.ctx.translate(-this.camera_x, 0);
+            this.drawStartScreen();
         }
 
+        this.scheduleNextFrame();
+    }
 
-        let self = this;
-        requestAnimationFrame(() => {
-            self.draw()
-        });
+
+    /**
+     * Clears the entire canvas.
+     * Typically called before redrawing a new frame.
+     */
+    clearCanvas() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+
+
+    /**
+     * Draws all game elements when the game is running.
+     * Includes background, characters, and overlays if the game has finished.
+     */
+    drawGame() {
+        this.addGameObjects();
+        this.ctx.translate(-this.camera_x, 0);
+        this.addObjectToMap(this.fixedStatusbars);
+
+        if (this.isGameFinished) {
+            this.drawEndOverlay();
+        }
+    }
+
+
+    /**
+     * Draws the start screen image to the canvas.
+     * Only called when the game has not yet started.
+     */
+    drawStartScreen() {
+        this.addToMap(this.startScreen);
+        this.ctx.translate(-this.camera_x, 0);
+    }
+
+
+    /**
+     * Draws a transparent dark overlay and either the win or lose screen,
+     * depending on whether the game was won.
+     */
+    drawEndOverlay() {
+        this.ctx.fillStyle = 'rgba(0, 0, 139, 0.5)';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        const overlay = this.isGameWon ? this.overlays.win : this.overlays.lose;
+        this.addToMap(overlay);
+    }
+
+    /**
+     * Requests the next animation frame and continues the game loop.
+     */
+    scheduleNextFrame() {
+        requestAnimationFrame(() => this.draw());
     }
 
 
