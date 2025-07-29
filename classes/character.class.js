@@ -232,7 +232,7 @@ class Character extends MovableObject {
         world.fixedStatusbars[0].setPercentage(this.health);
 
         if (this.health <= 0) {
-            world.handleGameOverByPlayerDead();
+            world.handleGameOver(this, false);
         }
     }
 

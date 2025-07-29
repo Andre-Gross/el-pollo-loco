@@ -1,4 +1,6 @@
 class World {
+    GAME_OVER_DELAY_MS = 2000
+
     height = 480;
 
     character = new Character();
@@ -290,45 +292,16 @@ class World {
     }
 
 
-    handleGameOver(whoDied) {
-        allGameIntervals.forEach((interval) => {
-            this.removeIntervalById(interval)
-        })
-        allGameTimeouts.forEach((timeout) => {
-            this.removeTimeoutById(timeout)
-        })
+    handleGameOver(whoDied, isWin) {
+        allGameIntervals.forEach(clearInterval);
+        allGameTimeouts.forEach(clearTimeout);
         whoDied.die();
+
         setTimeout(() => {
             world.isGameFinished = true;
-            if (whoDied === this.level.enemies[6]) {
-                world.isGameWon = true;
-            }
-        }, 2000);
-    }
-
-
-    handleGameOverByEndbossDead() {
-        allGameIntervals.forEach((interval) => {
-            clearInterval(interval)
-        })
-        this.level.enemies[6].die();
-        setTimeout(() => {
-            world.isGameFinished = true;
-            world.isGameWon = true;
-        }, 2000);
-        showFinishedGameButtons();
-    }
-
-
-    handleGameOverByPlayerDead() {
-        allGameIntervals.forEach((interval) => {
-            clearInterval(interval)
-        })
-        this.character.die();
-        setTimeout(() => {
-            world.isGameFinished = true;
-        }, 2000);
-        showFinishedGameButtons();
+            world.isGameWon = isWin;
+            showFinishedGameButtons();
+        }, this.GAME_OVER_DELAY_MS);
     }
 
 

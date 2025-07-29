@@ -138,7 +138,7 @@ class Endboss extends Enemy {
         this.hit(damage);
         this.world.movableStatusbar.setPercentage(this.health);
         if (this.health <= 0) {
-            world.handleGameOverByEndbossDead();
+            world.handleGameOver(this, true);
         }
     }
 
