@@ -1,10 +1,12 @@
+const SPACE_KEY = ' ';
+
 const keyMap = {
     d: 'D',
     ArrowRight: 'ARROW_RIGHT',
     a: 'A',
     ArrowLeft: 'ARROW_LEFT',
     w: 'W',
-    ' ': 'SPACE',
+    [SPACE_KEY]: 'SPACE',
     ArrowUp: 'ARROW_UP',
     t: 'T'
 };
@@ -93,7 +95,9 @@ function deactivateKeyUp() {
 
 
 /**
- * Touch control module to simulate keyboard input on mobile devices.
+ * Module that simulates keyboard input using touch UI on mobile devices.
+ * Provides `activate()` and `deactivate()` methods.
+ * @namespace
  */
 const touchControls = (function () {
     let listeners = [];
@@ -101,6 +105,7 @@ const touchControls = (function () {
 
     /**
      * Maps touchable UI buttons to keyboard keys.
+     * Assumes the required HTML elements are present.
      * @returns {Object[]} Array of mapping objects with element and key.
      */
     function getTouchMappings() {
@@ -120,7 +125,7 @@ const touchControls = (function () {
     /**
      * Attaches touchstart and touchend listeners to an element for a given key.
      * @param {{ element: HTMLElement, key: string }} mapping - The mapping object.
-     */    
+     */ 
     function createAndAttachListeners({ element, key }) {
         const startFn = () => keyboard[key] = true;
         const endFn = () => keyboard[key] = false;
