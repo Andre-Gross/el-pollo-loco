@@ -315,6 +315,11 @@ class World {
     }
 
 
+    /**
+     * Toggles the mute state for the character, enemies, and throwable objects.
+     * 
+     * @param {boolean} shallMute - Whether to mute (true) or unmute (false) the sounds.
+     */
     toggleMute(shallMute) {
         this.character.toggleMute(shallMute);
 
@@ -361,6 +366,11 @@ class World {
     }
 
 
+    /**
+     * Clears a timeout and removes it from both the global and local timeout lists.
+     * 
+     * @param {number} timeoutID - The ID of the timeout to remove.
+     */
     removeTimeoutById(timeoutID) {
         clearTimeout(timeoutID);
 
@@ -377,8 +387,9 @@ class World {
 
 
     /**
-     * Restarts the game state by resetting all enemies, clouds,
-     * throwable objects, coins, the character and status bars.
+     * Restarts the game by reinitializing all entities and state.
+     * Resets enemies, items, character and status bars.
+     * Also reinitializes collision checks and statusbar intervals.
      */
     restart() {
         this.checkCollisions();
@@ -400,6 +411,11 @@ class World {
     }
 
 
+    /**
+     * Iterates over multiple arrays of game entities and calls their restart method.
+     * 
+     * @param {Array<Object[]>} arrays - An array of arrays containing game entities.
+     */
     resetEntities(arrays) {
         arrays.forEach(array => array.forEach(e => e.restart()));
     }
