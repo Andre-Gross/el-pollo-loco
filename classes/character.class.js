@@ -1,4 +1,4 @@
-class Character extends MovableObject {
+class Character extends LivingObject {
     static KNOCKBACK_JUMP_STRENGTH = 3;
     STANDARD_HEALTH = 100000000;
     SUMMIT_SPEED_Y = 5;

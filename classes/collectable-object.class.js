@@ -1,4 +1,4 @@
-class CollectableObject extends MovableObject {
+class CollectableObject extends CollidableObject {
 
     /**
      * Handles the collection of this object.
