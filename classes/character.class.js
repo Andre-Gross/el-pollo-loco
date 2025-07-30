@@ -15,6 +15,7 @@ class Character extends MovableObject {
 
     isJumpAllowed = true;
     checkThrowInterval;
+    knockBackTimeout;
 
 
     /**
@@ -245,9 +246,19 @@ class Character extends MovableObject {
      * @param {number} duration - Duration of the knockback effect in milliseconds.
      */
     knockBack(hitFromRight, duration) {
-        this.knockBackInterval = setInterval(() => {
         this.jump(Character.KNOCKBACK_JUMP_STRENGTH)
         this.stopAnimation();
+        this.knockBackInterval = this.returnKnockbackInterval(hitFromRight);
+
+        this.knockBackTimeout = this.returnKnockbackTimeout(duration);
+
+        this.pushToAllTimeouts(this.knockBackTimeout);
+
+        this.pushToAllIntervals(this.knockBackInterval)
+    }
+
+    returnKnockbackInterval(hitFromRight) {
+        return setInterval(() => {
             if (hitFromRight && this.x > 0) {
                 this.moveLeft(this.otherDirection)
             } else if (this.x < this.world.level.levelEndX) {
@@ -255,16 +266,15 @@ class Character extends MovableObject {
             }
             this.setWorldCameraPositionX();
         }, 1000 / maxFPS)
+    }
 
-        const knockBackTimeout = setTimeout(() => {
+
+    returnKnockbackTimeout(duration) {
+        return setTimeout(() => {
             this.removeIntervalById(this.knockBackInterval);
             this.animate();
-            this.removeTimeoutById(knockBackTimeout);
+            this.removeTimeoutById(this.knockBackTimeout);
         }, duration)
-
-        this.pushToAllTimeouts(knockBackTimeout);
-
-        this.pushToAllIntervals(this.knockBackInterval)
     }
 
 
