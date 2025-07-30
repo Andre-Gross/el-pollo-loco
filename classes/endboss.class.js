@@ -357,7 +357,7 @@ class Endboss extends Enemy {
      * @returns {void}
      */
     handleWalkAttackEnd() {
-        this.removeAnimationById();
+        this.stopAnimation();
         this.animate();
         this.resetAttackState();
     }
@@ -500,7 +500,7 @@ class Endboss extends Enemy {
     handleDeathAnimation(timeToDie) {
         this.playRightAnimation(timeToDie, this.IMAGES_DEAD, 0);
         setTimeout(() => {
-            this.removeAnimationById();
+            this.stopAnimation();
             this.img = this.imgCache[this.IMAGES_DEAD[2]];
         }, timeToDie - (timeToDie / this.IMAGES_DEAD.length));
     }

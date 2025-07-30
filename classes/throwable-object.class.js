@@ -230,7 +230,7 @@ class ThrowableObject extends CollectableObject {
      * including throw and gravity intervals.
      */
     removeAllIntervals() {
-        this.removeAnimationById();
+        this.stopAnimation();
         this.removeIntervalById(this.throwInterval);
         this.removeIntervalById(this.gravityInterval);
     }

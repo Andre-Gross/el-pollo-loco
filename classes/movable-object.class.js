@@ -433,7 +433,7 @@ class MovableObject extends DrawableObject {
     /**
      * Clears animation intervals and removes related interval IDs.
      */
-    removeAnimationById() {
+    stopAnimation() {
         this.clearAnimation();
         this.removeIntervalById(this.positionInterval);
         this.removeIntervalById(this.imageInterval);
