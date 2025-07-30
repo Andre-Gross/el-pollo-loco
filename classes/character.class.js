@@ -1,4 +1,5 @@
 class Character extends MovableObject {
+    static KNOCKBACK_JUMP_STRENGTH = 3;
     STANDARD_HEALTH = 100000000;
     SUMMIT_SPEED_Y = 5;
 
@@ -244,9 +245,9 @@ class Character extends MovableObject {
      * @param {number} duration - Duration of the knockback effect in milliseconds.
      */
     knockBack(hitFromRight, duration) {
-        this.jump(3)
         this.removeAnimationById();
         this.knockBackInterval = setInterval(() => {
+        this.jump(Character.KNOCKBACK_JUMP_STRENGTH)
             if (hitFromRight && this.x > 0) {
                 this.moveLeft(this.otherDirection)
             } else if (this.x < this.world.level.levelEndX) {
