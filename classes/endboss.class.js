@@ -392,7 +392,7 @@ class Endboss extends Enemy {
                 this.positionInterval = setInterval(() => {
                     this.x -= this.speedXPerFrame;
                 }, 1000 / maxFPS)
-                pushToAllIntervals(this.positionInterval);
+                this.pushToAllIntervals(this.positionInterval);
             }
         } else if (walk.duration > 0) {
             this.handleWalkAttack(walk.duration);
