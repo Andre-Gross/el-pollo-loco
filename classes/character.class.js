@@ -257,6 +257,15 @@ class Character extends MovableObject {
         this.pushToAllIntervals(this.knockBackInterval)
     }
 
+    /**
+     * Starts and returns an interval that applies horizontal knockback movement.
+     *
+     * The character is pushed left or right on each tick depending on the direction
+     * of the hit. The movement stops when the interval is manually cleared.
+     *
+     * @param {boolean} hitFromRight - If true, the character is hit from the right and moves left; otherwise, it moves right.
+     * @returns {number} The interval ID that controls the knockback movement.
+     */
     returnKnockbackInterval(hitFromRight) {
         return setInterval(() => {
             if (hitFromRight && this.x > 0) {
@@ -269,6 +278,15 @@ class Character extends MovableObject {
     }
 
 
+    /**
+     * Starts and returns a timeout that ends the knockback effect after a set duration.
+     *
+     * Once triggered, it removes the knockback movement interval,
+     * restarts character animation, and clears the timeout from tracking.
+     *
+     * @param {number} duration - Duration in milliseconds before the knockback effect ends.
+     * @returns {number} The timeout ID that will stop the knockback after the duration.
+     */
     returnKnockbackTimeout(duration) {
         return setTimeout(() => {
             this.removeIntervalById(this.knockBackInterval);
