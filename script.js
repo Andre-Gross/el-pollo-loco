@@ -3,7 +3,7 @@ const MIN_HEIGHT = 480;
 const ASPECT_RATIO = MIN_WIDTH / MIN_HEIGHT;
 
 let canvasHeight = 480;
-let canvasWidth = 1920 * canvasHeight / 1080;
+let canvasWidth = 720;
 
 const backgroundImgOriginalHeight = 1080;
 const backgroundImgOriginalWidth = 3840;
