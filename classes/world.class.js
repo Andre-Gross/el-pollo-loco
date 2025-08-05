@@ -4,7 +4,7 @@ class World {
 
     height = 480;
 
-    character = new Character();
+    character = new CharacterPepe();
     level = level1;
     fixedStatusbars = [
         new HealthStatusbar(),

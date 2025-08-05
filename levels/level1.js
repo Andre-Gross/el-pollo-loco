@@ -12,7 +12,7 @@ const level1 = new Level(
         new SmallChicken(END_OF_LEVEL_X),
         new SmallChicken(END_OF_LEVEL_X),
         new SmallChicken(END_OF_LEVEL_X),
-        new Endboss(),
+        new GiantChicken(),
     ],
 
     [

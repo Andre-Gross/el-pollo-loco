@@ -1,4 +1,4 @@
-class Enemy extends MovableObject {
+class Enemy extends LivingObject {
     minSpawnX = 400;
 
 

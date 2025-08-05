@@ -20,7 +20,7 @@ class Cloud extends BackgroundObject {
     constructor(x = 0) {
         super('./assets/img/5_background/layers/4_clouds/full.png');
 
-        this.standardX  = x
+        this.standardX = x
         this.init(x);
 
         this.animate();
@@ -45,7 +45,7 @@ class Cloud extends BackgroundObject {
      * 
      * @param {number} x - Base horizontal position.
      * @returns {number} - Calculated horizontal position.
-     */    
+     */
     calculateX(x) {
         return x + (Math.random() * this.CLOUD_X_OFFSET_RANGE * backgroundHeightFactor);
     }
