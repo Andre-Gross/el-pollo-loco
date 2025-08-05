@@ -374,7 +374,7 @@ class CollidableObject extends MovableObject {
      * @returns {number} Height in pixels.
      */
     returnVisibleHeight() {
-        return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
+        return this.height - this.imgOffsetCanvas.bottomHitbox - this.imgOffsetCanvas.top;
     }
 
 

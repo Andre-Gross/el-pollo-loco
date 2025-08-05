@@ -21,14 +21,16 @@ class ThrowableObject extends CollectableObject {
         left: 177,
         top: 78,
         right: 75,
-        bottom: 44
+        bottom: 44,
+        bottomHitbox: 44
     };
 
     imgOffsetOriginal_2SalsaBottle = {
         left: 118,
         top: 78,
         right: 134,
-        bottom: 44
+        bottom: 44,
+        bottomHitbox: 44
     };
 
     splashSound = new Audio('./assets/sounds/bottle/bo-breaking-glass_cut.mp3')

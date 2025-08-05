@@ -6,7 +6,8 @@ class GiantChicken extends Endboss {
         left: 187,
         top: 468,
         right: 139,
-        bottom: 125
+        bottom: 125,
+        bottomHitbox: 228
     };
     speedXPerSecond = 240;
 

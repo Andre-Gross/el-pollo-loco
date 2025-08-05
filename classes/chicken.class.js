@@ -12,7 +12,8 @@ class Chicken extends Enemy {
         left: 7,
         top: 15,
         right: 6,
-        bottom: 23
+        bottom: 23,
+        bottomHitbox: 23
     };
 
     minSpeedXPerSecond = 6;

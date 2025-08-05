@@ -10,7 +10,8 @@ class Coin extends CollectableObject {
         left: 105,
         top: 104,
         right: 105,
-        bottom: 104
+        bottom: 104,
+        bottomHitbox: 104,
     };
 
     img = './assets/img/8_coin/coin_2.png';

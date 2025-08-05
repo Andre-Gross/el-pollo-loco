@@ -10,7 +10,8 @@ class CharacterPepe extends Character {
         left: 96,
         top: 464,
         right: 97,
-        bottom: 60
+        bottom: 60,
+        bottomHitbox: 60,
     };
 
     speedXPerSecond = 480;

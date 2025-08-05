@@ -119,7 +119,8 @@ class DrawableObject {
             left: this.imgOffsetOriginal.left * heightFactor,
             top: this.imgOffsetOriginal.top * heightFactor,
             right: this.imgOffsetOriginal.right * heightFactor,
-            bottom: this.imgOffsetOriginal.bottom * heightFactor
+            bottom: this.imgOffsetOriginal.bottom * heightFactor,
+            bottomHitbox: this.imgOffsetOriginal.bottomHitbox * heightFactor
         };
     }
 

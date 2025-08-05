@@ -9,7 +9,8 @@ class SmallChicken extends Chicken {
         left: 41,
         top: 34,
         right: 59,
-        bottom: 41
+        bottom: 41,
+        bottomHitbox: 41
     };
 
     minSpeedXPerSecond = 12;
