@@ -100,7 +100,7 @@ class Character extends LivingObject {
      *
      * @returns {void}
      */
-    getHit(hitFromRight, damage = 10, duration = 200) {
+    getHit(hitFromRight, damage = 20, duration = 200) {
         this.knockBack(hitFromRight, duration);
         this.hit(damage);
         world.fixedStatusbars[0].setPercentage(this.health);
