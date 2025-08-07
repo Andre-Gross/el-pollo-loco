@@ -36,6 +36,8 @@ class Character extends LivingObject {
             startFromGround: true,
             alreadyJumped: false,
         }
+        
+        this.checkThrow();
     }
 
 

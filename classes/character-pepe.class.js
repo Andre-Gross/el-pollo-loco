@@ -103,7 +103,6 @@ class CharacterPepe extends Character {
         this.applyGravity();
 
         this.animate();
-        this.checkThrow();
         this.registerStopWalkingListener()
     }
 

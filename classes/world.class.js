@@ -392,6 +392,8 @@ class World {
      * Also reinitializes collision checks and statusbar intervals.
      */
     restart() {
+        pauseGame();
+        
         this.checkCollisions();
 
         this.resetEntities([

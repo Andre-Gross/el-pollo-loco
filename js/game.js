@@ -41,6 +41,7 @@ function backToHome() {
 
 
 function resumeGame() {
+    pauseGame();
     world.checkCollisions();
     world.character.resumeGameplay();
     world.level.enemies.forEach((enemy) => {
