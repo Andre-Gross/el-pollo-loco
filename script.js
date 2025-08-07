@@ -154,9 +154,7 @@ function showFinishedGameButtons() {
         leaveGameBtn
     ]
 
-    setTimeout(() => {
-        showRightButtons(visibleButtons);
-    }, 2000)
+    showRightButtons(visibleButtons);
 }
 
 

@@ -29,6 +29,7 @@ class World {
     isGameWon = false;
 
     checkCollisionsInterval;
+    handleGameOverTimeout;
     allIntervals = [];
     allTimeouts = [];
 
@@ -296,8 +297,11 @@ class World {
     /**
      * Handles the game over sequence.
      * Stops all game intervals and timeouts, triggers the death animation
-     * of the given entity, sets the game over state after a delay, and
-     * optionally marks the game as won.
+     * of the given entity, sets the game over state after a delay,
+     * and optionally marks the game as won.
+     * 
+     * The timeout ID is stored and pushed to the global timeout array
+     * to allow proper cleanup if needed later.
      * 
      * @param {MovableObject} whoDied - The character or enemy that triggered the game over.
      * @param {boolean} isWin - Whether the game was won (true) or lost (false).
@@ -307,11 +311,13 @@ class World {
         allGameTimeouts.forEach(clearTimeout);
         whoDied.die();
 
-        setTimeout(() => {
+        this.handleGameOverTimeout = setTimeout(() => {
             world.isGameFinished = true;
             world.isGameWon = isWin;
             showFinishedGameButtons();
         }, this.GAME_OVER_DELAY_MS);
+
+        this.pushToAllTimeouts(this.handleGameOverTimeout);
     }
 
 
@@ -342,6 +348,18 @@ class World {
     pushToAllIntervals(interval) {
         this.allIntervals.push(interval);
         allGameIntervals.push(interval);
+    }
+
+
+    /**
+     * Adds a timeout ID to both the instance-specific and global timeout lists
+     * so it can be cleared later if needed.
+     *
+     * @param {number} timeout - The ID returned by setTimeout().
+     */
+    pushToAllTimeouts(timeout) {
+        this.allTimeouts.push(timeout);
+        allGameTimeouts.push(timeout);
     }
 
 
@@ -393,7 +411,7 @@ class World {
      */
     restart() {
         pauseGame();
-        
+
         this.checkCollisions();
 
         this.resetEntities([
