@@ -33,7 +33,7 @@ class World {
     allIntervals = [];
     allTimeouts = [];
 
-    isDeveloperMode = true;
+    isDeveloperMode = false;
 
 
     /**
