@@ -44,6 +44,17 @@ function handleKeyUp(event) {
 
 
 /**
+ * Deactivates all player input controls.
+ * - Disables keyboard input
+ * - Disables touch controls
+ */
+function deactivateControls() {
+    deactivateKeyboard();
+    touchControls.deactivate();
+}
+
+
+/**
  * Activates keyboard input by setting up keydown and keyup listeners.
  */
 function activateKeyboard() {
@@ -125,7 +136,7 @@ const touchControls = (function () {
     /**
      * Attaches touchstart and touchend listeners to an element for a given key.
      * @param {{ element: HTMLElement, key: string }} mapping - The mapping object.
-     */ 
+     */
     function createAndAttachListeners({ element, key }) {
         const startFn = () => keyboard[key] = true;
         const endFn = () => keyboard[key] = false;
