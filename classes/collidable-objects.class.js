@@ -141,9 +141,9 @@ class CollidableObject extends MovableObject {
     isColliding(mo) {
         return (
             this.returnVisibleStartX() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
-            this.returnVisibleStartY() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
+            this.returnVisibleStartY() < mo.returnVisibleStartY() + mo.returnHitboxHeight() &&
             this.returnVisibleStartX() + this.returnVisibleWidth() > mo.returnVisibleStartX() &&
-            this.returnVisibleStartY() + this.returnVisibleHeight() > mo.returnVisibleStartY()
+            this.returnVisibleStartY() + this.returnHitboxHeight() > mo.returnVisibleStartY()
         )
     }
 
@@ -289,7 +289,7 @@ class CollidableObject extends MovableObject {
             this.returnVisibleStartX(),
             this.returnVisibleStartY(),
             this.returnVisibleWidth(),
-            this.returnVisibleHeight()
+            this.returnHitboxHeight()
         ];
     }
 
@@ -367,6 +367,12 @@ class CollidableObject extends MovableObject {
     }
 
 
+
+    returnHitboxHeight() {
+        return this.height - this.imgOffsetCanvas.bottomHitbox - this.imgOffsetCanvas.top;
+    }
+
+
     /**
      * Returns the visible height of the object,
      * considering image offsets.
@@ -374,7 +380,7 @@ class CollidableObject extends MovableObject {
      * @returns {number} Height in pixels.
      */
     returnVisibleHeight() {
-        return this.height - this.imgOffsetCanvas.bottomHitbox - this.imgOffsetCanvas.top;
+        return this.height - this.imgOffsetCanvas.bottom - this.imgOffsetCanvas.top;
     }
 
 

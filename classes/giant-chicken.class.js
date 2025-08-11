@@ -117,12 +117,13 @@ class GiantChicken extends Endboss {
             return this.handleJumpAttackStart(i);
         } else if (i === 3) {
             return this.handleJumpAttackLeap({ i, alreadyJumped });
+        } else if (this.speedY > 0) {
+            this.handleJumpAttackMidAir();
         } else if (i === 6) {
             this.handleJumpAttackEnd();
         } else if (this.standOnGround()) {
+            this.standOnGround();
             return this.handleJumpAttackLanding(i);
-        } else if (this.speedY > 0) {
-            this.handleJumpAttackMidAir();
         } else if (this.speedY < 0) {
             this.handleJumpAttackDescending();
         }
@@ -191,10 +192,12 @@ class GiantChicken extends Endboss {
      * @returns {{ i: number }} - Updated index.
      */
     handleJumpAttackLanding(i) {
-        this.removeIntervalById(this.positionInterval);
-        this.alignSelfTo(world.character);
+        if (i === 4) {
+            this.removeIntervalById(this.positionInterval);
+            this.alignSelfTo(world.character);
+            this.playOrSwitchSound(this.SOUND_LANDING);
+        }
         this.playAnimation(this.IMAGES_ATTACK.slice(6, 8), i - 4);
-        this.playOrSwitchSound(this.SOUND_LANDING);
         return { i: i + 1 };
     }
 

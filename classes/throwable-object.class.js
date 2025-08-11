@@ -196,7 +196,7 @@ class ThrowableObject extends CollectableObject {
     isColliding(mo) {
         return (
             this.returnVisibleMiddleXOfObject() < mo.returnVisibleStartX() + mo.returnVisibleWidth() &&
-            this.returnVisibleMiddleYOfObject() < mo.returnVisibleStartY() + mo.returnVisibleHeight() &&
+            this.returnVisibleMiddleYOfObject() < mo.returnVisibleStartY() + mo.returnHitboxHeight() &&
             this.returnVisibleMiddleXOfObject() > mo.returnVisibleStartX() &&
             this.returnVisibleMiddleYOfObject() > mo.returnVisibleStartY()
         )
