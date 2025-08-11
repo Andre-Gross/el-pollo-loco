@@ -155,6 +155,7 @@ function showFinishedGameButtons() {
     ]
 
     showRightButtons(visibleButtons);
+    toggleDisplayMobileTouchButtons(false)
 }
 
 
