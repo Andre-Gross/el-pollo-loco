@@ -369,6 +369,7 @@ canvas,
 @media screen and (hover: none) and (pointer: coarse) {
     body {
         background-color: black;
+        color: white;
     }
 
     .bg-image {
