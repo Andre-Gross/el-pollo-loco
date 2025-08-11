@@ -9,7 +9,7 @@ class CharacterPepe extends Character {
     imgOffsetOriginal = {
         left: 96,
         top: 464,
-        right: 97,
+        right: 186,
         bottom: 60,
         bottomHitbox: 60,
     };
