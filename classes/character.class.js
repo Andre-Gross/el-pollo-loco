@@ -17,6 +17,8 @@ class Character extends LivingObject {
     checkThrowInterval;
     knockBackTimeout;
 
+    lastThrownBottle = new Date().getTime();
+
 
     /**
      * Initializes the character's position and health.
@@ -36,7 +38,7 @@ class Character extends LivingObject {
             startFromGround: true,
             alreadyJumped: false,
         }
-        
+
         this.checkThrow();
     }
 
@@ -64,19 +66,31 @@ class Character extends LivingObject {
             if (this.checkThrowCollectedBottle()) {
                 this.searchAndThrowBottle();
                 this.world.keyboard.T = false;
+                this.lastThrownBottle = Date.now();
             }
         }, this.CHECK_THROW_INTERVAL_MS / maxFPS);
         this.pushToAllIntervals(this.checkThrowInterval);
     }
 
-
     /**
-     * Checks whether the player has pressed the throw key and has at least one bottle.
-     *
-     * @returns {boolean} True if the throw key is pressed and bottles are available.
+     * Checks if the player can throw a collected bottle.
+     * 
+     * Conditions:
+     * - The throw action/button is currently pressed.
+     * - There is at least one bottle collected.
+     * - The cooldown time since the last thrown bottle has passed (1500 ms).
+     * 
+     * @returns {boolean} True if the player can throw a bottle, otherwise false.
      */
     checkThrowCollectedBottle() {
-        return this.isPressedThrow() && this.collectedItems['bottles'] > 0;
+        const THROW_COOLDOWN_MS = 1500;
+        const currentTime = Date.now();
+        const timeSinceLastThrow = currentTime - (this.lastThrownBottle || 0);
+
+        const hasBottles = this.collectedItems['bottles'] > 0;
+        const cooldownOver = timeSinceLastThrow > THROW_COOLDOWN_MS;
+
+        return this.isPressedThrow() && hasBottles && cooldownOver;
     }
 
 
