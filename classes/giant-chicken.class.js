@@ -341,14 +341,15 @@ class GiantChicken extends Endboss {
 
 
     /**
-     * Determines whether the enemy should initiate an attack based on proximity and probability.
+     * Determines whether the enemy should initiate an attack.
+     * Attack is only possible after the Endboss has been triggered.
+     * When triggered, an attack is initiated based on a given probability.
      *
      * @param {number} [probabilityOfAttackInPercent=5] - Chance (in percent) to initiate an attack when close to the player.
      * @returns {boolean} - `true` if attack should be initiated, otherwise `false`.
      */
     shallAttack(probabilityOfAttackInPercent = 5) {
-        const character = world.character;
-        if (this.calculateDistanceTo(character) < this.speedXPerSecond * 2) {
+        if (this.isEndbossTriggered) {
             return Math.random() > (100 - probabilityOfAttackInPercent) / 100;
         }
         return false;

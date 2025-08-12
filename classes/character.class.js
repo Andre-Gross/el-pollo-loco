@@ -18,6 +18,7 @@ class Character extends LivingObject {
     knockBackTimeout;
 
     lastThrownBottle = new Date().getTime();
+    activateEndbossInterval;
 
 
     /**
@@ -38,6 +39,7 @@ class Character extends LivingObject {
             startFromGround: true,
             alreadyJumped: false,
         }
+        this.activateEndboss();
 
         this.checkThrow();
     }
@@ -51,6 +53,28 @@ class Character extends LivingObject {
     animate() {
         this.addPositionInterval();
         this.addImageInterval();
+    }
+
+
+    /**
+     * Periodically checks the character's position to trigger the Endboss.
+     * Once the character's x-position exceeds the threshold, the Endboss is activated
+     * and the interval is cleared.
+     *
+     * @returns {void}
+     */
+    activateEndboss() {
+        this.activateEndbossInterval = setInterval(() => {
+            if (this.x > 670 && world) {
+                this.world.level.enemies.forEach(e => {
+                    if (e instanceof Endboss) {
+                        e.isEndbossTriggered = true;
+                        this.removeIntervalById(this.activateEndbossInterval)
+                    }
+                });
+            }
+        }, 1000)
+        this.pushToAllIntervals(this.activateEndbossInterval);
     }
 
 
@@ -228,12 +252,22 @@ class Character extends LivingObject {
      * Resumes core gameplay behavior after a pause or interruption.
      * Restarts the rightward movement animation, reapplies gravity,
      * and re-enables the ability to throw objects.
+     * If the Endboss has not yet been triggered, the trigger check is reactivated.
+     *
+     * @returns {void}
      */
     resumeGameplay() {
         this.resumeRightAnimation();
         this.applyGravity();
         this.checkThrow();
+
+        this.world.level.enemies.forEach(e => {
+            if (!e.isEndbossTriggered)
+                this.activateEndboss();
+        });
     }
+
+
 
 
     /**

@@ -1,5 +1,6 @@
 class Endboss extends Enemy {
     STANDARD_HEALTH = 100;
+    isEndbossTriggered = false;
 
     /**
      * Initializes the enemy's position and health.
@@ -8,6 +9,7 @@ class Endboss extends Enemy {
     init() {
         this.x = 2700 / backgroundImgOriginalHeight * canvasHeight;
         this.y = this.calculateY();
+        this.isEndbossTriggered = false;
 
         this.health = this.STANDARD_HEALTH;
 
