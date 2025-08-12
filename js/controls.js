@@ -113,6 +113,29 @@ function deactivateKeyUp() {
 const touchControls = (function () {
     let listeners = [];
 
+    /**
+     * Disables the browser's context menu globally by attaching a `contextmenu` event listener
+     * that prevents the default action. Useful for touch mode to avoid accidental menu triggers.
+     */
+    function disableContextMenu() {
+        document.addEventListener('contextmenu', preventContextMenu);
+    }
+
+    /**
+     * Re-enables the browser's context menu globally by removing the `contextmenu` event listener.
+     * Should be called when touch mode is deactivated.
+     */
+    function enableContextMenu() {
+        document.removeEventListener('contextmenu', preventContextMenu);
+    }
+
+    /**
+     * Event handler for `contextmenu` events that prevents the default browser behavior.
+     * @param {Event} event - The `contextmenu` event object.
+     */
+    function preventContextMenu(event) {
+        event.preventDefault();
+    }
 
     /**
      * Maps touchable UI buttons to keyboard keys.
@@ -132,7 +155,6 @@ const touchControls = (function () {
         ];
     }
 
-
     /**
      * Attaches touchstart and touchend listeners to an element for a given key.
      * @param {{ element: HTMLElement, key: string }} mapping - The mapping object.
@@ -147,15 +169,14 @@ const touchControls = (function () {
         listeners.push({ element, startFn, endFn });
     }
 
-
     /**
      * Activates touch controls by attaching listeners to relevant buttons.
      */
     function activate() {
+        disableContextMenu();
         const mappings = getTouchMappings();
         mappings.forEach(createAndAttachListeners);
     }
-
 
     /**
      * Removes all previously attached touch listeners.
@@ -167,11 +188,11 @@ const touchControls = (function () {
         });
     }
 
-
     /**
      * Deactivates touch controls and clears all listeners.
      */
     function deactivate() {
+        enableContextMenu();
         removeListeners();
         listeners = [];
     }
