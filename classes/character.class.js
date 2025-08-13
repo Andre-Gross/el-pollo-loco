@@ -486,13 +486,29 @@ class Character extends LivingObject {
 
 
     /**
-     * Updates the horizontal position of the world camera
-     * to follow the character based on their current x position.
+     * Sets the horizontal camera position in the world based on the character's
+     * position relative to the Endboss.
+     * - If the character is to the left of the Endboss, the camera is positioned
+     *   with an offset of 100px from the character's X-coordinate.
+     * - If the character is to the right of the Endboss, the camera is positioned
+     *   with an offset of 200px from the right edge of the canvas.
      *
-     * @returns {void}
+     * @method
      */
     setWorldCameraPositionX() {
-        this.world.camera_x = -this.x + 100;
+        const characterMiddlePositionX = this.returnVisibleMiddleXOfObject();
+        let endbossMiddlePositionX;
+
+        this.world.level.enemies.forEach((e) => {
+            if (e instanceof Endboss) {
+                endbossMiddlePositionX = e.returnVisibleMiddleXOfObject();
+            }
+        })
+        if (characterMiddlePositionX < endbossMiddlePositionX) {
+            this.world.camera_x = -this.x + 100;
+        } else {
+            this.world.camera_x = -this.x + canvasWidth - 200;
+        }
     }
 
 
