@@ -195,6 +195,9 @@ class CharacterPepe extends Character {
      * @returns {Object} - Updated jumpDatas object.
      */
     handleJumpAnimationStart(jumpDatas) {
+        if (jumpDatas.i === 0) {
+            this.jump();
+        }
         this.playAnimation(this.IMAGES_JUMP.slice(0, 3), jumpDatas.i);
         return {
             ...jumpDatas,
@@ -214,7 +217,9 @@ class CharacterPepe extends Character {
         let { i, alreadyJumped } = jumpDatas;
 
         if (!alreadyJumped) {
-            this.jump();
+            if (!jumpDatas.startFromGround) {
+                this.jump();
+            }
             this.stopCurrentSound();
             this.playOrSwitchSound(this.SOUND_JUMP);
             alreadyJumped = true;
